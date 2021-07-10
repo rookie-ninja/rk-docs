@@ -3,27 +3,27 @@ title: "Gin"
 linkTitle: "Gin"
 weight: 1
 description: >
-  Create a [Gin](https://github.com/gin-gonic/gin) server with RK bootstrapper.
+  通过 RK 启动器，创建基于 [Gin](https://github.com/gin-gonic/gin) 框架的服务。
 ---
 
 ## Overview
-This is an example demonstrate how to configure boot.yaml file to start a Gin server with bellow functionality.
+让我们通过编辑 boot.yaml 文件来启动基于 Gin 框架的服务。
 
-> Full demo: https://github.com/rookie-ninja/rk-demo/gin/getting-started
+> 例子: https://github.com/rookie-ninja/rk-demo/gin/getting-started
 
-- [Gin server](https://github.com/gin-gonic/gin)
-- [Swagger UI](https://swagger.io/tools/swagger-ui/)
-- CommonService API
-- RK TV Web UI
-- User defined API
+- [Gin 服务](https://github.com/gin-gonic/gin)
+- [Swagger 界面](https://swagger.io/tools/swagger-ui/)
+- 通用 API
+- RK TV Web 界面
+- 用户自定义 API
 
-## Create server
-### 1.Install dependency
+## 创建服务
+### 1.安装
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot@master
 ```
 
-### 2.Create boot.yaml
+### 2.创建 boot.yaml
 ```yaml
 ---
 gin:
@@ -37,7 +37,7 @@ gin:
       enabled:  true    # Enable RK TV
 ```
 
-### 3.Create main.go
+### 3.创建 main.go
 ```go
 package main
 
@@ -59,7 +59,7 @@ func main() {
 }
 ```
 
-### 4.Start server
+### 4.启动服务
 ```go
 $ go run main.go
 ...
@@ -84,25 +84,25 @@ eventStatus=Ended
 EOE
 ```
 
-### 5.Validate
-> **Swagger:** [http://localhost:8080/sw](http://localhost:8080/sw)
+### 5.验证
+> **Swagger 界面:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
 ![](/bootstrapper/getting-started/go/gin/gin-sw.png)
 
-> **TV:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
+> **TV 界面:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
 ![](/bootstrapper/getting-started/go/gin/gin-tv.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
 
-## Add an API
-We will define a Greeter API with the path of "/v1/greeter". 
+## 添加一个 API
+我们将会添加 "/v1/greeter" API。
 
-### 1.Register API
-> We need **gin.Engine** in order to register **HandlerFunc**. 
+### 1.注册 API
+> 基于 Gin 框架，我们需要拿到 **gin.Engine** 实例，才能注册 **HandlerFunc**。
 >
-> In GinEntry, **gin.Engine** will be initialized by bootstrapper with the name of **Router**.
+> 在 GinEntry 中， 启动器会初始化 **gin.Engine**，并更名为 **Router**。
 
 ```go
 package main
@@ -143,7 +143,7 @@ type GreeterResponse struct {
 }
 ```
 
-### 2.Validate
+### 2.验证
 ```shell script
 $ curl "http://localhost:8080/v1/greeter?name=rk-dev"
 {"Message":"Hello rk-dev!"}
@@ -152,20 +152,20 @@ $ curl "http://localhost:8080/v1/greeter?name=rk-dev"
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
 
-## Support Swagger UI
-We will use [swag](https://github.com/swaggo/swag) to generate swagger UI config files.
+## 支持 Swagger 界面
+我们推荐使用 [swag](https://github.com/swaggo/swag) 来创建 Swagger 界面所需要的参数文件。
 
-### 1.Install swag
-> **Option 1:** 
+### 1.安装 swag
+> **选项 1:** 
 >
-> From swag the official repository:
+> 从 swag 官网下载:
 ```shell script
 $ go get -u github.com/swaggo/swag/cmd/swag
 ```
 
-> **Option 2:** 
+> **选项 2:** 
 >
-> With [RK CMD](https://github.com/rookie-ninja/rk)
+> 通过 [RK CLI](https://github.com/rookie-ninja/rk)
 ```shell script
 # Install RK CMD
 $ go get -u github.com/rookie-ninja/rk/cmd/rk
@@ -174,7 +174,7 @@ $ go get -u github.com/rookie-ninja/rk/cmd/rk
 $ rk install swag
 ```
 
-### 2.Add comments
+### 2.添加 Swagger 注释
 ```go
 package main
 
@@ -203,7 +203,7 @@ func main() {...}
 func Greeter(ctx *gin.Context) {...}
 ```
 
-### 3.Generate swagger config
+### 3.生成 swagger 参数文件
 ```shell script
 $ swag init
 
@@ -222,8 +222,8 @@ $ tree
 1 directory, 7 files
 ```
 
-### 4.Add path to boot.yaml
-In order to make rk-boot finds out available swagger config files, we need to add **gin.sw.jsonPath** in boot.yaml file.
+### 4.添加 Swagger 参数文件路径到 boot.yaml
+为了能让启动器能够识别 Swagger 参数文件，我们需要在 boot.yaml 文件中添加 **gin.sw.jsonPath**。
 ```yaml
 ---
 gin:
@@ -235,12 +235,12 @@ gin:
     ...
 ```
 
-### 5.Validate
-> **Swagger:** [http://localhost:8080/sw](http://localhost:8080/sw)
+### 5.验证
+> **Swagger 界面:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
 ![](/bootstrapper/getting-started/go/gin/gin-sw-api.png)
 
-> **TV:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
+> **TV 界面:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
 ![](/bootstrapper/getting-started/go/gin/gin-tv-api.png)
 

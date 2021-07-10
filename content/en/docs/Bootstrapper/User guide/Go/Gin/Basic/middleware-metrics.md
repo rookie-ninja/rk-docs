@@ -45,11 +45,8 @@ All of three metrics have the same labels as bellow:
 | instance | Hostname |
 | appVersion | Retrieved from [AppInfoEntry](https://github.com/rookie-ninja/rk-entry#appinfoentry) |
 | appName | Retrieved from [AppInfoEntry](https://github.com/rookie-ninja/rk-entry#appinfoentry) |
-| grpcService | Grpc service name |
-| grpcMethod | Grpc method |
 | restMethod | Restful API method, eg: GET |
 | restPath | Restful API path, eg: /rk/v1/healthy |
-| grpcType | Grpc type, eg: UnaryClient |
 | resCode | Response code, eg: 200 |
 
 ## Quick start

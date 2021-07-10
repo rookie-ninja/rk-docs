@@ -74,3 +74,5 @@ func main() {
 ### 3.Access ConfigEntry
 User can access ConfigEntry by calling **rkentry.GlobalAppCtx.GetConfigEntry()**.
 
+### _**Cheers**_
+![](/bootstrapper/user-guide/cheers.png)

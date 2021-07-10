@@ -1,38 +1,38 @@
 ---
-title: "Middleware tracing"
-linkTitle: "Middleware tracing"
+title: "调用链拦截器"
+linkTitle: "调用链拦截器"
 weight: 9
 description: >
-  Enable RPC tracing interceptor/middleware for server.
+  启动调用链拦截器。
 ---
 
-## Installation
+## 安装
 ```shell script
 go get github.com/rookie-ninja/rk-boot
 ```
 
-## General options
-> These are general options to start a gin server with rk-boot
+## 通用选项
+> 启动器包含了如下通用选项，这些选项是启动 Gin 服务的必要选项。
 
-| name | description | type | default value |
+| 名字 | 描述 | 类型 | 默认值 |
 | ------ | ------ | ------ | ------ |
-| gin.name | The name of gin server | string | N/A |
-| gin.port | The port of gin server | integer | nil, server won't start |
-| gin.description | Description of gin entry. | string | "" |
+| gin.name | Gin 服务名称 | string | N/A |
+| gin.port | Gin 服务端口 | integer | nil, server won't start |
+| gin.description | Gin 服务的描述 | string | "" |
 
-## Tracing options
-| name | description | type | default value |
+## 调用链选项
+| 名字 | 描述 | 类型 | 默认值 |
 | ------ | ------ | ------ | ------ |
-| gin.interceptors.tracingTelemetry.enabled | Enable tracing interceptor | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.file.enabled | Enable file exporter | boolean | RK |
-| gin.interceptors.tracingTelemetry.exporter.file.outputPath | Export tracing info to files | string | stdout |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.enabled | Export tracing info jaeger | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorEndpoint | As name described | string | localhost:16368/api/trace |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorUsername | As name described | string | "" |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorPassword | As name described | string | "" |
+| gin.interceptors.tracingTelemetry.enabled | 启动调用链拦截器 | boolean | false |
+| gin.interceptors.tracingTelemetry.exporter.file.enabled | 启动文件输出| boolean | RK |
+| gin.interceptors.tracingTelemetry.exporter.file.outputPath | 输出文件路径 | string | stdout |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.enabled | 启动 jaeger 输出 | boolean | false |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorEndpoint | jaeger 收集器地址 | string | localhost:16368/api/trace |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorUsername | jaeger 收集器用户名 | string | "" |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorPassword | jaeger 收集器密码 | string | "" |
 
-## Quick start
-### 1.Create boot.yaml
+## 快速开始
+### 1.创建 boot.yaml
 ```yaml
 ---
 gin:
@@ -49,7 +49,7 @@ gin:
             outputPath: "stdout"
 ```
 
-### 2.Create main.go
+### 2.创建 main.go
 ```go
 package main
 
@@ -71,8 +71,8 @@ func main() {
 }
 ```
 
-### 3.Validate
-> Send request
+### 3.验证
+> 发送请求
 
 ```shell script
 $ curl -X GET localhost:8080/rk/v1/healthy
@@ -112,8 +112,8 @@ $ curl -X GET localhost:8080/rk/v1/healthy
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
 
-### 4.Export tracing log to file
-> There will be delay for the couple of seconds before flushing to log file.
+### 4.输出到文件
+> 输出到文件的时候，会有几秒的延迟。
 
 ```yaml
 ---
@@ -132,10 +132,10 @@ grpc:
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
 
-### 5.Export to jaeger
-Currently, because [openTelemetry](https://opentelemetry.io/) for jaeger agent exporter is not stable yet, we will use jaeger collector instead.
+### 5.输出到 jaeger
+因为 [openTelemetry](https://opentelemetry.io/) 对于 jaeger agent 的支持还有问题，我们使用 jaeger collector 来推送数据。
 
-> Start [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.23/getting-started/) for testing
+> 本地启动 [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.23/getting-started/)
 > ```shell script
 > $ docker run -d --name jaeger \
       -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \

@@ -3,28 +3,28 @@ title: "GRPC"
 linkTitle: "GRPC"
 weight: 2
 description: >
-  Create a [GRPC](https://grpc.io/docs/languages/go/quickstart/) server with RK bootstrapper.
+  通过启动器，创建基于 [GRPC](https://grpc.io/docs/languages/go/quickstart/) 框架的服务。
 ---
 
 ## Overview
-This is an example demonstrate how to configure boot.yaml file to start a gin server with bellow functionality.
+让我们通过编辑 boot.yaml 文件来创建基于 GRPC 框架的服务。
 
-> Full demo: https://github.com/rookie-ninja/rk-demo/grpc/getting-started
+> 例子: https://github.com/rookie-ninja/rk-demo/grpc/getting-started
 
-- [GRPC server](https://grpc.io/docs/languages/go/quickstart/)
+- [GRPC 服务](https://grpc.io/docs/languages/go/quickstart/)
 - [GRPC Gateway](https://github.com/grpc-ecosystem/grpc-gateway)
-- [Swagger UI](https://swagger.io/tools/swagger-ui/)
-- CommonService API
-- RK TV Web UI
-- User defined API
+- [Swagger 界面](https://swagger.io/tools/swagger-ui/)
+- 通用 API
+- RK TV Web 界面
+- 用户自定义 API
 
-## Create server
-### 1.Install dependency
+## 创建服务
+### 1.安装
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot@master
 ```
 
-### 2.Create boot.yaml
+### 2.创建 boot.yaml
 ```yaml
 ---
 grpc:
@@ -42,7 +42,7 @@ grpc:
         enabled: true   # Enable Swagger UI
 ```
 
-### 3.Create main.go
+### 3.创建 main.go
 ```go
 package main
 
@@ -64,7 +64,7 @@ func main() {
 }
 ```
 
-### 4.Start server
+### 4.启动服务
 ```go
 $ go run main.go
 ...
@@ -89,23 +89,25 @@ eventStatus=Ended
 EO
 ```
 
-### 5.Validate
-> **Swagger:** [http://localhost:8080/sw](http://localhost:8080/sw)
+### 5.验证
+> **Swagger 界面:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
 ![](/bootstrapper/getting-started/go/grpc/grpc-sw.png)
 
-> **TV:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
+> **TV 界面:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
 ![](/bootstrapper/getting-started/go/grpc/grpc-tv.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
 
-## Add an API
-We will define a Greeter API with the path of "/v1/greeter" with [protocol buffer](https://grpc.io/docs/languages/go/quickstart/). 
+## 添加一个 API
+我们将会通过 [protocol buffer](https://grpc.io/docs/languages/go/quickstart/) 添加 "/v1/greeter" API。 
 
-### 1.Install tools
-> We recommend use [rk](https://github.com/rookie-ninja/rk) install them easily.
+### 1.安装工具
+> 编译 [protocol buffer](https://grpc.io/docs/languages/go/quickstart/) 的过程较为复杂，我们需要一系列工具的支持。
+> 
+> 我们通过 [rk](https://github.com/rookie-ninja/rk) 来快速安装所需要的工具。
 ```shell script
 # Install RK CLI
 $ go get -u github.com/rookie-ninja/rk/cmd/rk
@@ -138,16 +140,16 @@ $ rk install protoc-gen-openapiv2
 $ rk install buf
 ```
 
-| Tool | Description | Installation |
+| 工具 | 介绍 | 安装 |
 | ---- | ---- | ---- |
-| [buf](https://docs.buf.build) | Help you create consistent Protobuf APIs that preserve compatibility and comply with design best-practices. | [Install](https://docs.buf.build/installation) |
-| [protoc-gen-go](https://github.com/golang/protobuf/tree/master/protoc-gen-go) | Plugin for the Google protocol buffer compiler to generate Go code.. | [Install](https://grpc.io/docs/languages/go/quickstart/) |
-| [protoc-gen-go-grpc](https://github.com/grpc/grpc-go) | This project aims to provide that HTTP+JSON interface to your gRPC service. | [Install](https://grpc.io/docs/languages/go/quickstart/) |
-| [protoc-gen-grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) | plugin for Google protocol buffer compiler to generate a reverse-proxy, which converts incoming RESTful HTTP/1 requests gRPC invocation. | [Install](https://github.com/grpc-ecosystem/grpc-gateway#installation) |
-| [protoc-gen-openapiv2](https://github.com/grpc-ecosystem/grpc-gateway) | plugin for Google protocol buffer compiler to generate open API config file. | [Install](https://github.com/grpc-ecosystem/grpc-gateway#installation) |
+| [buf](https://docs.buf.build) | 通过一站式命令行，快速编译 protocol buffer API | [Install](https://docs.buf.build/installation) |
+| [protoc-gen-go](https://github.com/golang/protobuf/tree/master/protoc-gen-go) | 从 proto 文件，创建 .go 文件的插件 | [Install](https://grpc.io/docs/languages/go/quickstart/) |
+| [protoc-gen-go-grpc](https://github.com/grpc/grpc-go) | 从 proto 文件，创建 GRPC 相关的 .go 文件的插件 | [Install](https://grpc.io/docs/languages/go/quickstart/) |
+| [protoc-gen-grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) | 从 proto 文件，创建 grpc-gateway 相关的 .go 文件 | [Install](https://github.com/grpc-ecosystem/grpc-gateway#installation) |
+| [protoc-gen-openapiv2](https://github.com/grpc-ecosystem/grpc-gateway) | 从 proto 文件，创建 swagger 界面所需的参数文件 | [Install](https://github.com/grpc-ecosystem/grpc-gateway#installation) |
 
-### 2.Create greeter.proto
-Create greeter.proto under **api/v1** folder
+### 2.创建 greeter.proto
+在 **api/v1** 文件夹中创建 greeter.proto 文件。
 
 ```protobuf
 syntax = "proto3";
@@ -169,7 +171,7 @@ message GreeterResponse {
 }
 ```
 
-### 3.Create compilation config file
+### 3.创建 buf 参数文件
 > Create **buf.yaml**
 ```yaml
 version: v1beta1
@@ -202,9 +204,9 @@ plugins:
       - grpc_api_configuration=api/v1/gw_mapping.yaml
 ```
 
-> Create **api/v1/gw_mapping.yaml**
+> 创建 **api/v1/gw_mapping.yaml**
 > 
-> Please refer google.api.Http in https://github.com/googleapis/googleapis/blob/master/google/api/http.proto file for details.
+> 请参考 https://github.com/googleapis/googleapis/blob/master/google/api/http.proto
 ```yaml
 type: google.api.Service
 config_version: 3
@@ -215,7 +217,7 @@ http:
       get: /api/v1/greeter
 ```
 
-> **Run buf**
+> **执行 buf**
 ```shell script
 $ buf generate
 # By configuration in buf.gen.yaml, generated files would be write to api/gen folder
@@ -239,10 +241,10 @@ $ tree
 └── main.go
 ```
 
-### 4.Register API
-> buf will help us generate the interface of grpc service and grpc-gateway registration function.
+### 4.注册 API
+> buf 命令行会帮助我们创建 grpc 和 grpc-gateway 接口函数。
 >
-> We need to implement the interface of grpc service and register it to bootstrapper with grpc-gateway by calling:
+> 我们需要实现 grpc 和 grpc-gateway 接口函数，并且通过下面的函数来注册我们的实现。
 > 
 > - AddGrpcRegFuncs
 > - AddGwRegFuncs
@@ -289,7 +291,7 @@ func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.Greet
 }
 ```
 
-### 5.Validate
+### 5.验证
 ```shell script
 $ curl "http://localhost:8080/v1/greeter?name=rk-dev"
 {"Message":"Hello rk-dev!"}
@@ -298,12 +300,12 @@ $ curl "http://localhost:8080/v1/greeter?name=rk-dev"
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
 
-## Support Swagger UI
+## 支持 Swagger 界面
 With above example, we already generated greeter.swagger.json file.
 
 What we need to do is add one line in boot.yaml to make process load the files into memory.
 
-### 1.Add path to boot.yaml
+### 1.在 boot.yaml 中添加 Swagger 参数文件路径
 ```yaml
 ---
 grpc:
@@ -318,12 +320,12 @@ grpc:
         jsonPath: "api/gen/v1"      # Boot will look for swagger config files from this folder
 ```
 
-### 2.Validate
-- **Swagger:** [http://localhost:8080/sw](http://localhost:8080/sw)
+### 2.验证
+- **Swagger 界面:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
 ![](/bootstrapper/getting-started/go/grpc/grpc-sw-api.png)
 
-- **TV:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
+- **TV 界面:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
 ![](/bootstrapper/getting-started/go/grpc/grpc-tv-api.png)
 

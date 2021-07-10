@@ -18,10 +18,10 @@ As a result, bellow file type can be supported.
 - Java propertie
 
 ## Architecture
-![](/bootstrapper/user-guide/go/gin/advanced/config-arch.png)
+![](/bootstrapper/user-guide/go/grpc/advanced/config-arch.png)
 
 ## Locale
-> CertEntry support concept of [locale](/docs/bootstrapper/user-guide/go/gin/advanced/locale/).
+> CertEntry support concept of [locale](/docs/bootstrapper/user-guide/go/grpc/advanced/locale/).
 
 ## Quick start
 ### 1.Create config
@@ -37,9 +37,9 @@ config:
   - name: my-config
     locale: "*::*::*::*"
     path: config/default.yaml
-gin:
+grpc:
   - name: greeter
-    port: 8080
+    port: 1949
 ```
 
 ### 2.Refer config path
@@ -74,3 +74,5 @@ func main() {
 ### 3.Access ConfigEntry
 User can access ConfigEntry by calling **rkentry.GlobalAppCtx.GetConfigEntry()**.
 
+### _**Cheers**_
+![](/bootstrapper/user-guide/cheers.png)
