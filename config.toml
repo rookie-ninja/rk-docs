@@ -67,6 +67,10 @@ contentDir = "content/cn"
 # Weight used for sorting.
 weight = 2
 
+[taxonomies]
+tag = "tags"
+category = "categories"
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
@@ -94,13 +98,13 @@ privacy_policy = "https://policies.google.com/privacy"
 # This menu appears only if you have at least one [params.versions] set.
 version_menu = "Releases"
 
-# Flag used in the "version-banner" partial to decide whether to display a 
+# Flag used in the "version-banner" partial to decide whether to display a
 # banner on every page indicating that this is an archived version of the docs.
 # Set this flag to "true" if you want to display the banner.
 archived_version = false
 
 # The version number for the version of the docs represented in this doc set.
-# Used in the "version-banner" partial to display a version number for the 
+# Used in the "version-banner" partial to display a version number for the
 # current doc set.
 version = "0.0"
 
@@ -109,9 +113,9 @@ version = "0.0"
 url_latest_version = "https://example.com"
 
 # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-github_repo = "https://github.com/google/docsy-example"
+github_repo = "https://github.com/rookie-ninja/rk-docs"
 # An optional link to a related project repo. For example, the sibling repository where your product code lives.
-github_project_repo = "https://github.com/google/docsy"
+github_project_repo = "https://github.com/rookie-ninja/rk-docs"
 
 # Specify a value here if your content directory is not in your repo's root directory
 # github_subdir = ""
@@ -121,13 +125,13 @@ github_project_repo = "https://github.com/google/docsy"
 github_branch= "master"
 
 # Google Custom Search Engine ID. Remove or comment out to disable search.
-gcs_engine_id = "d72aa9b2712488cc3"
+#gcs_engine_id = "d72aa9b2712488cc3"
 
 # Enable Algolia DocSearch
 algolia_docsearch = false
 
 # Enable Lunr.js offline search
-offlineSearch = false
+offlineSearch = true
 
 # Enable syntax highlighting and copy buttons on code blocks with Prism
 prism_syntax_highlighting = false
@@ -141,6 +145,9 @@ sidebar_menu_foldable = true
 breadcrumb_disable = true
 #  Set to true to hide the sidebar search box (the top nav search box will still be displayed if search is enabled)
 sidebar_search_disable = false
+
+nav_search_disable = true
+
 #  Set to false if you don't want to display a logo (/assets/icons/logo.svg) in the top nav bar
 navbar_logo = false
 # Set to true to disable the About link in the site footer
@@ -157,7 +164,7 @@ yes = 'Glad to hear it! Please <a href="https://github.com/USERNAME/REPOSITORY/i
 no = 'Sorry to hear that. Please <a href="https://github.com/USERNAME/REPOSITORY/issues/new">tell us how we can improve</a>.'
 
 # Adds a reading time to the top of each doc.
-# If you want this feature, but occasionally need to remove the Reading time from a single page, 
+# If you want this feature, but occasionally need to remove the Reading time from a single page,
 # add "hide_readingtime: true" to the page's front matter
 [params.ui.readingtime]
 enable = true
@@ -182,7 +189,7 @@ enable = true
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
 [[params.links.developer]]
 	name = "GitHub"
-	url = "https://github.com/google/docsy"
+	url = "https://github.com/rookie-ninja/rk-docs"
 	icon = "fab fa-github"
         desc = "Development takes place here!"
 [[params.links.developer]]

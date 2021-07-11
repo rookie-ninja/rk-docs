@@ -1,16 +1,101 @@
 ---
-title: "Contribution Guidelines"
+title: "贡献"
 linkTitle: "贡献"
 weight: 5
 description: >
-  How to contribute to the docs
+  如何为文档做贡献？
 ---
 
-{{% pageinfo %}}
-These basic sample guidelines assume that your Docsy site is deployed using Netlify and your files are stored in GitHub. You can use the guidelines "as is" or adapt them with your own instructions: for example, other deployment options, information about your doc project's file structure, project-specific review guidelines, versioning guidelines, or any other information your users might find useful when updating your site. [Kubeflow](https://github.com/kubeflow/website/blob/master/README.md) has a great example.
+# Contributing
 
-Don't forget to link to your own doc repo rather than our example site! Also make sure users can find these guidelines from your doc repo README: either add them there and link to them from this page, add them here and link to them from the README, or include them in both locations.
-{{% /pageinfo %}}
+We'd love your help make rk-gin the very best structured Gin bootstrapper library in Go!
+
+If you'd like to add new exported APIs, please [open an issue][open-issue]
+describing your proposal &mdash; discussing API changes ahead of time makes
+pull request review much smoother. In your issue, pull request, and any other
+communications, please remember to treat your fellow contributors with
+respect! We take our [code of conduct](CODE_OF_CONDUCT.md) seriously.
+
+## Setup
+
+[Fork][fork], then clone the repository:
+
+```
+git clone git@github.com:your_github_username/rookie-ninja/rk-gin.git
+cd rk-gin-interceptor
+git remote add upstream https://github.com/rookie-ninja/rk-gin.git
+git fetch upstream
+```
+
+Install rk-gin-interceptor's dependencies:
+
+```
+go mod tidy
+```
+
+## Making Changes
+
+Start by creating a new branch for your changes:
+
+```
+git checkout master
+git fetch upstream
+git rebase upstream/master
+git checkout -b cool_new_feature
+```
+
+Make your changes, then ensure that `make lint` and `make test` still pass. If
+you're satisfied with your changes, push them to your fork.
+
+```
+git push origin cool_new_feature
+```
+
+Then use the GitHub UI to open a pull request.
+
+At this point, you're waiting on us to review your changes. We *try* to respond
+to issues and pull requests within a few business days, and we may suggest some
+improvements or alternatives. Once your changes are approved, one of the
+project maintainers will merge them.
+
+We're much more likely to approve your changes if you:
+
+* Add tests for new functionality.
+* Write a [good commit message][commit-message].
+* Maintain backward compatibility.
+
+[fork]: https://github.com/rookie-ninja/rk-gin/fork
+[open-issue]: https://github.com/rookie-ninja/rk-gin/issues/new
+[cla]: https://cla-assistant.io/rookie-ninja/rk-gin
+[commit-message]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 We use [Hugo](https://gohugo.io/) to format and generate our website, the
 [Docsy](https://github.com/google/docsy) theme for styling and site structure, 
