@@ -75,7 +75,7 @@ func main() {
 >
 > [http://localhost:8080/metrics](http://localhost:8080/metrics)
 
-![prom](/bootstrapper/user-guide/go/grpc/basic/grpc-prom.png)
+![prom](/bootstrapper/user-guide/grpc-golang/basic/grpc-prom.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
@@ -83,7 +83,7 @@ func main() {
 ### 4.Prometheus 客户端中添加监控
 > 我们需要先了解 Prometheus 中的如下概念。
 
-![prom](/bootstrapper/user-guide/go/grpc/basic/grpc-prom-arch.png)
+![prom](/bootstrapper/user-guide/grpc-golang/basic/grpc-prom-arch.png)
 
 | 名字 | 详情 |
 | ---- | ---- |
@@ -138,7 +138,7 @@ func main() {
 >
 > [http://localhost:8080/metrics](http://localhost:8080/metrics)
 
-![prom](/bootstrapper/user-guide/go/grpc/basic/grpc-prom-value.png)
+![prom](/bootstrapper/user-guide/grpc-golang/basic/grpc-prom-value.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
@@ -174,7 +174,7 @@ $ docker run prom/pushgateway -p 9091:9091
 >
 > [http://localhost:9091](http://localhost:909)
 
-![pushgateway](/bootstrapper/user-guide/go/grpc/basic/grpc-prom-pusher.png)
+![pushgateway](/bootstrapper/user-guide/grpc-golang/basic/grpc-prom-pusher.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

@@ -21,7 +21,7 @@ description: >
 ## 创建服务
 ### 1.安装
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot@master
+$ go get github.com/rookie-ninja/rk-boot
 ```
 
 ### 2.创建 boot.yaml

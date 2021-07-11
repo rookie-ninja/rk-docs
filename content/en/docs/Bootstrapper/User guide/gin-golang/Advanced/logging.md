@@ -7,7 +7,7 @@ description: >
 ---
 
 ## Architecture
-![](/bootstrapper/user-guide/go/gin/advanced/gin-logger-arch.png)
+![](/bootstrapper/user-guide/gin-golang/advanced/gin-logger-arch.png)
 
 ## ZapLoggerEntry
 [ZapLoggerEntry](https://github.com/rookie-ninja/rk-entry#zaploggerentry) is used for initializing zap logger.

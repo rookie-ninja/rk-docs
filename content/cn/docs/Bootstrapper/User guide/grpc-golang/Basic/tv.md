@@ -70,7 +70,7 @@ func main() {
 >
 > [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
-![tv](/bootstrapper/getting-started/go/grpc/grpc-tv.png)
+![tv](/bootstrapper/getting-started/grpc-golang/grpc-tv.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

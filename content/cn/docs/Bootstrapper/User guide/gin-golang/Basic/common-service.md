@@ -106,7 +106,7 @@ gin:
 >
 > [http://localhost:8080/sw](http://localhost:8080/sw)
 
-![sw-common](/bootstrapper/getting-started/go/gin/gin-sw.png)
+![sw-common](/bootstrapper/getting-started/gin-golang/gin-sw.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

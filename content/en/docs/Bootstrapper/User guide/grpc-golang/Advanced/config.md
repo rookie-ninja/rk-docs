@@ -18,10 +18,10 @@ As a result, bellow file type can be supported.
 - Java propertie
 
 ## Architecture
-![](/bootstrapper/user-guide/go/grpc/advanced/config-arch.png)
+![](/bootstrapper/user-guide/grpc-golang/advanced/config-arch.png)
 
 ## Locale
-> ConfigEntry support concept of [locale](/docs/bootstrapper/user-guide/go/grpc/advanced/locale/).
+> ConfigEntry support concept of [locale](/docs/bootstrapper/user-guide/grpc-golang/advanced/locale/).
 
 ## Quick start
 ### 1.Create config

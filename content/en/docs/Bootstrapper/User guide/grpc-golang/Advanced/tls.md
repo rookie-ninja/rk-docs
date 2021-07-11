@@ -18,10 +18,10 @@ We support four types of CertEntry retrievers. We will extend retriever future.
 - Etcd
 
 ## Architecture
-![](/bootstrapper/user-guide/go/grpc/advanced/tls-arch.png)
+![](/bootstrapper/user-guide/grpc-golang/advanced/tls-arch.png)
 
 ## Locale
-> CertEntry support concept of [locale](/docs/bootstrapper/user-guide/go/grpc/advanced/locale/).
+> CertEntry support concept of [locale](/docs/bootstrapper/user-guide/grpc-golang/advanced/locale/).
 
 ## Generate Self-Signed Certificate
 > There is a convenient way to generate certificates with [cfssl](https://github.com/cloudflare/cfssl)

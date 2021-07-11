@@ -18,10 +18,10 @@ As a result, bellow file type can be supported.
 - Java propertie
 
 ## Architecture
-![](/bootstrapper/user-guide/go/gin/advanced/config-arch.png)
+![](/bootstrapper/user-guide/gin-golang/advanced/config-arch.png)
 
 ## Locale
-> ConfigEntry support concept of [locale](/docs/bootstrapper/user-guide/go/gin/advanced/locale/).
+> ConfigEntry support concept of [locale](/docs/bootstrapper/user-guide/gin-golang/advanced/locale/).
 
 ## Quick start
 ### 1.Create config

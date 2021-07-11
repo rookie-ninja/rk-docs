@@ -170,7 +170,7 @@ grpc:
 > 
 > http://localhost:16686/
 
-![jaeger](/bootstrapper/user-guide/go/gin/basic/gin-jaeger-inter.png)
+![jaeger](/bootstrapper/user-guide/gin-golang/basic/gin-jaeger-inter.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

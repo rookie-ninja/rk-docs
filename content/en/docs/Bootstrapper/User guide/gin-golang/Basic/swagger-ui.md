@@ -134,7 +134,7 @@ $ tree
 ### 4.Validate
 > **Swagger:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
-![](/bootstrapper/getting-started/go/gin/gin-sw-api.png)
+![](/bootstrapper/getting-started/gin-golang/gin-sw-api.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

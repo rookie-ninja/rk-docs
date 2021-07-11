@@ -104,7 +104,7 @@ $ curl -X GET localhost:8080/rk/v1/healthy
 >
 > http://localhost:8080/metrics
 
-![prom-inter](/bootstrapper/user-guide/go/grpc/basic/grpc-prom-inter.png)
+![prom-inter](/bootstrapper/user-guide/grpc-golang/basic/grpc-prom-inter.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

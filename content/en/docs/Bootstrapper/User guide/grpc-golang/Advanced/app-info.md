@@ -43,7 +43,7 @@ grpc:
 ### 1.Access from RK TV
 > [http://localhost:8080/rk/v1/tv/info](http://localhost:8080/rk/v1/tv/info)
 
-![](/bootstrapper/user-guide/go/grpc/advanced/app-info.png)
+![](/bootstrapper/user-guide/grpc-golang/advanced/app-info.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

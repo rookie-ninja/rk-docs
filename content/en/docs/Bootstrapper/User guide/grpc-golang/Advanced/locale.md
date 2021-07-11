@@ -17,7 +17,7 @@ Since bootstrapper support multiple ConfigEntries in boot.yaml, we need a mechan
 > 
 > RK use REALM, REGION, AZ, DOMAIN environment variable to distinguish environments. 
 
-![](/bootstrapper/user-guide/go/grpc/advanced/locale-arch.png)
+![](/bootstrapper/user-guide/grpc-golang/advanced/locale-arch.png)
 
 ## Quick start
 ### 1.Create config files

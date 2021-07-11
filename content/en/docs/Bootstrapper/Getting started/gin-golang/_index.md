@@ -20,7 +20,7 @@ This is an example demonstrate how to configure boot.yaml file to start a Gin se
 ## Create server
 ### 1.Install dependency
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot@master
+$ go get github.com/rookie-ninja/rk-boot
 ```
 
 ### 2.Create boot.yaml

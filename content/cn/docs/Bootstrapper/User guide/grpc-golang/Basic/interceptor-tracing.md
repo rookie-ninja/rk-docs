@@ -174,7 +174,7 @@ grpc:
 > 
 > http://localhost:16686/
 
-![jaeger](/bootstrapper/user-guide/go/grpc/basic/grpc-jaeger-inter.png)
+![jaeger](/bootstrapper/user-guide/grpc-golang/basic/grpc-jaeger-inter.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

@@ -67,7 +67,7 @@ func main() {
 > [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
 
-![tv](/bootstrapper/getting-started/go/gin/gin-tv.png)
+![tv](/bootstrapper/getting-started/gin-golang/gin-tv.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

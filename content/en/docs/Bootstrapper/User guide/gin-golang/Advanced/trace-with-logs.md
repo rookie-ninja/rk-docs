@@ -11,7 +11,7 @@ Sometimes, we don't want to install any of tracing service like jaeger because o
 
 Bootstrapper introduce a way to trace RPC with openTelemetry library but without tracing service.
 
-![](/bootstrapper/user-guide/go/gin/advanced/trace-arch.png)
+![](/bootstrapper/user-guide/gin-golang/advanced/trace-arch.png)
 
 ## Concept
 RK bootstrapper will use traceId to track each RPC in distributed system which will be logged into RPC log while tracing and log interceptor enabled in bootstrapper.

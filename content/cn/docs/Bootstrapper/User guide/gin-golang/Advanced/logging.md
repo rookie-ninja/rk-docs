@@ -7,7 +7,7 @@ description: >
 ---
 
 ## 架构
-![](/bootstrapper/user-guide/go/gin/advanced/gin-logger-arch.png)
+![](/bootstrapper/user-guide/gin-golang/advanced/gin-logger-arch.png)
 
 ## ZapLoggerEntry
 [ZapLoggerEntry](https://github.com/rookie-ninja/rk-entry#zaploggerentry) 将会用来初始化日志实例。

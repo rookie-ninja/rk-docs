@@ -99,7 +99,7 @@ $ curl -X GET localhost:8080/rk/v1/healthy
 >
 > http://localhost:8080/metrics
 
-![prom-inter](/bootstrapper/user-guide/go/gin/basic/gin-prom-inter.png)
+![prom-inter](/bootstrapper/user-guide/gin-golang/basic/gin-prom-inter.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

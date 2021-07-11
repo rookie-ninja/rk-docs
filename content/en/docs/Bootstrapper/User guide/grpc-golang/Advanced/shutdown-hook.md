@@ -12,7 +12,7 @@ We need to understand how bootstrapper stop process.
 1. Add shutdown hook functions by user
 1. Call functions as soon as receive signal from outside
 
-![](/bootstrapper/user-guide/go/grpc/advanced/shutdown-hook.png)
+![](/bootstrapper/user-guide/grpc-golang/advanced/shutdown-hook.png)
 
 ## Getting started
 ```go

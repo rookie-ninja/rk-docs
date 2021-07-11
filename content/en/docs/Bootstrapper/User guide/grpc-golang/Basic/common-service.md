@@ -142,7 +142,7 @@ grpc:
 >
 > [http://localhost:8080/sw](http://localhost:8080/sw)
 
-![sw-common](/bootstrapper/getting-started/go/grpc/grpc-sw.png)
+![sw-common](/bootstrapper/getting-started/grpc-golang/grpc-sw.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

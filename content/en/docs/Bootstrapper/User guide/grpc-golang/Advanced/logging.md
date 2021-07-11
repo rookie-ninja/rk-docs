@@ -7,7 +7,7 @@ description: >
 ---
 
 ## Architecture
-![](/bootstrapper/user-guide/go/grpc/advanced/grpc-logger-arch.png)
+![](/bootstrapper/user-guide/grpc-golang/advanced/grpc-logger-arch.png)
 
 ## ZapLoggerEntry
 [ZapLoggerEntry](https://github.com/rookie-ninja/rk-entry#zaploggerentry) is used for initializing zap logger.
