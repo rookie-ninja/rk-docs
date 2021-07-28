@@ -1,6 +1,6 @@
 ---
-title: "Contribution"
-linkTitle: "Contribution"
+title: "Contribution guidelines"
+linkTitle: "Contribution guidelines"
 weight: 5
 ---
 
