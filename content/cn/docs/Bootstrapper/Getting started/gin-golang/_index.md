@@ -9,7 +9,7 @@ description: >
 ## 概述
 让我们通过编辑 boot.yaml 文件来启动基于 Gin 框架的服务。
 
-> 例子: https://github.com/rookie-ninja/rk-demo/gin/getting-started
+> 例子: https://github.com/rookie-ninja/rk-demo/tree/master/gin/getting-started
 
 - [Gin 服务](https://github.com/gin-gonic/gin)
 - [Swagger 界面](https://swagger.io/tools/swagger-ui/)
