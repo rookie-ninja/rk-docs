@@ -9,7 +9,7 @@ description: >
 ## Overview
 This is an example demonstrate how to configure boot.yaml file to start a gin server with bellow functionality.
 
-> Full demo: https://github.com/rookie-ninja/rk-demo/grpc/getting-started
+> Full demo: https://github.com/rookie-ninja/rk-demo/tree/master/grpc/getting-started
 
 - [GRPC server](https://grpc.io/docs/languages/go/quickstart/)
 - [GRPC Gateway](https://github.com/grpc-ecosystem/grpc-gateway)
