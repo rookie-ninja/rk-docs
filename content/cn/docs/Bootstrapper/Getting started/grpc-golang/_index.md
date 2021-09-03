@@ -9,7 +9,7 @@ description: >
 ## 概述
 让我们通过编辑 boot.yaml 文件来创建基于 GRPC 框架的服务。
 
-> 例子: https://github.com/rookie-ninja/rk-demo/grpc/getting-started
+> 例子: https://github.com/rookie-ninja/rk-demo/tree/master/grpc/getting-started
 
 - [GRPC 服务](https://grpc.io/docs/languages/go/quickstart/)
 - [GRPC Gateway](https://github.com/grpc-ecosystem/grpc-gateway)
