@@ -24,15 +24,14 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
 
 ## Swagger options
 | name | description | type | default value |
 | ------ | ------ | ------ | ------ |
-| grpc.gw.sw.enabled | Enable swagger service over gRpc server | boolean | false |
-| grpc.gw.sw.path | The path access swagger service from web | string | /sw |
-| grpc.gw.sw.jsonPath | Where the swagger.json files are stored locally | string | "" |
-| grpc.gw.sw.headers | Headers would be sent to caller as scheme of [key:value] | []string | [] |
+| grpc.sw.enabled | Enable swagger service over gRpc server | boolean | false |
+| grpc.sw.path | The path access swagger service from web | string | /sw |
+| grpc.sw.jsonPath | Where the swagger.json files are stored locally | string | "" |
+| grpc.sw.headers | Headers would be sent to caller as scheme of [key:value] | []string | [] |
 
 ## Quick start
 ### 1.Create api/v1/greeter.proto
@@ -128,16 +127,13 @@ api/gen
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      rkServerOption: true          # Enable RK style server options
-      gwMappingFilePaths:
-        - "api/v1/gw_mapping.yaml"  # Boot will look for gateway mapping files and load information into memory
-      sw:
-        enabled: true               # Enable swagger
-        jsonPath: "gen/v1"          # Provide swagger config file path
+    port: 8080                      # Port of grpc entry
+    enableRkGwOption: true          # Enable RK style server options
+    gwMappingFilePaths:
+      - "api/v1/gw_mapping.yaml"    # Bootstrapper will look for gateway mapping files and load information into memory
+    sw:
+      enabled: true                 # Enable swagger
+      jsonPath: "api/gen/v1"            # Provide swagger config file path
 ```
 
 ### 7. Create main.go
@@ -164,9 +160,9 @@ func main() {
 	// Get grpc entry with name
 	grpcEntry := boot.GetGrpcEntry("greeter")
     // Register grpc registration function
-	grpcEntry.AddGrpcRegFuncs(registerGreeter)
+	grpcEntry.AddRegFuncGrpc(registerGreeter)
     // Register grpc-gateway registration function
-	grpcEntry.AddGwRegFuncs(greeter.RegisterGreeterHandlerFromEndpoint)
+	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

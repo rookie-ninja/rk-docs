@@ -205,7 +205,7 @@ zapLogger:
       encoding: json
 grpc:
   - name: greeter
-    port: 1949
+    port: 8080
 ```
 
 ```go
@@ -249,7 +249,7 @@ zapLogger:
   - name: zap-logger
 grpc:
   - name: greeter
-    port: 1949
+    port: 8080
     logger:
      zapLogger:
         ref: zap-logger
@@ -265,7 +265,7 @@ eventLogger:
   - name: event-logger
 grpc:
   - name: greeter
-    port: 1949
+    port: 8080
 ```
 
 ```go
@@ -329,7 +329,7 @@ eventLogger:
   - name: event-logger
 grpc:
   - name: greeter
-    port: 1949
+    port: 8080
     logger:
       eventLogger:
         ref: event-logger

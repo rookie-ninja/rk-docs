@@ -24,15 +24,14 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | GRPC 服务名称 | string | "", server won't start | Required |
 | grpc.port | GRPC 服务端口 | integer | 0, server won't start | Required |
 | grpc.description | GRPC 服务的描述 | string | "" | Optional |
-| grpc.reflection | 启动 GRPC 反射功能 | boolean | false |
 
 ## Swagger 选项
 | 名字 | 描述 | 类型 | 默认值 | 必要与否
 | ------ | ------ | ------ | ------ |
-| grpc.gw.sw.enabled | 启动 Swagger | boolean | false |
-| grpc.gw.sw.path | Swagger Web 界面路径 | string | /sw |
-| grpc.gw.sw.jsonPath | 本地 Swagger 参数文件（swagger.json）路径本地 Swagger 参数文件（swagger.json）路径 | string | "" |
-| grpc.gw.sw.headers | 每次 Swagger 界面请求，都会带着这些头部。格式： [key:value] | []string | [] |
+| grpc.sw.enabled | 启动 Swagger | boolean | false |
+| grpc.sw.path | Swagger Web 界面路径 | string | /sw |
+| grpc.sw.jsonPath | 本地 Swagger 参数文件（swagger.json）路径本地 Swagger 参数文件（swagger.json）路径 | string | "" |
+| grpc.sw.headers | 每次 Swagger 界面请求，都会带着这些头部。格式： [key:value] | []string | [] |
 
 ## 快速开始
 ### 1.创建 api/v1/greeter.proto
@@ -128,16 +127,13 @@ api/gen
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      rkServerOption: true          # Enable RK style server options
-      gwMappingFilePaths:
-        - "api/v1/gw_mapping.yaml"  # Boot will look for gateway mapping files and load information into memory
-      sw:
-        enabled: true               # Enable swagger
-        jsonPath: "gen/v1"          # Provide swagger config file path
+    port: 8080                      # Port of grpc entry
+    enableRkGwOption: true          # Enable RK style server options
+    gwMappingFilePaths:
+      - "api/v1/gw_mapping.yaml"    # Bootstrapper will look for gateway mapping files and load information into memory
+    sw:
+      enabled: true                 # Enable swagger
+      jsonPath: "api/gen/v1"            # Provide swagger config file path
 ```
 
 ### 7. 创建 main.go
@@ -164,9 +160,9 @@ func main() {
 	// Get grpc entry with name
 	grpcEntry := boot.GetGrpcEntry("greeter")
     // Register grpc registration function
-	grpcEntry.AddGrpcRegFuncs(registerGreeter)
+	grpcEntry.AddRegFuncGrpc(registerGreeter)
     // Register grpc-gateway registration function
-	grpcEntry.AddGwRegFuncs(greeter.RegisterGreeterHandlerFromEndpoint)
+	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

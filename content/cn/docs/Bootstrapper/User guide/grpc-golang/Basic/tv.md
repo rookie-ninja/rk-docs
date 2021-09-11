@@ -22,7 +22,6 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | GRPC 服务名称 | string | "", server won't start | Required |
 | grpc.port | GRPC 服务端口 | integer | 0, server won't start | Required |
 | grpc.description | GRPC 服务的描述 | string | "" | Optional |
-| grpc.reflection | 启动 GRPC 反射功能 | boolean | false |
 
 ## TV 选项
 | 名字 | 描述 | 类型 | 默认值 |
@@ -35,12 +34,9 @@ go get github.com/rookie-ninja/rk-boot
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      tv:
-        enabled: true               # Enable TV
+    port: 8080                      # Port of grpc entry
+    tv:
+      enabled: true                 # Enable TV
 ```
 
 ### 2.创建 main.go

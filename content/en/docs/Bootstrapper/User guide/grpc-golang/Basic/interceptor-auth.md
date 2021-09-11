@@ -19,7 +19,6 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
 
 ## Auth options
 | name | description | type | default value |
@@ -36,12 +35,9 @@ go get github.com/rookie-ninja/rk-boot
 grpc:
   - name: greeter
     port: 8080
-    rkServerOption: true
+    enableRkGwOption: true
     commonService:
       enabled: true          # Enable common service for testing
-    gw:
-      enabled: true
-      port: 8080
     interceptors:
       auth:
         enabled: true        # Enable auth interceptor/middleware

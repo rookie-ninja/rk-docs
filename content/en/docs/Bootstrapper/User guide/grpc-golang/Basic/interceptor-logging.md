@@ -19,7 +19,6 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
 
 ## Logging options
 | name | description | type | default value |
@@ -39,7 +38,7 @@ RK bootstrapper adopt [zap](https://github.com/uber-go/zap) as the logger. [lumb
 > Example
 > 
 > ```shell script
-> 2021-07-09T23:52:13.667+0800    INFO    boot/grpc_entry.go:694  Bootstrapping grpcEntry.        {"eventId": "9bc192fb-567c-45d4-8775-7a097b0dab04", "entryName": "greeter", "entryType": "GrpcEntry", "grpcPort": 1949, "commonServiceEnabled": true, "tlsEnabled": false, "gwEnabled": true, "reflectionEnabled": false, "swEnabled": false, "tvEnabled": false, "promEnabled": false, "gwClientTlsEnabled": false, "gwServerTlsEnabled": false}
+> 2021-07-09T23:52:13.667+0800    INFO    boot/grpc_entry.go:694  Bootstrapping grpcEntry.        {"eventId": "9bc192fb-567c-45d4-8775-7a097b0dab04", "entryName": "greeter", "entryType": "GrpcEntry", "grpcPort": 8080, "commonServiceEnabled": true, "tlsEnabled": false, "gwEnabled": true, "reflectionEnabled": false, "swEnabled": false, "tvEnabled": false, "promEnabled": false, "gwClientTlsEnabled": false, "gwServerTlsEnabled": false}
 > ```
 
 ### EventLogger
@@ -93,12 +92,9 @@ RK bootstrapper treat RPC request as an **Event**, and record every RPC request 
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
+    port: 8080                      # Port of grpc entry
     commonService:
       enabled: true                 # Enable common service for testing
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
     interceptors:
       loggingZap:
         enabled: true

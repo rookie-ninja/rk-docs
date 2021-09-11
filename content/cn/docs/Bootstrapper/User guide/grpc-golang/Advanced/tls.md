@@ -74,7 +74,8 @@ cert:
     serverKeyPath: "cert/server-key.pem"   # Optional, default: "", path of certificate on local FS
 grpc:
   - name: greeter
-    port: 1949
+    port: 8080
+    enableReflection: true
     cert:
       ref: "local-cert"                    # Enable grpc TLS
     commonService: 
@@ -82,38 +83,14 @@ grpc:
 ```
 
 ```shell script
-$ curl "localhost:8080/rk/v1/healthy"
-{"healthy":true}
-```
-
-> 同时启动 GRPC 与 grpc-gateway TLS/SSL。
-
-```yaml
----
-cert:
-  - name: "local-cert"                     # Required
-    description: "Description of entry"    # Optional
-    provider: "localFs"                    # Required, etcd, consul, localFs, remoteFs are supported options
-    locale: "*::*::*::*"                   # Optional, default: *::*::*::*
-    serverCertPath: "cert/server.pem"      # Optional, default: "", path of certificate on local FS
-    serverKeyPath: "cert/server-key.pem"   # Optional, default: "", path of certificate on local FS
-grpc:
-  - name: greeter
-    port: 1949
-    cert:
-      ref: "local-cert"                    # Enable grpc TLS
-    commonService: 
-      enabled: true
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      cert:
-        ref: "local-cert"
-```
-
-```shell script
+# try call http service
 $ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
 {"healthy":true}
+# try call grpc service
+grpcurl -insecure localhost:8080 rk.api.v1.RkCommonService.Healthy
+{
+    "healthy": true
+}
 ```
 
 ### _**Cheers**_
@@ -143,16 +120,11 @@ cert:
     serverKeyPath: "cert/server-key.pem"   # Optional, default: "", path of certificate on local FS
 grpc:
   - name: greeter
-    port: 1949
+    port: 8080
     cert:
       ref: "remote-cert"                   # Enable grpc TLS
     commonService: 
       enabled: true
-    gw:
-      enabled: true                        # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                           # Port of grpc-gateway
-      cert:
-        ref: "remote-cert"
 ```
 
 ```shell script
@@ -195,11 +167,6 @@ grpc:
       ref: "consul-cert"                   # Enable grpc TLS
     commonService: 
       enabled: true
-    gw:
-      enabled: true                        # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                           # Port of grpc-gateway
-      cert:
-        ref: "consul-cert"
 ```
 
 ```shell script
@@ -239,11 +206,6 @@ grpc:
       ref: "etcd-cert"                   # Enable grpc TLS
     commonService: 
       enabled: true
-    gw:
-      enabled: true                        # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                           # Port of grpc-gateway
-      cert:
-        ref: "etcdetcd-cert"
 ```
 
 ```shell script

@@ -19,7 +19,6 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | GRPC 服务名称 | string | "", server won't start | Required |
 | grpc.port | GRPC 服务端口 | integer | 0, server won't start | Required |
 | grpc.description | GRPC 服务的描述 | string | "" | Optional |
-| grpc.reflection | 启动 GRPC 反射功能 | boolean | false |
 
 ## 日志拦截器选项
 | 名字 | 描述 | 类型 | 默认值 |
@@ -42,7 +41,7 @@ RK 启动器使用 [zap](https://github.com/uber-go/zap) 为默认日志，[lumb
 > 例子
 > 
 > ```shell script
-> 2021-07-09T23:52:13.667+0800    INFO    boot/grpc_entry.go:694  Bootstrapping grpcEntry.        {"eventId": "9bc192fb-567c-45d4-8775-7a097b0dab04", "entryName": "greeter", "entryType": "GrpcEntry", "grpcPort": 1949, "commonServiceEnabled": true, "tlsEnabled": false, "gwEnabled": true, "reflectionEnabled": false, "swEnabled": false, "tvEnabled": false, "promEnabled": false, "gwClientTlsEnabled": false, "gwServerTlsEnabled": false}
+> 2021-07-09T23:52:13.667+0800    INFO    boot/grpc_entry.go:694  Bootstrapping grpcEntry.        {"eventId": "9bc192fb-567c-45d4-8775-7a097b0dab04", "entryName": "greeter", "entryType": "GrpcEntry", "grpcPort": 8080, "commonServiceEnabled": true, "tlsEnabled": false, "gwEnabled": true, "reflectionEnabled": false, "swEnabled": false, "tvEnabled": false, "promEnabled": false, "gwClientTlsEnabled": false, "gwServerTlsEnabled": false}
 > ```
 
 ### EventLogger
@@ -96,12 +95,9 @@ RK 启动器把每一个 RPC 视作 **Event**，并且使用 [rk-query](https://
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
+    port: 8080                      # Port of grpc entry
     commonService:
       enabled: true                 # Enable common service for testing
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
     interceptors:
       loggingZap:
         enabled: true

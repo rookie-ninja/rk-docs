@@ -73,14 +73,9 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | GRPC 服务名称 | string | "", server won't start | Required |
 | grpc.port | GRPC 服务端口 | integer | 0, server won't start | Required |
 | grpc.description | GRPC 服务的描述 | string | "" | Optional |
-| grpc.reflection | 启动 GRPC 反射功能 | boolean | false |
-
-## Gateway 选项
-| 名字 | 描述 | 类型 | 默认值 | 必要与否 |
-| ------ | ------ | ------ | ------ | ------ |
-| grpc.gw.enabled | 启动 grpc-gateway | boolean | false | Required |
-| grpc.gw.port | grpc-gateway 端口 | uint64 | 0, server won't start | Required |
-| grpc.gw.rkServerOption | Rk 推荐的 server option | bool | false | Optional |
+| grpc.enableReflection | 启动 GRPC 反射功能 | boolean | false |
+| grpc.enableRkGwOption | Rk 推荐的 grpc gateway server option | bool | false | Optional |
+| grpc.gwMappingFilePaths | gw_mapping.yaml 文件路径 | []string | false |
 
 ## 快速开始
 ### 1.创建 api/v1/greeter.proto
@@ -172,7 +167,7 @@ api/gen
 ```
 
 ### 6.创建 boot.yaml
-> **grpc.gw.gwMapingFilePaths** 不是必要的选项，但是，我们强烈推荐添加此选项，此文件能完整化如下的功能中。
+> **grpc.gw.gwMapingFilePaths** 是非必要的选项，但是，我们强烈推荐添加此选项，此文件能完整化如下的功能中。
 > 1. /rk/v1/apis
 > 2. RK TV
 
@@ -180,12 +175,9 @@ api/gen
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      gwMappingFilePaths:
-        - "api/v1/gw_mapping.yaml"  # Boot will look for gateway mapping files and load information into memory
+    port: 8080                      # Port of grpc entry
+    gwMappingFilePaths:
+      - "api/v1/gw_mapping.yaml"    # Boot will look for gateway mapping files and load information into memory
 ```
 
 ### 7. 创建 main.go
@@ -212,9 +204,9 @@ func main() {
 	// Get grpc entry with name
 	grpcEntry := boot.GetGrpcEntry("greeter")
     // Register grpc registration function
-	grpcEntry.AddGrpcRegFuncs(registerGreeter)
+	grpcEntry.AddRegFuncGrpc(registerGreeter)
     // Register grpc-gateway registration function
-	grpcEntry.AddGwRegFuncs(greeter.RegisterGreeterHandlerFromEndpoint)
+	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())
@@ -268,7 +260,7 @@ $ go run main.go
 ```
 
 ```shell script
-$ curl "localhost:8080/v1/greeter?name=rk-dev"
+$ curl "localhost:8080/api/v1/greeter?name=rk-dev"
 {"message":"Hello rk-dev!"}
 ```
 
@@ -293,13 +285,10 @@ $ curl "localhost:8080/v1/greeter?name=rk-dev"
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      rkServerOption: true          # Enable RK style server options
-      gwMappingFilePaths:
-        - "api/v1/gw_mapping.yaml"  # Boot will look for gateway mapping files and load information into memory
+    port: 8080                      # Port of grpc entry
+    enableRkGwOption: true          # Enable rk style grpc gateway server option
+    gwMappingFilePaths:
+      - "api/v1/gw_mapping.yaml"    # Bootstrapper will look for gateway mapping files and load information into memory
     interceptors:
       loggingZap:
         enabled: true               # Enable logging interceptor for validation
@@ -307,7 +296,7 @@ grpc:
 
 ### 2.验证日志
 ```shell script
-$ curl "localhost:8080/v1/greeter?name=rk-dev"
+$ curl "localhost:8080/api/v1/greeter?name=rk-dev"
 ```
 
 > gwMethod, gwPath, gwScheme, gwUserAgent 将会记录到日志中
@@ -331,7 +320,7 @@ func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.Greet
 }
 ```
 ```shell script
-map[:authority:[0.0.0.0:1949] accept:[*/*] content-type:[application/grpc] user-agent:[grpc-go/1.38.0] x-forwarded-for:[::1] x-forwarded-host:[localhost:8080] x-forwarded-method:[GET] x-forwarded-path:[/v1/greeter] x-forwarded-remote-addr:[[::1]:57082] x-forwarded-scheme:[http] x-forwarded-user-agent:[curl/7.64.1]]
+map[:authority:[0.0.0.0:8080] accept:[*/*] content-type:[application/grpc] user-agent:[grpc-go/1.38.0] x-forwarded-for:[::1] x-forwarded-host:[localhost:8080] x-forwarded-method:[GET] x-forwarded-path:[/v1/greeter] x-forwarded-remote-addr:[[::1]:57082] x-forwarded-scheme:[http] x-forwarded-user-agent:[curl/7.64.1]]
 ```
 
 ### _**Cheers**_

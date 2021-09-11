@@ -40,7 +40,7 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | GRPC 服务名称 | string | "", server won't start | Required |
 | grpc.port | GRPC 服务端口 | integer | 0, server won't start | Required |
 | grpc.description | GRPC 服务的描述 | string | "" | Optional |
-| grpc.reflection | 启动 GRPC 反射功能 | boolean | false |
+| grpc.enableReflection | 启动 GRPC 反射功能 | boolean | false |
 
 ## CommonService options
 | 名字 | 描述 | 类型 | 默认值 |
@@ -53,10 +53,10 @@ go get github.com/rookie-ninja/rk-boot
 ---
 grpc:
   - name: greeter
-    port: 1949
-    reflection: true    # Enable reflection in order to use grpcurl for validation
+    port: 8080
+    enableReflection: true    # Enable reflection in order to use grpcurl for validation
     commonService:
-      enabled: true     # Enable common service
+      enabled: true           # Enable common service
 ```
 
 ### 2.创建 main.go
@@ -86,14 +86,14 @@ func main() {
 > https://github.com/fullstorydev/grpcurl
 
 ```shell script
-# List grpc services at port 1949 without TLS
+# List grpc services at port 8080 without TLS
 # Expect RkCommonService since we enabled common services.
-$ grpcurl -plaintext localhost:1949 list                           
+$ grpcurl -plaintext localhost:8080 list                           
 grpc.reflection.v1alpha.ServerReflection
 rk.api.v1.RkCommonService
 
 # List grpc methods in rk.api.v1.RkCommonService
-$ grpcurl -plaintext localhost:1949 list rk.api.v1.RkCommonService            
+$ grpcurl -plaintext localhost:8080 list rk.api.v1.RkCommonService            
 rk.api.v1.RkCommonService.Apis
 rk.api.v1.RkCommonService.Certs
 rk.api.v1.RkCommonService.Configs
@@ -111,7 +111,7 @@ rk.api.v1.RkCommonService.Sys
 rk.api.v1.RkCommonService.Git
 
 # Send request to rk.api.v1.RkCommonService.Healthy
-$ grpcurl -plaintext localhost:1949 rk.api.v1.RkCommonService.Healthy
+$ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Healthy
 {
     "healthy": true
 }
@@ -127,15 +127,12 @@ $ grpcurl -plaintext localhost:1949 rk.api.v1.RkCommonService.Healthy
 ---
 grpc:
   - name: greeter
-    port: 1949
-    reflection: true    # Enable reflection in order to use grpcurl for validation
+    port: 8080
+    enableReflection: true    # Enable reflection in order to use grpcurl for validation
     commonService:
-      enabled: true     # Enable common service
-    gw:
+      enabled: true           # Enable common service
+    sw:
       enabled: true
-      port: 8080
-      sw:
-        enabled: true
 ```
 
 > 验证

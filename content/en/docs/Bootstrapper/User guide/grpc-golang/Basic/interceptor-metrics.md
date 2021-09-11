@@ -19,7 +19,6 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
 
 ## Logging options
 | name | description | type | default value |
@@ -57,14 +56,11 @@ All of three metrics have the same labels as bellow:
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
+    port: 8080                      # Port of grpc entry
     commonService:
       enabled: true                 # Enable common service for testing
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      prom:
-        enabled: true               # Enable prometheus client
+    prom:
+      enabled: true                 # Enable prometheus client
     interceptors:
       metricsProm:
         enabled: true

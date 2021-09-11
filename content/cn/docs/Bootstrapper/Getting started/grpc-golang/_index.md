@@ -25,21 +25,21 @@ $ go get github.com/rookie-ninja/rk-boot
 ```
 
 ### 2.创建 boot.yaml
+grpc 与 grpc-gateway 会默认使用同一个端口，rk-grpc 将会根据链接类型，自动判断 http 请求和 grpc 请求。
+
 ```yaml
 ---
 grpc:
-  - name: greeter       # Name of grpc entry
-    port: 1949          # Port of grpc entry
-    reflection: true    # Enable grpc server reflection, https://github.com/grpc/grpc/blob/master/doc/server-reflection.md
+  - name: greeter            # Required, Name of grpc entry
+    port: 8080               # Required, Port of grpc entry
+    enableReflection: true   # Optional, Enable grpc server reflection, https://github.com/grpc/grpc/blob/master/doc/server-reflection.md
+    enableRkGwOption: true   # Optional, Enable grpc gateway server option as RK style
     commonService:
-      enabled: true     # Enable common service
-    gw:
-      enabled: true     # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080        # Port of grpc-gateway
-      tv:
-        enabled: true   # Enable RK TV
-      sw:
-        enabled: true   # Enable Swagger UI
+      enabled: true          # Optional, Enable common service
+    tv:
+      enabled: true          # Optional, Enable RK TV
+    sw:
+      enabled: true          # Optional, Enable Swagger UI
 ```
 
 ### 3.创建 main.go
@@ -68,16 +68,16 @@ func main() {
 ```go
 $ go run main.go
 ...
-2021-07-04T21:53:56.680+0800    INFO    boot/grpc_entry.go:673  Bootstrapping grpcEntry.        {"eventId": "85249c06-0f0b-4461-8342-f1f3e11adb8e", "entryName": "greeter", "entryType": "GrpcEntry", "grpcPort": 1949, "commonServiceEnabled": true, "tlsEnabled": false, "gwEnabled": true, "reflectionEnabled": true, "swEnabled": true, "tvEnabled": true, "promEnabled": false, "gwClientTlsEnabled": false, "gwServerTlsEnabled": false, "swPath": "/sw/", "headers": {}, "tvPath": "/rk/v1/tv"}
+2021-09-11T04:43:23.219+0800    INFO    boot/grpc_entry.go:829  Bootstrapping grpcEntry.        {"eventId": "2df7fa50-3d1f-44cb-9db6-c4c26d9a29ce", "entryName": "greeter", "entryType": "GrpcEntry", "port": 8080, "swEnabled": true, "tvEnabled": true, "promEnabled": true, "commonServiceEnabled": true, "tlsEnabled": false, "reflectionEnabled": true, "swPath": "/sw/", "headers": {}, "tvPath": "/rk/v1/tv"}
 ------------------------------------------------------------------------
-endTime=2021-07-04T21:53:56.680762+08:00
-startTime=2021-07-04T21:53:56.677909+08:00
-elapsedNano=2853808
+endTime=2021-09-11T04:43:23.217156+08:00
+startTime=2021-09-11T04:43:23.217145+08:00
+elapsedNano=11496
 timezone=CST
-ids={"eventId":"85249c06-0f0b-4461-8342-f1f3e11adb8e"}
-app={"appName":"rk-demo","appVersion":"master-f414049","entryName":"greeter","entryType":"GrpcEntry"}
-env={"arch":"amd64","az":"*","domain":"*","hostname":"lark.local","localIP":"10.8.0.2","os":"darwin","realm":"*","region":"*"}
-payloads={"commonServiceEnabled":true,"entryName":"greeter","entryType":"GrpcEntry","grpcPort":1949,"gwClientTlsEnabled":false,"gwEnabled":true,"gwServerTlsEnabled":false,"headers":{},"promEnabled":false,"reflectionEnabled":true,"swEnabled":true,"swPath":"/sw/","tlsEnabled":false,"tvEnabled":true,"tvPath":"/rk/v1/tv"}
+ids={"eventId":"2df7fa50-3d1f-44cb-9db6-c4c26d9a29ce"}
+app={"appName":"rk-grpc","appVersion":"master-bd63f29","entryName":"greeter","entryType":"GrpcPromEntry"}
+env={"arch":"amd64","az":"*","domain":"*","hostname":"lark.local","localIP":"10.8.0.6","os":"darwin","realm":"*","region":"*"}
+payloads={"entryName":"greeter","entryType":"GrpcPromEntry","path":"/metrics","port":8080}
 error={}
 counters={}
 pairs={}
@@ -86,7 +86,7 @@ remoteAddr=localhost
 operation=bootstrap
 resCode=OK
 eventStatus=Ended
-EO
+EOE
 ```
 
 ### 5.验证
@@ -246,13 +246,14 @@ $ tree
 >
 > 我们需要实现 grpc 和 grpc-gateway 接口函数，并且通过下面的函数来注册我们的实现。
 > 
-> - AddGrpcRegFuncs
-> - AddGwRegFuncs
+> - AddRegFuncGrpc
+> - AddRegFuncGw
 ```go
 package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/rookie-ninja/rk-boot"
 	"github.com/rookie-ninja/rk-demo/api/gen/v1"
 	"google.golang.org/grpc"
@@ -265,10 +266,8 @@ func main() {
 
 	// Get grpc entry with name
 	grpcEntry := boot.GetGrpcEntry("greeter")
-	// Register grpc
-	grpcEntry.AddGrpcRegFuncs(registerGreeter)
-    // Register gateway
-	grpcEntry.AddGwRegFuncs(greeter.RegisterGreeterHandlerFromEndpoint)
+	grpcEntry.AddRegFuncGrpc(registerGreeter)
+	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())
@@ -281,7 +280,6 @@ func registerGreeter(server *grpc.Server) {
 	greeter.RegisterGreeterServer(server, &GreeterServer{})
 }
 
-// Implement Greeter
 type GreeterServer struct{}
 
 func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
@@ -293,7 +291,7 @@ func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.Greet
 
 ### 5.验证
 ```shell script
-$ curl "http://localhost:8080/v1/greeter?name=rk-dev"
+$ curl "http://localhost:8080/api/v1/greeter?name=rk-dev"
 {"Message":"Hello rk-dev!"}
 ```
 
@@ -301,9 +299,9 @@ $ curl "http://localhost:8080/v1/greeter?name=rk-dev"
 ![](/bootstrapper/user-guide/cheers.png)
 
 ## 支持 Swagger 界面
-With above example, we already generated greeter.swagger.json file.
+通过上面的例子，我们已经生成了 greeter.swagger.json 文件。
 
-What we need to do is add one line in boot.yaml to make process load the files into memory.
+下一步，我们需要做的就是在 boot.yaml 文件中指出 greeter.swagger.json 文件和 http->grpc 的路径映射文件的路径。
 
 ### 1.在 boot.yaml 中添加 Swagger 参数文件路径
 ```yaml

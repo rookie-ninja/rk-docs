@@ -41,7 +41,7 @@ config:
     path: config/default.yaml
 grpc:
   - name: greeter
-    port: 1949
+    port: 8080
 ```
 
 ### 2.读取配置文件

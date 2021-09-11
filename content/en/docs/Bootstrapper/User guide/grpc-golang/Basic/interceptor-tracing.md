@@ -19,7 +19,6 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
 
 ## Tracing options
 | name | description | type | default value |
@@ -38,8 +37,7 @@ go get github.com/rookie-ninja/rk-boot
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    reflection: true
+    port: 8080                      # Port of grpc entry
     commonService:
       enabled: true                 # Enable common service for testing
     interceptors:
@@ -77,7 +75,7 @@ func main() {
 > Send request
 
 ```shell script
-$ grpcurl -plaintext localhost:1949 rk.api.v1.RkCommonService.Healthy
+$ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Healthy
 {
     "healthy": true
 }

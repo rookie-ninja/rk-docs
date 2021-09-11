@@ -30,7 +30,6 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | GRPC 服务名称 | string | "", server won't start | Required |
 | grpc.port | GRPC 服务端口 | integer | 0, server won't start | Required |
 | grpc.description | GRPC 服务的描述 | string | "" | Optional |
-| grpc.reflection | 启动 GRPC 反射功能 | boolean | false |
 
 ## 原数据选项
 | 名字 | 描述 | 类型 | 默认值 |
@@ -44,12 +43,9 @@ go get github.com/rookie-ninja/rk-boot
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
+    port: 8080                      # Port of grpc entry
     commonService:
       enabled: true                 # Enable common service for testing
-    gw:
-      enabled: true
-      port: 8080
     interceptors:
       meta:
         enabled: true
@@ -78,7 +74,7 @@ func main() {
 ```
 
 ### 3.验证
-> 在上面的 boot.yaml 中，我们没有启动 rkServerOption，因此，返回的头部当中，会有 **Grpc-Metadata** 前缀。
+> 在上面的 boot.yaml 中，我们没有启动 enableRkGwOption，因此，返回的头部当中，会有 **Grpc-Metadata** 前缀。
 
 ```shell script
 $ curl -vs -X GET localhost:8080/rk/v1/healthy
@@ -93,7 +89,7 @@ $ curl -vs -X GET localhost:8080/rk/v1/healthy
   {"healthy":true}
 ```
 
-> 如果我们启动 rkServerOption, **Grpc-Metadata** 将会消失！
+> 如果我们启动 enableRkGwOption, **Grpc-Metadata** 将会消失！
 > ```yaml
 > ---
 > grpc:

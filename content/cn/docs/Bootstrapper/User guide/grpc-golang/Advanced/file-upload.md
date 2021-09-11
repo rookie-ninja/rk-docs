@@ -17,10 +17,7 @@ GRPC 没有给我们提供一个简单文件上传 API，或者说通过 grpc-ga
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
+    port: 8080                      # Port of grpc entry
 ```
 
 ### 2.创建 main.go
@@ -46,7 +43,7 @@ func main() {
 	grpcEntry := boot.GetGrpcEntry("greeter")
 
 	// Attachment upload from http/s handled manually
-	grpcEntry.GwEntry.GwMux.HandlePath("POST", "/v1/files", handleBinaryFileUpload)
+	grpcEntry.GwMux.HandlePath("POST", "/v1/files", handleBinaryFileUpload)
 
 	// Wait for shutdown sig
 	boot.WaitForShutdownSig(context.Background())

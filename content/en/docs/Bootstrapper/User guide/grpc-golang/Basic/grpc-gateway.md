@@ -7,9 +7,9 @@ description: >
 ---
 
 ## Overview
-In order to enable [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway), we need to add a bunch of codes.
+In traditional way, we need to add a bunch of codes in order to enable [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway), 
 
-With bootstrapper, user can enable grpc-gateway with configuration in boot.yaml easily.
+With bootstrapper, grpc-gateway will be automatically started and bind to one single port with grpc for convenience.
 
 > **Steps to enable grpc-gateway:**
 > 1. Write gw_mapping.yaml
@@ -73,14 +73,9 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
-
-## Gateway options
-| name | description | type | default value | Required |
-| ------ | ------ | ------ | ------ | ------ |
-| grpc.gw.enabled | Enable grpc-gateway | boolean | false | Required |
-| grpc.gw.port | grpc-gateway port | uint64 | 0, server won't start | Required |
-| grpc.gw.rkServerOption | Rk style server option | bool | false | Optional |
+| grpc.enableReflection | Enable grpc server reflection | boolean | false |
+| grpc.enableRkGwOption | Rk style server option | bool | false | Optional |
+| grpc.gwMappingFilePaths | The path of gw_mapping.yaml files | []string | false |
 
 ## Quick start
 ### 1.Create api/v1/greeter.proto
@@ -172,7 +167,7 @@ api/gen
 ```
 
 ### 6.Create boot.yaml
-> **grpc.gw.gwMapingFilePaths** is not required, however, we strongly recommend specify this path since bootstrapper will use this in bellow:
+> **grpc.gw.gwMappingFilePaths** is not required, however, we strongly recommend specify this path since bootstrapper will use this in bellow:
 > 1. /rk/v1/apis
 > 2. RK TV
 
@@ -180,12 +175,9 @@ api/gen
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      gwMappingFilePaths:
-        - "api/v1/gw_mapping.yaml"  # Boot will look for gateway mapping files and load information into memory
+    port: 8080                      # Port of grpc entry
+    gwMappingFilePaths:
+      - "api/v1/gw_mapping.yaml"    # Boot will look for gateway mapping files and load information into memory
 ```
 
 ### 7. Create main.go
@@ -212,9 +204,9 @@ func main() {
 	// Get grpc entry with name
 	grpcEntry := boot.GetGrpcEntry("greeter")
     // Register grpc registration function
-	grpcEntry.AddGrpcRegFuncs(registerGreeter)
+	grpcEntry.AddRegFuncGrpc(registerGreeter)
     // Register grpc-gateway registration function
-	grpcEntry.AddGwRegFuncs(greeter.RegisterGreeterHandlerFromEndpoint)
+	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())
@@ -268,7 +260,7 @@ $ go run main.go
 ```
 
 ```shell script
-$ curl "localhost:8080/v1/greeter?name=rk-dev"
+$ curl "localhost:8080/api/v1/greeter?name=rk-dev"
 {"message":"Hello rk-dev!"}
 ```
 
@@ -293,13 +285,10 @@ $ curl "localhost:8080/v1/greeter?name=rk-dev"
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      rkServerOption: true          # Enable RK style server options
-      gwMappingFilePaths:
-        - "api/v1/gw_mapping.yaml"  # Boot will look for gateway mapping files and load information into memory
+    port: 8080                      # Port of grpc entry
+    enableRkGwOption: true          # Enable rk style grpc gateway server option
+    gwMappingFilePaths:
+      - "api/v1/gw_mapping.yaml"    # Bootstrapper will look for gateway mapping files and load information into memory
     interceptors:
       loggingZap:
         enabled: true               # Enable logging interceptor for validation
@@ -307,7 +296,7 @@ grpc:
 
 ### 2.Validate log
 ```shell script
-$ curl "localhost:8080/v1/greeter?name=rk-dev"
+$ curl "localhost:8080/api/v1/greeter?name=rk-dev"
 ```
 
 > gwMethod, gwPath, gwScheme, gwUserAgent would be logged
@@ -331,7 +320,7 @@ func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.Greet
 }
 ```
 ```shell script
-map[:authority:[0.0.0.0:1949] accept:[*/*] content-type:[application/grpc] user-agent:[grpc-go/1.38.0] x-forwarded-for:[::1] x-forwarded-host:[localhost:8080] x-forwarded-method:[GET] x-forwarded-path:[/v1/greeter] x-forwarded-remote-addr:[[::1]:57082] x-forwarded-scheme:[http] x-forwarded-user-agent:[curl/7.64.1]]
+map[:authority:[0.0.0.0:8080] accept:[*/*] content-type:[application/grpc] user-agent:[grpc-go/1.38.0] x-forwarded-for:[::1] x-forwarded-host:[localhost:8080] x-forwarded-method:[GET] x-forwarded-path:[/v1/greeter] x-forwarded-remote-addr:[[::1]:57082] x-forwarded-scheme:[http] x-forwarded-user-agent:[curl/7.64.1]]
 ```
 
 ### _**Cheers**_

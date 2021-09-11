@@ -33,11 +33,8 @@ grpc:
     port: 8080
     commonService:
       enabled: true                   # Enable for validation
-    gw:
-      enabled: true
-      port: 8080
-      tv: 
-        enabled: true                 # Enable for validation
+    tv: 
+      enabled: true                   # Enable for validation
 ```
 
 ### 1.Access from RK TV

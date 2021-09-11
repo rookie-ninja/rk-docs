@@ -30,7 +30,6 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
 
 ## Meta options
 | name | description | type | default value |
@@ -44,12 +43,9 @@ go get github.com/rookie-ninja/rk-boot
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
+    port: 8080                      # Port of grpc entry
     commonService:
       enabled: true                 # Enable common service for testing
-    gw:
-      enabled: true
-      port: 8080
     interceptors:
       meta:
         enabled: true
@@ -78,7 +74,7 @@ func main() {
 ```
 
 ### 3.Validate
-> At above boot.yaml, we didn't enable rkServerOption, as a result, the headers returned from server will have prefix of **Grpc-Metadata**
+> At above boot.yaml, we didn't enable enableRkGwOption, as a result, the headers returned from server will have prefix of **Grpc-Metadata**
 
 ```shell script
 $ curl -vs -X GET localhost:8080/rk/v1/healthy
@@ -93,13 +89,12 @@ $ curl -vs -X GET localhost:8080/rk/v1/healthy
   {"healthy":true}
 ```
 
-> If we enable rkServerOption, then **Grpc-Metadata** will be removed!
+> If we enable enableRkGwOption, then **Grpc-Metadata** will be removed!
 > ```yaml
 > ---
 > grpc:
->   gw:
->     ...
->     rkServerOption: true
+>   ...
+>   enableRkGwOption: true 
 > ```
 
 ```shell script

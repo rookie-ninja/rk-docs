@@ -22,12 +22,11 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
 
 ## TV options
 | name | description | type | default value |
 | ------ | ------ | ------ | ------ |
-| grpc.gw.tv.enabled | Enable RK TV | boolean | false |
+| grpc.tv.enabled | Enable RK TV | boolean | false |
 
 ## Quick start
 ### 1.Create boot.yaml
@@ -35,12 +34,9 @@ go get github.com/rookie-ninja/rk-boot
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      tv:
-        enabled: true               # Enable TV
+    port: 8080                      # Port of grpc entry
+    tv:
+      enabled: true                 # Enable TV
 ```
 
 ### 2.Create main.go

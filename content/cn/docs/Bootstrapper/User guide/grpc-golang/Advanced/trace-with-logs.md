@@ -23,7 +23,7 @@ description: >
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 1949                      # Port of grpc entry
-    reflection: true
+    enableReflection: true
     commonService:
       enabled: true                 # Enable common service for testing
     interceptors:
@@ -45,7 +45,7 @@ ids={"eventId":"cd617f0c-2d93-45e1-bef0-95c89972530d"}
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 1949                      # Port of grpc entry
-    reflection: true
+    enableReflection: true
     commonService:
       enabled: true                 # Enable common service for testing
     interceptors:
@@ -81,7 +81,7 @@ ids={"eventId":"overridden-request-id","requestId":"overridden-request-id"}
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 1949                      # Port of grpc entry
-    reflection: true
+    enableReflection: true
     commonService:
       enabled: true                 # Enable common service for testing
     interceptors:
@@ -107,7 +107,7 @@ ids={"eventId":"dd19cf9a-c7be-486c-b29d-7af777a78ebe","requestId":"dd19cf9a-c7be
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 1949                      # Port of grpc entry
-    reflection: true
+    enableReflection: true
     interceptors:
       loggingZap:
         enabled: true
@@ -136,8 +136,8 @@ func main() {
 
 	// Get grpc entry with name
 	grpcEntry := boot.GetGrpcEntry("greeter")
-	grpcEntry.AddGrpcRegFuncs(registerGreeter)
-	grpcEntry.AddGwRegFuncs(greeter.RegisterGreeterHandlerFromEndpoint)
+	grpcEntry.AddRegFuncGrpc(registerGreeter)
+	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())
@@ -207,8 +207,8 @@ func main() {
 
 	// Get grpc entry with name
 	grpcEntry := boot.GetGrpcEntry("greeter")
-	grpcEntry.AddGrpcRegFuncs(registerGreeterB)
-	grpcEntry.AddGwRegFuncs(greeter.RegisterGreeterHandlerFromEndpoint)
+	grpcEntry.AddRegFuncGrpc(registerGreeterB)
+	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())
@@ -238,7 +238,10 @@ $ go run serverB.go
 
 ### 4.往 ServerA 发送请求
 ```shell script
+# Call grpc, both grpc and http will have same effect
 $ grpcurl -plaintext localhost:1949 api.v1.Greeter.Greeter
+# Call http, both grpc and http will have same effect
+$ curl "localhost:8080/v1/greeter?name=rk-dev"
 ```
 
 ### 5.验证日志
@@ -258,184 +261,6 @@ ids={"eventId":"05928652-642c-4c4a-829e-b27b81c979c7","requestId":"05928652-642c
 ------------------------------------------------------------------------
 ...
 ids={"eventId":"9b12380e-293d-4501-bc55-80a5b1295748","requestId":"9b12380e-293d-4501-bc55-80a5b1295748","traceId":"3614ffe216458f445a611a20e41be948"}
-...
-```
-
-### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
-
-## 启动 grpc-gateway
-> 我们将会启动 serverA 和 serverB，两个进程都会启动 grpc-gateway。
->
-> 在使用 grpc-gateway 相互通信的情况下，我们需要做如下两个事情:
-> 
-> 1. 从 serverA，把 trace 信息注入到 http 请求中。
-> 2. 在 serverB 中，开启 rkServerOption 选项，因为如果 grpc-gateway 会默认丢掉 trace 信息头部信息，导致 GRPC 拦截器无法得到 trace 信息。
-
-### 1.创建 ServerA 监听 1949 与 8080
-> **bootA.yaml**
-```yaml
----
-grpc:
-  - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-    interceptors:
-      loggingZap:
-        enabled: true
-      meta:
-        enabled: true
-      tracingTelemetry:
-        enabled: true
-```
-> **serverA.go**
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-demo/api/gen/v1"
-	"github.com/rookie-ninja/rk-grpc/interceptor/context"
-	"google.golang.org/grpc"
-)
-
-// Application entrance.
-func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootA.yaml"))
-
-	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
-	grpcEntry.AddGrpcRegFuncs(registerGreeter)
-	grpcEntry.AddGwRegFuncs(greeter.RegisterGreeterHandlerFromEndpoint)
-
-	// Bootstrap
-	boot.Bootstrap(context.Background())
-
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
-}
-
-func registerGreeter(server *grpc.Server) {
-	greeter.RegisterGreeterServer(server, &GreeterServer{})
-}
-
-type GreeterServer struct{}
-
-func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
-    // Call serverB at 8081 with http client
-	client := http.DefaultClient
-	
-	// Construct request point to Server B
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodGet, "http://localhost:8081/v1/greeter", nil)
-	
-	// Inject parent trace info into request header
-	rkgrpcctx.InjectSpanToHttpRequest(ctx, req)
-	
-	// Send request to Server B
-	client.Do(req)
-
-	return &greeter.GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", request.Name),
-	}, nil
-}
-```
-
-### 2.创建 ServerB 监听 2008 与 8081 
-> **bootB.yaml**
-```yaml
----
-grpc:
-  - name: greeter                   # Name of grpc entry
-    port: 2008                      # Port of grpc entry
-    reflection: true
-    gw:
-      enabled: true
-      port: 8081
-      rkServerOption: true          # Really important! Please enable it in order to bypass trace info header to grpc metadata
-    interceptors:
-      loggingZap:
-        enabled: true
-      meta:
-        enabled: true
-      tracingTelemetry:
-        enabled: true
-```
-> **serverB.go**
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-demo/api/gen/v1"
-	"github.com/rookie-ninja/rk-grpc/interceptor/context"
-	"google.golang.org/grpc"
-)
-
-// Application entrance.
-func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootB.yaml"))
-
-	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
-	grpcEntry.AddGrpcRegFuncs(registerGreeterB)
-	grpcEntry.AddGwRegFuncs(greeter.RegisterGreeterHandlerFromEndpoint)
-
-	// Bootstrap
-	boot.Bootstrap(context.Background())
-
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
-}
-
-func registerGreeterB(server *grpc.Server) {
-	greeter.RegisterGreeterServer(server, &GreeterServerB{})
-}
-
-type GreeterServerB struct{}
-
-func (server *GreeterServerB) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
-	return &greeter.GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", request.Name),
-	}, nil
-}
-```
-
-### 3.启动 ServerA 与 ServerB
-```shell script
-$ go run serverA.go
-$ go run serverB.go
-```
-
-### 4.往 ServerA 发送请求
-```shell script
-$ curl "localhost:8080/v1/greeter?name=rk-dev"
-```
-
-### 5.验证日志
-两个服务的日志中，会有同样的 traceId，不同的 requestId 和 eventId。
-
-我们可以通过 **grep** traceId 来追踪 RPC。
-
-> ServerA
-```shell script
-------------------------------------------------------------------------
-...
-ids={"eventId":"feb7becb-64f4-444c-b308-c5a401fc6a78","requestId":"feb7becb-64f4-444c-b308-c5a401fc6a78","traceId":"a7812b211f93031518396455743b21ab"}
-...
-```
-> ServerB
-```shell script
-------------------------------------------------------------------------
-...
-ids={"eventId":"dfc94e0c-fe58-4383-acbb-8910bd18df64","requestId":"dfc94e0c-fe58-4383-acbb-8910bd18df64","traceId":"a7812b211f93031518396455743b21ab"}
 ...
 ```
 

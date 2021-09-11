@@ -17,10 +17,7 @@ description: >
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
+    port: 8080                      # Port of grpc entry
 ```
 
 ### 2.创建 main.go
@@ -46,7 +43,7 @@ func main() {
     
     // !!!!!!
     // This codes should be located after Bootstrap()
-	grpcEntry.GwEntry.GwMux.HandlePath("GET", "/custom", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
+	grpcEntry.GwMux.HandlePath("GET", "/custom", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
 		w.Write([]byte("Custom routes!"))
 	})
 

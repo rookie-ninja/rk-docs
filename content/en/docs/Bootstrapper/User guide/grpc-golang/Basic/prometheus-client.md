@@ -3,7 +3,7 @@ title: "Prometheus client"
 linkTitle: "Prometheus client"
 weight: 6
 description: >
-  Enable prometheus client for server.
+  Enable prometheus client for the server.
 ---
 
 ## Installation
@@ -19,19 +19,18 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
 
 ## Prometheus options
 | name | description | type | default value |
 | ------ | ------ | ------ | ------ |
-| grpc.gw.prom.enabled | Enable prometheus | boolean | false |
-| grpc.gw.prom.path | Path of prometheus | string | /metrics |
-| grpc.gw.prom.pusher.enabled | Enable prometheus pusher | bool | false |
-| grpc.gw.prom.pusher.jobName | Job name would be attached as label while pushing to remote pushgateway | string | "" |
-| grpc.gw.prom.pusher.remoteAddress | PushGateWay address, could be form of http://x.x.x.x or x.x.x.x | string | "" |
-| grpc.gw.prom.pusher.intervalMs | Push interval in milliseconds | string | 1000 |
-| grpc.gw.prom.pusher.basicAuth | Basic auth used to interact with remote pushgateway, form of [user:pass] | string | "" |
-| grpc.gw.prom.pusher.cert.ref | Reference of rkentry.CertEntry | string | "" |
+| grpc.prom.enabled | Enable prometheus | boolean | false |
+| grpc.prom.path | Path of prometheus | string | /metrics |
+| grpc.prom.pusher.enabled | Enable prometheus pusher | bool | false |
+| grpc.prom.pusher.jobName | Job name would be attached as label while pushing to remote pushgateway | string | "" |
+| grpc.prom.pusher.remoteAddress | PushGateWay address, could be form of http://x.x.x.x or x.x.x.x | string | "" |
+| grpc.prom.pusher.intervalMs | Push interval in milliseconds | string | 1000 |
+| grpc.prom.pusher.basicAuth | Basic auth used to interact with remote pushgateway, form of [user:pass] | string | "" |
+| grpc.prom.pusher.cert.ref | Reference of rkentry.CertEntry | string | "" |
 
 ## Quick start
 ### 1.Create boot.yaml
@@ -39,12 +38,9 @@ go get github.com/rookie-ninja/rk-boot
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      prom:
-        enabled: true               # Enable prometheus client
+    port: 8080                      # Port of grpc entry
+    prom:
+      enabled: true                 # Enable prometheus client
 #      path: "metrics"              # Default value is "metrics", set path as needed.
 ```
 
@@ -149,20 +145,17 @@ Turn on pusher in boot.yaml.
 ---
 grpc:
   - name: greeter                             # Name of grpc entry
-    port: 1949                                # Port of grpc entry
-    gw:
-      enabled: true                           # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                              # Port of grpc-gateway
-      prom:
-        enabled: true                         # Enable prometheus client
-        pusher:
-          enabled : true                      # Enable backend job push metrics to remote pushgateway
-          jobName: "demo"                     # Name of current push job
-          remoteAddress: "localhost:9091"     # Remote address of pushgateway
-          intervalMs: 2000                    # Push interval in milliseconds
-#          basicAuth: "user:pass"             # Basic auth of pushgateway
-#          cert:
-#            ref: "ref"                       # Cert reference defined in CertEntry. Please see advanced user guide for details.
+    port: 8080                                # Port of grpc entry
+    prom:
+      enabled: true                           # Enable prometheus client
+      pusher:
+        enabled : true                        # Enable backend job push metrics to remote pushgateway
+        jobName: "demo"                       # Name of current push job
+        remoteAddress: "localhost:9091"       # Remote address of pushgateway
+        intervalMs: 2000                      # Push interval in milliseconds
+#        basicAuth: "user:pass"               # Basic auth of pushgateway
+#        cert:
+#          ref: "ref"                         # Cert reference defined in CertEntry. Please see advanced user guide for details.
 ```
 
 > Start pushgateway locally for testing
@@ -172,7 +165,7 @@ $ docker run prom/pushgateway -p 9091:9091
 
 > Validate metrics at local pushgateway
 >
-> [http://localhost:9091](http://localhost:909)
+> [http://localhost:9091](http://localhost:9091)
 
 ![pushgateway](/bootstrapper/user-guide/grpc-golang/basic/grpc-prom-pusher.png)
 

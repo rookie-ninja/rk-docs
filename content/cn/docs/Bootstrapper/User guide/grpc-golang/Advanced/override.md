@@ -22,7 +22,7 @@ description: >
 grpc:
   - name: greeter
     port: 1949
-    reflection: true
+    enableReflection: true
     commonService:
       enabled: true
 ```
@@ -33,7 +33,7 @@ grpc:
 grpc:
   - name: greeter
     port: 2008
-    reflection: true
+    enableReflection: true
     commonService:
       enabled: true
 ```
@@ -99,7 +99,7 @@ $ grpcurl -plaintext localhost:2008 rk.api.v1.RkCommonService.Healthy
 grpc:
   - name: greeter
     port: 1949
-    reflection: true
+    enableReflection: true
     commonService:
       enabled: true
 ```

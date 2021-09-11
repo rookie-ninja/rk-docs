@@ -40,7 +40,7 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.reflection | Enable grpc server reflection | boolean | false |
+| grpc.enableReflection | Enable grpc server reflection | boolean | false |
 
 ## CommonService options
 | name | description | type | default value |
@@ -53,10 +53,10 @@ go get github.com/rookie-ninja/rk-boot
 ---
 grpc:
   - name: greeter
-    port: 1949
-    reflection: true    # Enable reflection in order to use grpcurl for validation
+    port: 8080
+    enableReflection: true    # Enable reflection in order to use grpcurl for validation
     commonService:
-      enabled: true     # Enable common service
+      enabled: true           # Enable common service
 ```
 
 ### 2.Create main.go
@@ -82,18 +82,18 @@ func main() {
 ```
 
 ### 3.Validate
-> Install grpcurl from official site.
+> Install grpcurl from the official site.
 > https://github.com/fullstorydev/grpcurl
 
 ```shell script
-# List grpc services at port 1949 without TLS
+# List grpc services at port 8080 without TLS
 # Expect RkCommonService since we enabled common services.
-$ grpcurl -plaintext localhost:1949 list                           
+$ grpcurl -plaintext localhost:8080 list                           
 grpc.reflection.v1alpha.ServerReflection
 rk.api.v1.RkCommonService
 
 # List grpc methods in rk.api.v1.RkCommonService
-$ grpcurl -plaintext localhost:1949 list rk.api.v1.RkCommonService            
+$ grpcurl -plaintext localhost:8080 list rk.api.v1.RkCommonService            
 rk.api.v1.RkCommonService.Apis
 rk.api.v1.RkCommonService.Certs
 rk.api.v1.RkCommonService.Configs
@@ -111,7 +111,7 @@ rk.api.v1.RkCommonService.Sys
 rk.api.v1.RkCommonService.Git
 
 # Send request to rk.api.v1.RkCommonService.Healthy
-$ grpcurl -plaintext localhost:1949 rk.api.v1.RkCommonService.Healthy
+$ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Healthy
 {
     "healthy": true
 }
@@ -127,15 +127,12 @@ $ grpcurl -plaintext localhost:1949 rk.api.v1.RkCommonService.Healthy
 ---
 grpc:
   - name: greeter
-    port: 1949
-    reflection: true    # Enable reflection in order to use grpcurl for validation
+    port: 8080
+    enableReflection: true    # Enable reflection in order to use grpcurl for validation
     commonService:
-      enabled: true     # Enable common service
-    gw:
+      enabled: true           # Enable common service
+    sw:
       enabled: true
-      port: 8080
-      sw:
-        enabled: true
 ```
 
 > Validate

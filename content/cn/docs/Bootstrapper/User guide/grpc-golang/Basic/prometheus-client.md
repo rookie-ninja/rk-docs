@@ -19,19 +19,18 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.name | GRPC 服务名称 | string | "", server won't start | Required |
 | grpc.port | GRPC 服务端口 | integer | 0, server won't start | Required |
 | grpc.description | GRPC 服务的描述 | string | "" | Optional |
-| grpc.reflection | 启动 GRPC 反射功能 | boolean | false |
 
 ## Prometheus 选项
 | 名字 | 描述 | 类型 | 默认值 |
 | ------ | ------ | ------ | ------ |
-| grpc.gw.prom.enabled | 启动 prometheus | boolean | false |
-| grpc.gw.prom.path | Prometheus Web 路径 | string | /metrics |
-| grpc.gw.prom.pusher.enabled | 启动 prometheus pusher | bool | false |
-| grpc.gw.prom.pusher.jobName | JobName 将会以标签的形式添加到监控指标，并推送到远程 pushgateway | string | "" |
-| grpc.gw.prom.pusher.remoteAddress | Pushgateway 远程地址, http://x.x.x.x 或者 x.x.x.x | string | "" |
-| grpc.gw.prom.pusher.intervalMs | 推送间隔（毫秒） | string | 1000 |
-| grpc.gw.prom.pusher.basicAuth | 远程 Pushgateway 的 Basic auth。 格式：[user:pass] | string | "" |
-| grpc.gw.prom.pusher.cert.ref | rkentry.CertEntry 的引用，请参考高级指南 | string | "" |
+| grpc.prom.enabled | 启动 prometheus | boolean | false |
+| grpc.prom.path | Prometheus Web 路径 | string | /metrics |
+| grpc.prom.pusher.enabled | 启动 prometheus pusher | bool | false |
+| grpc.prom.pusher.jobName | JobName 将会以标签的形式添加到监控指标，并推送到远程 pushgateway | string | "" |
+| grpc.prom.pusher.remoteAddress | Pushgateway 远程地址, http://x.x.x.x 或者 x.x.x.x | string | "" |
+| grpc.prom.pusher.intervalMs | 推送间隔（毫秒） | string | 1000 |
+| grpc.prom.pusher.basicAuth | 远程 Pushgateway 的 Basic auth。 格式：[user:pass] | string | "" |
+| grpc.prom.pusher.cert.ref | rkentry.CertEntry 的引用，请参考高级指南 | string | "" |
 
 ## 快速开始
 ### 1.创建 boot.yaml
@@ -39,12 +38,9 @@ go get github.com/rookie-ninja/rk-boot
 ---
 grpc:
   - name: greeter                   # Name of grpc entry
-    port: 1949                      # Port of grpc entry
-    gw:
-      enabled: true                 # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                    # Port of grpc-gateway
-      prom:
-        enabled: true               # Enable prometheus client
+    port: 8080                      # Port of grpc entry
+    prom:
+      enabled: true                 # Enable prometheus client
 #      path: "metrics"              # Default value is "metrics", set path as needed.
 ```
 
@@ -149,20 +145,17 @@ func main() {
 ---
 grpc:
   - name: greeter                             # Name of grpc entry
-    port: 1949                                # Port of grpc entry
-    gw:
-      enabled: true                           # Enable grpc-gateway, https://github.com/grpc-ecosystem/grpc-gateway
-      port: 8080                              # Port of grpc-gateway
-      prom:
-        enabled: true                         # Enable prometheus client
-        pusher:
-          enabled : true                      # Enable backend job push metrics to remote pushgateway
-          jobName: "demo"                     # Name of current push job
-          remoteAddress: "localhost:9091"     # Remote address of pushgateway
-          intervalMs: 2000                    # Push interval in milliseconds
-#          basicAuth: "user:pass"             # Basic auth of pushgateway
-#          cert:
-#            ref: "ref"                       # Cert reference defined in CertEntry. Please see advanced user guide for details.
+    port: 8080                                # Port of grpc entry
+    prom:
+      enabled: true                           # Enable prometheus client
+      pusher:
+        enabled : true                        # Enable backend job push metrics to remote pushgateway
+        jobName: "demo"                       # Name of current push job
+        remoteAddress: "localhost:9091"       # Remote address of pushgateway
+        intervalMs: 2000                      # Push interval in milliseconds
+#        basicAuth: "user:pass"               # Basic auth of pushgateway
+#        cert:
+#          ref: "ref"                         # Cert reference defined in CertEntry. Please see advanced user guide for details.
 ```
 
 > 在本地启动 pushgateway
@@ -172,7 +165,7 @@ $ docker run prom/pushgateway -p 9091:9091
 
 > 在本地 pushgateway 中验证
 >
-> [http://localhost:9091](http://localhost:909)
+> [http://localhost:9091](http://localhost:9091)
 
 ![pushgateway](/bootstrapper/user-guide/grpc-golang/basic/grpc-prom-pusher.png)
 
