@@ -5,3 +5,5 @@ node_modules/
 tech-doc-hugo
 
 .idea
+
+.DS_Store
