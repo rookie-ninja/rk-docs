@@ -1,4 +1,5 @@
 # Docsy Example
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f5a5ed71-d0e2-4bef-a129-e27d45953685/deploy-status)](https://app.netlify.com/sites/rkdocs/deploys)
 
 [Docsy](https://github.com/google/docsy) is a Hugo theme for technical documentation sites, providing easy site navigation, structure, and more. This **Docsy Example Project** uses the Docsy theme, as well as providing a skeleton documentation structure for you to use. You can either copy this project and edit it with your own content, or use the theme in your projects like any other [Hugo theme](https://gohugo.io/themes/installing-and-using-themes/).
 
