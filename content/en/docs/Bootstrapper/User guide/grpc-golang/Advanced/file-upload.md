@@ -16,6 +16,7 @@ description: >
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 8080                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
 ```
 
 ### 2.Create main.go

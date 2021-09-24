@@ -18,6 +18,7 @@ go get github.com/rookie-ninja/rk-boot
 | ------ | ------ | ------ | ------ |
 | gin.name | The name of gin server | string | N/A |
 | gin.port | The port of gin server | integer | nil, server won't start |
+| gin.enabled | Enable gin entry | bool | false |
 | gin.description | Description of gin entry. | string | "" |
 
 ## Auth options
@@ -35,6 +36,7 @@ go get github.com/rookie-ninja/rk-boot
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     commonService:
       enabled: true          # Enable common service for testing
     interceptors:

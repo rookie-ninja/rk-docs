@@ -18,6 +18,7 @@ go get github.com/rookie-ninja/rk-boot
 | ------ | ------ | ------ | ------ |
 | gin.name | The name of gin server | string | N/A |
 | gin.port | The port of gin server | integer | nil, server won't start |
+| gin.enabled | Enable gin entry | bool | false |
 | gin.description | Description of gin entry. | string | "" |
 
 ## Prometheus options
@@ -39,6 +40,7 @@ go get github.com/rookie-ninja/rk-boot
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     prom:
       enabled: true     # Enable prometheus client
 #      path: "metrics"   # Default value is "metrics", set path as needed.
@@ -146,6 +148,7 @@ Turn on pusher in boot.yaml.
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     prom:
       enabled: true                         # Enable prometheus client
       pusher:

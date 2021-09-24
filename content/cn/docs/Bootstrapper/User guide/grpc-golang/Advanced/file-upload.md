@@ -18,6 +18,7 @@ GRPC 没有给我们提供一个简单文件上传 API，或者说通过 grpc-ga
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 8080                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
 ```
 
 ### 2.创建 main.go

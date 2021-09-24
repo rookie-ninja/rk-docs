@@ -67,6 +67,7 @@ eventLogger:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     sw:
       enabled: true
       jsonPath: "docs"

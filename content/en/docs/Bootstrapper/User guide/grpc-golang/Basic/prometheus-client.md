@@ -18,6 +18,7 @@ go get github.com/rookie-ninja/rk-boot
 | ------ | ------ | ------ | ------ | ------ |
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
+| grpc.enabled | Enable grpc entry | bool | false | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
 
 ## Prometheus options
@@ -39,6 +40,7 @@ go get github.com/rookie-ninja/rk-boot
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 8080                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
     prom:
       enabled: true                 # Enable prometheus client
 #      path: "metrics"              # Default value is "metrics", set path as needed.
@@ -146,6 +148,7 @@ Turn on pusher in boot.yaml.
 grpc:
   - name: greeter                             # Name of grpc entry
     port: 8080                                # Port of grpc entry
+    enabled: true                             # Enable grpc entry
     prom:
       enabled: true                           # Enable prometheus client
       pusher:

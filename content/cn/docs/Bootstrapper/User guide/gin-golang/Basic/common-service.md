@@ -39,6 +39,7 @@ go get github.com/rookie-ninja/rk-boot
 | ------ | ------ | ------ | ------ |
 | gin.name | Gin 服务名称 | string | N/A |
 | gin.port | Gin 服务端口 | integer | nil, server won't start |
+| gin.enabled | Gin 服务启动开关 ｜ bool | false |
 | gin.description | Gin 服务的描述 | string | "" |
 
 ## 通用 API 选项
@@ -53,6 +54,7 @@ go get github.com/rookie-ninja/rk-boot
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     commonService:
       enabled: true     # Enable common service
 ```
@@ -96,6 +98,7 @@ $ curl -X GET localhost:8080/rk/v1/healthy
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     commonService:
       enabled: true     # Enable common service
     sw:

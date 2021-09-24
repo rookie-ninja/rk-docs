@@ -22,6 +22,7 @@ description: >
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     commonService:
       enabled: true
 ```
@@ -32,6 +33,7 @@ gin:
 gin:
   - name: greeter
     port: 8081
+    enabled: true
     commonService:
       enabled: true
 ```
@@ -95,6 +97,7 @@ $ curl localhost:8081/rk/v1/healthy
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     commonService:
       enabled: true
 ```

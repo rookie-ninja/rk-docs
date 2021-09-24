@@ -206,6 +206,7 @@ zapLogger:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
 ```
 
 ```go
@@ -250,6 +251,7 @@ zapLogger:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     logger:
      zapLogger:
         ref: zap-logger
@@ -266,6 +268,7 @@ eventLogger:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
 ```
 
 ```go
@@ -330,6 +333,7 @@ eventLogger:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     logger:
       eventLogger:
         ref: event-logger

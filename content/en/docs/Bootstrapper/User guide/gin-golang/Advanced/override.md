@@ -21,6 +21,7 @@ In order to override bootstrapper file path, **\-\-rkboot** needs to be passed.
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     commonService:
       enabled: true
 ```
@@ -31,6 +32,7 @@ gin:
 gin:
   - name: greeter
     port: 8081
+    enabled: true
     commonService:
       enabled: true
 ```
@@ -94,6 +96,7 @@ Use **comma** to separate multiple overrides.
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     commonService:
       enabled: true
 ```

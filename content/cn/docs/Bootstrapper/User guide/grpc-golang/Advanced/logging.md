@@ -205,6 +205,7 @@ zapLogger:
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
 ```
 
 ```go
@@ -249,6 +250,7 @@ zapLogger:
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
     logger:
      zapLogger:
         ref: zap-logger
@@ -265,6 +267,7 @@ eventLogger:
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
 ```
 
 ```go
@@ -329,6 +332,7 @@ eventLogger:
 grpc:
   - name: greeter
     port: 1949
+    enabled: true
     logger:
       eventLogger:
         ref: event-logger

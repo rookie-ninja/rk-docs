@@ -21,6 +21,7 @@ In order to override bootstrapper file path, **\-\-rkboot** needs to be passed.
 grpc:
   - name: greeter
     port: 1949
+    enabled: true
     enableReflection: true
     commonService:
       enabled: true
@@ -32,6 +33,7 @@ grpc:
 grpc:
   - name: greeter
     port: 2008
+    enabled: true
     enableReflection: true
     commonService:
       enabled: true
@@ -98,6 +100,7 @@ Use **comma** to separate multiple overrides.
 grpc:
   - name: greeter
     port: 1949
+    enabled: true
     enableReflection: true
     commonService:
       enabled: true

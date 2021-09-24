@@ -24,6 +24,7 @@ description: >
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     interceptors:
       loggingZap:
         enabled: true
@@ -43,6 +44,7 @@ ids={"eventId":"cd617f0c-2d93-45e1-bef0-95c89972530d"}
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     interceptors:
       meta:
         enabled: true
@@ -75,6 +77,7 @@ ids={"eventId":"overridden-request-id","requestId":"overridden-request-id"}
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     interceptors:
       meta:
         enabled: true
@@ -98,6 +101,7 @@ ids={"eventId":"dd19cf9a-c7be-486c-b29d-7af777a78ebe","requestId":"dd19cf9a-c7be
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     interceptors:
       meta:
         enabled: true
@@ -154,6 +158,7 @@ func main() {
 gin:
   - name: greeter
     port: 8081
+    enabled: true
     interceptors:
       meta:
         enabled: true

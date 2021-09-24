@@ -75,6 +75,7 @@ cert:
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
     enableReflection: true
     cert:
       ref: "local-cert"                    # Enable grpc TLS
@@ -121,6 +122,7 @@ cert:
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
     cert:
       ref: "remote-cert"                   # Enable grpc TLS
     commonService: 
@@ -163,6 +165,7 @@ cert:
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
     cert:
       ref: "consul-cert"                   # Enable grpc TLS
     commonService: 
@@ -202,6 +205,7 @@ cert:
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
     cert:
       ref: "etcd-cert"                   # Enable grpc TLS
     commonService: 

@@ -56,6 +56,7 @@ config:
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
 ```
 
 ### 3.环境变量：REGION=singapore

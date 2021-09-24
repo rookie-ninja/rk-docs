@@ -31,6 +31,7 @@ app:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     commonService:
       enabled: true                   # Enable for validation
     tv: 

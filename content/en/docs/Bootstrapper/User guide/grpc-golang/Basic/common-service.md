@@ -39,6 +39,7 @@ go get github.com/rookie-ninja/rk-boot
 | ------ | ------ | ------ | ------ | ------ |
 | grpc.name | The name of grpc server | string | "", server won't start | Required |
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
+| grpc.enabled | Enable grpc entry | bool | false | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
 | grpc.enableReflection | Enable grpc server reflection | boolean | false |
 
@@ -54,6 +55,7 @@ go get github.com/rookie-ninja/rk-boot
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
     enableReflection: true    # Enable reflection in order to use grpcurl for validation
     commonService:
       enabled: true           # Enable common service
@@ -128,6 +130,7 @@ $ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Healthy
 grpc:
   - name: greeter
     port: 8080
+    enabled: true
     enableReflection: true    # Enable reflection in order to use grpcurl for validation
     commonService:
       enabled: true           # Enable common service

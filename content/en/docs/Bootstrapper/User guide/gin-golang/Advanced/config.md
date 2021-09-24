@@ -40,6 +40,7 @@ config:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
 ```
 
 ### 2.Refer config path

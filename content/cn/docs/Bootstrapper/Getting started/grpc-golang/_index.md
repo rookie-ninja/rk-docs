@@ -32,6 +32,7 @@ grpc 与 grpc-gateway 会默认使用同一个端口，rk-grpc 将会根据链�
 grpc:
   - name: greeter            # Required, Name of grpc entry
     port: 8080               # Required, Port of grpc entry
+    enabled: true            # Required, Enable grpc entry
     enableReflection: true   # Optional, Enable grpc server reflection, https://github.com/grpc/grpc/blob/master/doc/server-reflection.md
     enableRkGwOption: true   # Optional, Enable grpc gateway server option as RK style
     commonService:
@@ -309,13 +310,11 @@ $ curl "http://localhost:8080/api/v1/greeter?name=rk-dev"
 grpc:
   - name: greeter
     ...
-    gw:
-      ...
-      gwMappingFilePaths:
-        - "api/v1/gw_mapping.yaml"  # Boot will look for gateway mapping files and load information into memory
-      sw:
-        enabled: true
-        jsonPath: "api/gen/v1"      # Boot will look for swagger config files from this folder
+    gwMappingFilePaths:
+      - "api/v1/gw_mapping.yaml"  # Boot will look for gateway mapping files and load information into memory
+    sw:
+      enabled: true
+      jsonPath: "api/gen/v1"      # Boot will look for swagger config files from this folder
 ```
 
 ### 2.验证

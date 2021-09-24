@@ -29,6 +29,7 @@ $ go get github.com/rookie-ninja/rk-boot
 gin:
   - name: greeter       # Name of gin entry
     port: 8080          # Port of gin entry
+    enabled: true       # Enable gin entry
     sw:
       enabled: true     # Enable swagger UI
     commonService:

@@ -16,10 +16,12 @@ description: >
 grpc:
   - name: alice
     port: 1949
+    enabled: true
     commonService:
       enabled: true
   - name: bob
     port: 2008
+    enabled: true
     commonService:
       enabled: true
 ```

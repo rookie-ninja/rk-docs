@@ -23,6 +23,7 @@ description: >
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 1949                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
     enableReflection: true
     commonService:
       enabled: true                 # Enable common service for testing
@@ -45,6 +46,7 @@ ids={"eventId":"cd617f0c-2d93-45e1-bef0-95c89972530d"}
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 1949                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
     enableReflection: true
     commonService:
       enabled: true                 # Enable common service for testing
@@ -81,6 +83,7 @@ ids={"eventId":"overridden-request-id","requestId":"overridden-request-id"}
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 1949                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
     enableReflection: true
     commonService:
       enabled: true                 # Enable common service for testing
@@ -107,6 +110,7 @@ ids={"eventId":"dd19cf9a-c7be-486c-b29d-7af777a78ebe","requestId":"dd19cf9a-c7be
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 1949                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
     enableReflection: true
     interceptors:
       loggingZap:
@@ -179,6 +183,7 @@ func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.Greet
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 2008                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
     interceptors:
       loggingZap:
         enabled: true

@@ -16,8 +16,9 @@ go get github.com/rookie-ninja/rk-boot
 
 | 名字 | 描述 | 类型 | 默认值 | 必要与否
 | ------ | ------ | ------ | ------ | ------ |
-| grpc.name | GRPC 服务名称 | string | "", server won't start | Required |
-| grpc.port | GRPC 服务端口 | integer | 0, server won't start | Required |
+| grpc.name | GRPC 服务名称 | string | "", 服务不会启动 | Required |
+| grpc.port | GRPC 服务端口 | integer | 0, 服务不会启动 | Required |
+| grpc.enabled | GRPC 服务启动开关 ｜ bool | false | Required |
 | grpc.description | GRPC 服务的描述 | string | "" | Optional |
 
 ## 日志拦截器选项
@@ -96,6 +97,7 @@ RK 启动器把每一个 RPC 视作 **Event**，并且使用 [rk-query](https://
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 8080                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
     commonService:
       enabled: true                 # Enable common service for testing
     interceptors:

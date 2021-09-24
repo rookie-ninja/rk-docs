@@ -42,6 +42,7 @@ config:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
 ```
 
 ### 2.读取配置文件

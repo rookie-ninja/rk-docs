@@ -21,8 +21,9 @@ go get github.com/rookie-ninja/rk-boot
 
 | 名字 | 描述 | 类型 | 默认值 | 必要与否
 | ------ | ------ | ------ | ------ | ------ |
-| grpc.name | GRPC 服务名称 | string | "", server won't start | Required |
-| grpc.port | GRPC 服务端口 | integer | 0, server won't start | Required |
+| grpc.name | GRPC 服务名称 | string | "", 服务不会启动 | Required |
+| grpc.port | GRPC 服务端口 | integer | 0, 服务不会启动 | Required |
+| grpc.enabled | GRPC 服务启动开关 ｜ bool | false | Required |
 | grpc.description | GRPC 服务的描述 | string | "" | Optional |
 
 ## Swagger 选项
@@ -128,6 +129,7 @@ api/gen
 grpc:
   - name: greeter                   # Name of grpc entry
     port: 8080                      # Port of grpc entry
+    enabled: true                   # Enable grpc entry
     enableRkGwOption: true          # Enable RK style server options
     gwMappingFilePaths:
       - "api/v1/gw_mapping.yaml"    # Bootstrapper will look for gateway mapping files and load information into memory

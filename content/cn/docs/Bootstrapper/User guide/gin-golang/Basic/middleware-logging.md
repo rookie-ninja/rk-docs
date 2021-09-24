@@ -17,7 +17,8 @@ go get github.com/rookie-ninja/rk-boot
 | 名字 | 描述 | 类型 | 默认值 |
 | ------ | ------ | ------ | ------ |
 | gin.name | Gin 服务名称 | string | N/A |
-| gin.port | Gin 服务端口 | integer | nil, server won't start |
+| gin.port | Gin 服务端口 | integer | nil, 服务不会启动 |
+| gin.enabled | Gin 服务启动开关 ｜ bool | false |
 | gin.description | Gin 服务的描述 | string | "" |
 
 ## 日志拦截器选项
@@ -96,6 +97,7 @@ RK 启动器把每一个 RPC 视作 **Event**，并且使用 [rk-query](https://
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     commonService:
       enabled: true          # Enable common service for testing
     interceptors:

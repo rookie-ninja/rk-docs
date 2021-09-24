@@ -32,6 +32,7 @@ By default, grpc gateway and grpc will use same port. rk-grpc will distinguish c
 grpc:
   - name: greeter            # Required, Name of grpc entry
     port: 8080               # Required, Port of grpc entry
+    enabled: true            # Required, Enable grpc entry
     enableReflection: true   # Optional, Enable grpc server reflection, https://github.com/grpc/grpc/blob/master/doc/server-reflection.md
     enableRkGwOption: true   # Optional, Enable grpc gateway server option as RK style
     commonService:

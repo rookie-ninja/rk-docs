@@ -73,6 +73,7 @@ cert:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     cert:
       ref: "local-cert"
     commonService: 
@@ -112,6 +113,7 @@ cert:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     cert:
       ref: "remote-cert"
     commonService: 
@@ -154,6 +156,7 @@ cert:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     cert:
       ref: "consul-cert"
     commonService: 
@@ -193,6 +196,7 @@ cert:
 gin:
   - name: greeter
     port: 8080
+    enabled: true
     cert:
       ref: "etcd-cert"
     commonService: 

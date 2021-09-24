@@ -16,10 +16,12 @@ description: >
 gin:
   - name: alice
     port: 8080
+    enabled: true
     commonService:
       enabled: true
   - name: bob
     port: 8081
+    enabled: true
     commonService:
       enabled: true
 ```
