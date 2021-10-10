@@ -113,9 +113,9 @@ version = "0.0"
 url_latest_version = "https://rkdev.info"
 
 # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-github_repo = "https://github.com/rookie-ninja"
+github_repo = "https://github.com/rookie-ninja/rk-docs"
 # An optional link to a related project repo. For example, the sibling repository where your product code lives.
-github_project_repo = "https://github.com/rookie-ninja"
+github_project_repo = "https://github.com/rookie-ninja/rk-docs"
 
 # Specify a value here if your content directory is not in your repo's root directory
 # github_subdir = ""
