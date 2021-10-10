@@ -28,7 +28,7 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.interceptors.loggingZap.zapLoggerEncoding | 日志格式：json 或者 console | string | console |
 | grpc.interceptors.loggingZap.zapLoggerOutputPaths | 日志文件路径 | []string | stdout |
 | grpc.interceptors.loggingZap.eventLoggerEncoding | 日志格式：json 或者 console | string | console |
-| grpc.interceptors.loggingZap.eventLoggerOutputPaths | 日志文件路径 | []string | false |
+| grpc.interceptors.loggingZap.eventLoggerOutputPaths | 日志文件路径 | []string | stdout |
 
 ## 概念
 我们需要提前了解两个概念。
