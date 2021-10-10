@@ -9,7 +9,7 @@ description: >
 ## 先决条件
 启动 Swagger，我们需要先启动 grpc-gateway。
 
-请根据如下步骤启动： [prerequisite](/cn/docs/bootstrapper/user-guide/go/grpc/basic/grpc-gateway/#prerequisite)
+请根据如下步骤启动： [启动 gRPC-gateway](/cn/docs/bootstrapper/user-guide/go/grpc/basic/grpc-gateway/#prerequisite)
 
 ## 安装
 ```shell script
@@ -28,7 +28,7 @@ go get github.com/rookie-ninja/rk-boot
 
 ## Swagger 选项
 | 名字 | 描述 | 类型 | 默认值 | 必要与否
-| ------ | ------ | ------ | ------ |
+| ------ | ------ | ------ | ------ | ------ |
 | grpc.sw.enabled | 启动 Swagger | boolean | false |
 | grpc.sw.path | Swagger Web 界面路径 | string | /sw |
 | grpc.sw.jsonPath | 本地 Swagger 参数文件（swagger.json）路径本地 Swagger 参数文件（swagger.json）路径 | string | "" |

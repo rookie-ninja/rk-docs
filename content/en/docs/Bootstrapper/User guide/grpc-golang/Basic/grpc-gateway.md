@@ -54,6 +54,7 @@ $ rk install buf
 
 | Tool | Description | Installation |
 | ---- | ---- | ---- |
+| [protobuf](https://github.com/protocolbuffers/protobuf) | protocol buffer | [Install](http://google.github.io/proto-lens/installing-protoc.html) |
 | [buf](https://docs.buf.build) | Help you create consistent Protobuf APIs that preserve compatibility and comply with design best-practices. | [Install](https://docs.buf.build/installation) |
 | [protoc-gen-go](https://github.com/golang/protobuf/tree/master/protoc-gen-go) | Plugin for the Google protocol buffer compiler to generate Go code.. | [Install](https://grpc.io/docs/languages/go/quickstart/) |
 | [protoc-gen-go-grpc](https://github.com/grpc/grpc-go) | This project aims to provide that HTTP+JSON interface to your gRPC service. | [Install](https://grpc.io/docs/languages/go/quickstart/) |
