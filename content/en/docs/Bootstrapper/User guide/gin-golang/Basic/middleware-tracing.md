@@ -27,10 +27,13 @@ go get github.com/rookie-ninja/rk-boot
 | gin.interceptors.tracingTelemetry.enabled | Enable tracing interceptor | boolean | false |
 | gin.interceptors.tracingTelemetry.exporter.file.enabled | Enable file exporter | boolean | RK |
 | gin.interceptors.tracingTelemetry.exporter.file.outputPath | Export tracing info to files | string | stdout |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.enabled | Export tracing info jaeger | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorEndpoint | As name described | string | localhost:16368/api/trace |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorUsername | As name described | string | "" |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorPassword | As name described | string | "" |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.agent.enabled | Export tracing info to jaeger agent | boolean | false |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.agent.host | As name described | string | localhost |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.agent.port | As name described | int | 6831 |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.enabled | Export tracing info to jaeger collector | boolean | false |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.endpoint | As name described | string | http://localhost:16368/api/trace |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.username | As name described | string | "" |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.password | As name described | string | "" |
 
 ## Quick start
 ### 1.Create boot.yaml
@@ -135,7 +138,6 @@ grpc:
 ![](/bootstrapper/user-guide/cheers.png)
 
 ### 5.Export to jaeger
-Currently, because [openTelemetry](https://opentelemetry.io/) for jaeger agent exporter is not stable yet, we will use jaeger collector instead.
 
 > Start [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.23/getting-started/) for testing
 > ```shell script
@@ -162,10 +164,15 @@ grpc:
         enabled: true                                          # Enable tracing interceptor/middleware
         exporter:
           jaeger:
-            enabled: true                                      # Export to jaeger
-#            collectorEndpoint: "localhost:16368/api/trace"
-#            collectorUsername: ""
-#            collectorPassword: ""
+            agent:
+              enabled: true                                    # Export to jaeger agent
+#              host: ""                                        # Optional, default: localhost
+#              port: 0                                         # Optional, default: 6831
+#            collector:
+#              enabled: true                                   # Optional, default: false
+#              endpoint: ""                                    # Optional, default: http://localhost:14268/api/traces
+#              username: ""                                    # Optional, default: ""
+#              password: ""                                    # Optional, default: ""
 ```
 
 > Jaeger:

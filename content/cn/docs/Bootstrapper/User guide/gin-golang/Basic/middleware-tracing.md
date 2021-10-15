@@ -27,10 +27,13 @@ go get github.com/rookie-ninja/rk-boot
 | gin.interceptors.tracingTelemetry.enabled | 启动调用链拦截器 | boolean | false |
 | gin.interceptors.tracingTelemetry.exporter.file.enabled | 启动文件输出| boolean | RK |
 | gin.interceptors.tracingTelemetry.exporter.file.outputPath | 输出文件路径 | string | stdout |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.enabled | 启动 jaeger 输出 | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorEndpoint | jaeger 收集器地址 | string | localhost:16368/api/trace |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorUsername | jaeger 收集器用户名 | string | "" |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collectorPassword | jaeger 收集器密码 | string | "" |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.agent.enabled | jaeger agent 作为数据输出 | boolean | false |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.agent.host | jaeger agent 地址 | string | localhost |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.agent.port | jaeger agent 端口 | int | 6831 |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.enabled | jaeger collector 作为数据输出 | boolean | false |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.endpoint | jaeger collector 地址 | string | http://localhost:16368/api/trace |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.username | jaeger collector 用户名 | string | "" |
+| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.password | jaeger collector 密码 | string | "" |
 
 ## 快速开始
 ### 1.创建 boot.yaml
@@ -135,7 +138,6 @@ grpc:
 ![](/bootstrapper/user-guide/cheers.png)
 
 ### 5.输出到 jaeger
-因为 [openTelemetry](https://opentelemetry.io/) 对于 jaeger agent 的支持还有问题，我们使用 jaeger collector 来推送数据。
 
 > 本地启动 [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.23/getting-started/)
 > ```shell script
@@ -162,10 +164,15 @@ grpc:
         enabled: true                                          # Enable tracing interceptor/middleware
         exporter:
           jaeger:
-            enabled: true                                      # Export to jaeger
-#            collectorEndpoint: "localhost:16368/api/trace"
-#            collectorUsername: ""
-#            collectorPassword: ""
+            agent:
+              enabled: true                                    # Export to jaeger agent
+#              host: ""                                        # Optional, default: localhost
+#              port: 0                                         # Optional, default: 6831
+#            collector:
+#              enabled: true                                   # Optional, default: false
+#              endpoint: ""                                    # Optional, default: http://localhost:14268/api/traces
+#              username: ""                                    # Optional, default: ""
+#              password: ""                                    # Optional, default: ""
 ```
 
 > Jaeger:
