@@ -37,8 +37,8 @@ By default, metrics interceptor/middleware will record bellow metrics.
 All of three metrics have the same labels as bellow:
 | Label name | Description |
 | ---- | ---- |
-| entryName | Gin entry name |
-| entryType | Gin entry type |
+| entryName | gRPC entry name |
+| entryType | gRPC entry type |
 | realm | OS environment variable: REALM, eg: rk |
 | region | OS environment variable: REGION, eg: beijing |
 | az | OS environment variable: AZ, eg: beijing-1 |
