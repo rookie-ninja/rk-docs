@@ -140,7 +140,6 @@ grpc:
 ![](/bootstrapper/user-guide/cheers.png)
 
 ### 5.输出到 jaeger
-因为 [openTelemetry](https://opentelemetry.io/) 对于 jaeger agent 的支持还有问题，我们使用 jaeger collector 来推送数据。
 
 > 本地启动 [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.23/getting-started/)
 > ```shell script
