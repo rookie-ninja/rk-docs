@@ -246,7 +246,7 @@ $ go run serverB.go
 # Call grpc, both grpc and http will have same effect
 $ grpcurl -plaintext localhost:1949 api.v1.Greeter.Greeter
 # Call http, both grpc and http will have same effect
-$ curl "localhost:8080/v1/greeter?name=rk-dev"
+$ curl "localhost:1949/v1/greeter?name=rk-dev"
 ```
 
 ### 5.验证日志
