@@ -1,6 +1,6 @@
 ---
-title: "Middleware rate limit"
-linkTitle: "Middleware rate limit"
+title: "Interceptor rate limit"
+linkTitle: "Interceptor rate limit"
 weight: 10
 description: >
   Enable rate limit interceptor/middleware for the server.
