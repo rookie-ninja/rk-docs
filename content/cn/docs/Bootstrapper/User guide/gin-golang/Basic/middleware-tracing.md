@@ -25,7 +25,7 @@ go get github.com/rookie-ninja/rk-boot
 | 名字 | 描述 | 类型 | 默认值 |
 | ------ | ------ | ------ | ------ |
 | gin.interceptors.tracingTelemetry.enabled | 启动调用链拦截器 | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.file.enabled | 启动文件输出| boolean | RK |
+| gin.interceptors.tracingTelemetry.exporter.file.enabled | 启动文件输出| boolean | false |
 | gin.interceptors.tracingTelemetry.exporter.file.outputPath | 输出文件路径 | string | stdout |
 | gin.interceptors.tracingTelemetry.exporter.jaeger.agent.enabled | jaeger agent 作为数据输出 | boolean | false |
 | gin.interceptors.tracingTelemetry.exporter.jaeger.agent.host | jaeger agent 地址 | string | localhost |

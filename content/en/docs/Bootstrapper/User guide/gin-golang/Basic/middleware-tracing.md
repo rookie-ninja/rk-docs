@@ -25,7 +25,7 @@ go get github.com/rookie-ninja/rk-boot
 | name | description | type | default value |
 | ------ | ------ | ------ | ------ |
 | gin.interceptors.tracingTelemetry.enabled | Enable tracing interceptor | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.file.enabled | Enable file exporter | boolean | RK |
+| gin.interceptors.tracingTelemetry.exporter.file.enabled | Enable file exporter | boolean | false |
 | gin.interceptors.tracingTelemetry.exporter.file.outputPath | Export tracing info to files | string | stdout |
 | gin.interceptors.tracingTelemetry.exporter.jaeger.agent.enabled | Export tracing info to jaeger agent | boolean | false |
 | gin.interceptors.tracingTelemetry.exporter.jaeger.agent.host | As name described | string | localhost |

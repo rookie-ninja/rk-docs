@@ -80,7 +80,7 @@ func main() {
 > 发送请求
 
 ```shell script
-$ grpcurl -plaintext localhost:1949 rk.api.v1.RkCommonService.Healthy
+$ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Healthy
 {
     "healthy": true
 }
