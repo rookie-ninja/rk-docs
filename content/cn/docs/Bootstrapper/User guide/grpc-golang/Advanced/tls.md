@@ -55,7 +55,7 @@ $ cfssl gencert -config ca-config.json -ca ca.pem -ca-key ca-key.pem -profile ww
 | 配置项 | 详情 | 默认值 |
 | ------ | ------ | ------ |
 | cert.localFs.name | 本地文件系统获取器名称 | "" |
-| cert.localFs.locale | 遵从 locale: \<realm\>::\<region\>::\<az\>::\<domain\> | \*::\*::\*::\* | 
+| cert.localFs.locale | 遵从 locale: \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
 | cert.localFs.serverCertPath | 服务器证书路径 | "" |
 | cert.localFs.serverKeyPath | 服务器证书密钥路径 | "" |
 | cert.localFs.clientCertPath | 客户端证书路径 | "" |
@@ -69,7 +69,7 @@ cert:
   - name: "local-cert"                     # Required
     description: "Description of entry"    # Optional
     provider: "localFs"                    # Required, etcd, consul, localFs, remoteFs are supported options
-    locale: "*::*::*::*"                   # Optional, default: *::*::*::*
+    locale: "*::*::*::*"                   # Required, default: ""
     serverCertPath: "cert/server.pem"      # Optional, default: "", path of certificate on local FS
     serverKeyPath: "cert/server-key.pem"   # Optional, default: "", path of certificate on local FS
 grpc:
@@ -101,7 +101,7 @@ grpcurl -insecure localhost:8080 rk.api.v1.RkCommonService.Healthy
 | 配置项 | 详情 | 默认值 |
 | ------ | ------ | ------ |
 | cert.remoteFs.name | 远程文件服务获取器名称 | "" |
-| cert.remoteFs.locale | 遵从 locale：\<realm\>::\<region\>::\<az\>::\<domain\> | \*::\*::\*::\* | 
+| cert.remoteFs.locale | 遵从 locale：\<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
 | cert.remoteFs.endpoint | 远程地址： http://x.x.x.x 或者 x.x.x.x | N/A |
 | cert.remoteFs.basicAuth | Basic auth： <user:pass>. | "" |
 | cert.remoteFs.serverCertPath | 服务器证书路径	 | "" |
@@ -116,7 +116,7 @@ cert:
     description: "Description of entry"    # Optional
     provider: "remoteFs"                   # Required, etcd, consul, localFs, remoteFs are supported options
     endpoint: "localhost:8081"             # Required, both http://x.x.x.x or x.x.x.x are acceptable
-    locale: "*::*::*::*"                   # Optional, default: *::*::*::*
+    locale: "*::*::*::*"                   # Required, default: ""
     serverCertPath: "cert/server.pem"      # Optional, default: "", path of certificate on local FS
     serverKeyPath: "cert/server-key.pem"   # Optional, default: "", path of certificate on local FS
 grpc:
@@ -141,7 +141,7 @@ $ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
 | 配置项 | 详情 | 默认值 |
 | ------ | ------ | ------ |
 | cert.consul.name | Consul 获取器名称 | "" |
-| cert.consul.locale | 遵从 locale: \<realm\>::\<region\>::\<az\>::\<domain\> | \*::\*::\*::\* | 
+| cert.consul.locale | 遵从 locale: \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
 | cert.consul.endpoint | Consul 地址： http://x.x.x.x or x.x.x.x | N/A |
 | cert.consul.datacenter | Consul 数据中心 | "" |
 | cert.consul.token | Consul 访问密钥 | "" |
@@ -157,7 +157,7 @@ cert:
   - name: "consul-cert"                    # Required
     provider: "consul"                     # Required, etcd, consul, localFS, remoteFs are supported options
     description: "Description of entry"    # Optional
-    locale: "*::*::*::*"                   # Optional, default: *::*::*::*
+    locale: "*::*::*::*"                   # Required, ""
     endpoint: "localhost:8500"             # Required, http://x.x.x.x or x.x.x.x both acceptable.
     datacenter: "dc1"                      # Optional, default: "", consul datacenter
     serverCertPath: "server.pem"           # Optional, default: "", key of value in consul
@@ -184,7 +184,7 @@ $ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
 | 配置项 | 详情 | 默认值 |
 | ------ | ------ | ------ |
 | cert.etcd.name | ETCD 获取器名称 | "" |
-| cert.etcd.locale | 遵从 locale:  \<realm\>::\<region\>::\<az\>::\<domain\> | \*::\*::\*::\* | 
+| cert.etcd.locale | 遵从 locale:  \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
 | cert.etcd.endpoint | ETCD 地址：http://x.x.x.x or x.x.x.x | N/A |
 | cert.etcd.basicAuth | ETCD basic auth，格式：<user:pass>. | "" |
 | cert.etcd.serverCertPath | 服务器证书路径	 | "" |
@@ -198,7 +198,7 @@ cert:
   - name: "etcd-cert"                      # Required
     description: "Description of entry"    # Optional
     provider: "etcd"                       # Required, etcd, consul, localFs, remoteFs are supported options
-    locale: "*::*::*::*"                   # Optional, default: *::*::*::*
+    locale: "*::*::*::*"                   # Required, default: ""
     endpoint: "localhost:2379"             # Required, http://x.x.x.x or x.x.x.x both acceptable.
     serverCertPath: "server.pem"           # Optional, default: "", key of value in etcd
     serverKeyPath: "server-key.pem"        # Optional, default: "", key of value in etcd

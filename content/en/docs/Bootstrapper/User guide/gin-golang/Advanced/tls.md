@@ -55,7 +55,7 @@ $ cfssl gencert -config ca-config.json -ca ca.pem -ca-key ca-key.pem -profile ww
 | Name | Description | Default |
 | ------ | ------ | ------ |
 | cert.localFs.name | Name of localFs retriever | "" |
-| cert.localFs.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | \*::\*::\*::\* | 
+| cert.localFs.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
 | cert.localFs.serverCertPath | Path of server cert in local file system. | "" |
 | cert.localFs.serverKeyPath | Path of server key in local file system. | "" |
 | cert.localFs.clientCertPath | Path of client cert in local file system. | "" |
@@ -67,7 +67,7 @@ cert:
   - name: "local-cert"                     # Required
     description: "Description of entry"    # Optional
     provider: "localFs"                    # Required, etcd, consul, localFs, remoteFs are supported options
-    locale: "*::*::*::*"                   # Optional, default: *::*::*::*
+    locale: "*::*::*::*"                   # Required, default: ""
     serverCertPath: "cert/server.pem"      # Optional, default: "", path of certificate on local FS
     serverKeyPath: "cert/server-key.pem"   # Optional, default: "", path of certificate on local FS
 gin:
@@ -92,7 +92,7 @@ $ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
 | Name | Description | Default |
 | ------ | ------ | ------ |
 | cert.remoteFs.name | Name of remoteFileStore retriever | "" |
-| cert.remoteFs.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | \*::\*::\*::\* | 
+| cert.remoteFs.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
 | cert.remoteFs.endpoint | Endpoint of remoteFileStore server, http://x.x.x.x or x.x.x.x both acceptable. | N/A |
 | cert.remoteFs.basicAuth | Basic auth for remoteFileStore server, like <user:pass>. | "" |
 | cert.remoteFs.serverCertPath | Path of server cert in remoteFs server. | "" |
@@ -107,7 +107,7 @@ cert:
     description: "Description of entry"    # Optional
     provider: "remoteFs"                   # Required, etcd, consul, localFs, remoteFs are supported options
     endpoint: "localhost:8081"             # Required, both http://x.x.x.x or x.x.x.x are acceptable
-    locale: "*::*::*::*"                   # Optional, default: *::*::*::*
+    locale: "*::*::*::*"                   # Required, default: ""
     serverCertPath: "cert/server.pem"      # Optional, default: "", path of certificate on local FS
     serverKeyPath: "cert/server-key.pem"   # Optional, default: "", path of certificate on local FS
 gin:
@@ -132,7 +132,7 @@ $ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
 | Name | Description | Default |
 | ------ | ------ | ------ |
 | cert.consul.name | Name of consul retriever | "" |
-| cert.consul.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | \*::\*::\*::\* | 
+| cert.consul.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
 | cert.consul.endpoint | Endpoint of Consul server, http://x.x.x.x or x.x.x.x both acceptable. | N/A |
 | cert.consul.datacenter | consul datacenter. | "" |
 | cert.consul.token | Token for access consul. | "" |
@@ -148,7 +148,7 @@ cert:
   - name: "consul-cert"                    # Required
     provider: "consul"                     # Required, etcd, consul, localFS, remoteFs are supported options
     description: "Description of entry"    # Optional
-    locale: "*::*::*::*"                   # Optional, default: *::*::*::*
+    locale: "*::*::*::*"                   # Required, default: ""
     endpoint: "localhost:8500"             # Required, http://x.x.x.x or x.x.x.x both acceptable.
     datacenter: "dc1"                      # Optional, default: "", consul datacenter
     serverCertPath: "server.pem"           # Optional, default: "", key of value in consul
@@ -175,7 +175,7 @@ $ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
 | Name | Description | Default |
 | ------ | ------ | ------ |
 | cert.etcd.name | Name of etcd retriever | "" |
-| cert.etcd.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | \*::\*::\*::\* | 
+| cert.etcd.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
 | cert.etcd.endpoint | Endpoint of etcd server, http://x.x.x.x or x.x.x.x both acceptable. | N/A |
 | cert.etcd.basicAuth | Basic auth for etcd server, like <user:pass>. | "" |
 | cert.etcd.serverCertPath | Path of server cert in etcd server. | "" |
@@ -189,7 +189,7 @@ cert:
   - name: "etcd-cert"                      # Required
     description: "Description of entry"    # Optional
     provider: "etcd"                       # Required, etcd, consul, localFs, remoteFs are supported options
-    locale: "*::*::*::*"                   # Optional, default: *::*::*::*
+    locale: "*::*::*::*"                   # Required, default: ""
     endpoint: "localhost:2379"             # Required, http://x.x.x.x or x.x.x.x both acceptable.
     serverCertPath: "server.pem"           # Optional, default: "", key of value in etcd
     serverKeyPath: "server-key.pem"        # Optional, default: "", key of value in etcd
