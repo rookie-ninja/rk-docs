@@ -1,9 +1,9 @@
 ---
-title: "限流拦截器"
-linkTitle: "限流拦截器"
-weight: 11
+title: "超时拦截器"
+linkTitle: "超时拦截器"
+weight: 12
 description: >
-  启动限流拦截器。
+  启动超时拦截器。
 ---
 
 ## 安装
@@ -25,17 +25,18 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.noRecvMsgSizeLimit | 从 gRPC 服务端取消 4MB 最大接收限制 | boolean | false | Optional |
 | grpc.gwMappingFilePaths | gw_mapping.yaml 文件路径，用于 RK TV | []string | [] | Optional |
 
-## 限流选项
+## 超时选项
 | 名字 | 描述 | 类型 | 默认值 |
 | ------ | ------ | ------ | ------ |
-| grpc.interceptors.rateLimit.enabled | 启动限流拦截去 | boolean | false |
-| grpc.interceptors.rateLimit.algorithm | 限流算法， 支持 tokenBucket 和 leakyBucket | string | tokenBucket |
-| grpc.interceptors.rateLimit.reqPerSec | 全局限流值 | int | 0 |
-| grpc.interceptors.rateLimit.paths.path | gRPC 方法路径 | string | "" |
-| grpc.interceptors.rateLimit.paths.reqPerSec | 基于 gRPC 方法路径的限流值 | int | 0 |
+| grpc.interceptors.timeout.enabled | 启动超时拦截器 | boolean | false |
+| grpc.interceptors.timeout.timeoutMs | 超时时间，毫秒 | int | 5000 |
+| grpc.interceptors.timeout.paths.path | gRPC 方法路径 | string | "" |
+| grpc.interceptors.timeout.paths.timeoutMs | 基于 gRPC 方法路径的超时时间，毫秒 | int | 5000 |
 
 ## 快速开始
 ### 1.创建 boot.yaml
+我们让 GC 的超时时间定位 1 毫秒，GC 一般会超过 1 毫秒。
+
 ```yaml
 ---
 grpc:
@@ -43,15 +44,14 @@ grpc:
     port: 8080
     enabled: true
     commonService:
-      enabled: true          # Enable common service for testing
+      enabled: true                                 # Enable common service for testing
     interceptors:
-      rateLimit:
-        enabled: true
-        algorithm: "leakyBucket"
-        reqPerSec: 0
-        paths:
-          - path: "/rk.api.v1.RkCommonService/Healthy"
-            reqPerSec: 0
+      timeout:
+        enabled: true                               # Optional, default: false
+        timeoutMs: 5000                             # Optional, default: 5000
+        paths: 
+          - path: "/rk.api.v1.RkCommonService/Gc"   # Optional, default: ""
+            timeoutMs: 1                            # Optional, default: 5000
 ```
 
 ### 2.创建 main.go
@@ -80,22 +80,26 @@ func main() {
 > 发送请求
 
 ```shell script
-$ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Healthy
-Error invoking method "rk.api.v1.RkCommonService.Healthy": rpc error: code = ResourceExhausted desc = failed to query for service descriptor "rk.api.v1.RkCommonService": Slow down your request
+$ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Gc
+ERROR:
+  Code: Canceled
+  Message: Request timed out!
+  Details:
+  1)	{"@type":"type.googleapis.com/rk.api.v1.ErrorDetail","code":1,"message":"[from-grpc] Request timed out!","status":"Canceled"}
 ```
 
 ```shell script
-$ curl -X GET localhost:8080/rk/v1/healthy
+$ curl -X GET localhost:8080/rk/v1/gc
 {
     "error":{
-        "code":429,
-        "status":"Too Many Requests",
-        "message":"Slow down your request.",
+        "code":408,
+        "status":"Request Timeout",
+        "message":"Request timed out!",
         "details":[
             {
-                "code":8,
-                "status":"ResourceExhausted",
-                "message":"[from-grpc] Slow down your request."
+                "code":1,
+                "status":"Canceled",
+                "message":"[from-grpc] Request timed out!"
             }
         ]
     }

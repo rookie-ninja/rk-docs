@@ -18,7 +18,7 @@ go get github.com/rookie-ninja/rk-boot
 | ------ | ------ | ------ | ------ |
 | gin.name | Gin 服务名称 | string | N/A |
 | gin.port | Gin 服务端口 | integer | nil, 服务不会启动 |
-| gin.enabled | Gin 服务启动开关 ｜ bool | false |
+| gin.enabled | Gin 服务启动开关 | bool | false |
 | gin.description | Gin 服务的描述 | string | "" |
 
 ## Prometheus 选项

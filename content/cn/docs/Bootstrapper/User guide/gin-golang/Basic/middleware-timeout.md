@@ -1,9 +1,9 @@
 ---
-title: "限流拦截器"
-linkTitle: "限流拦截器"
-weight: 10
+title: "超时拦截器"
+linkTitle: "超时拦截器"
+weight: 11
 description: >
-  启动限流拦截器。
+  启动超时拦截器。
 ---
 
 ## 安装
@@ -21,17 +21,18 @@ go get github.com/rookie-ninja/rk-boot
 | gin.enabled | Gin 服务启动开关 | bool | false |
 | gin.description | Gin 服务的描述 | string | "" |
 
-## 限流选项
+## 超时选项
 | 名字 | 描述 | 类型 | 默认值 |
 | ------ | ------ | ------ | ------ |
-| gin.interceptors.rateLimit.enabled | 启动限流拦截器 | boolean | false |
-| gin.interceptors.rateLimit.algorithm | 限流算法， 支持 tokenBucket 和 leakyBucket | string | tokenBucket |
-| gin.interceptors.rateLimit.reqPerSec | 全局限流值 | int | 0 |
-| gin.interceptors.rateLimit.paths.path | 访问路径 | string | "" |
-| gin.interceptors.rateLimit.paths.reqPerSec | 基于访问路径的限流值 | int | 0 |
+| gin.interceptors.timeout.enabled | 启动超时拦截器 | boolean | false |
+| gin.interceptors.timeout.timeoutMs | 超时时间，毫秒 | int | 5000 |
+| gin.interceptors.timeout.paths.path | gRPC 方法路径 | string | "" |
+| gin.interceptors.timeout.paths.timeoutMs | 基于访问路径的超时时间，毫秒 | int | 5000 |
 
 ## 快速开始
 ### 1.创建 boot.yaml
+我们让 GC 的超时时间定位 1 毫秒，GC 一般会超过 1 毫秒。
+
 ```yaml
 ---
 gin:
@@ -39,15 +40,14 @@ gin:
     port: 8080
     enabled: true
     commonService:
-      enabled: true          # Enable common service for testing
+      enabled: true                                 # Enable common service for testing
     interceptors:
-      rateLimit:
-        enabled: true
-        algorithm: "leakyBucket"
-        reqPerSec: 100
-        paths:
-          - path: "/rk/v1/healthy"
-            reqPerSec: 0
+      timeout:
+        enabled: true                               # Optional, default: false
+        timeoutMs: 5000                             # Optional, default: 5000
+        paths: 
+          - path: "/rk/v1/gc"                       # Optional, default: ""
+            timeoutMs: 1                            # Optional, default: 5000
 ```
 
 ### 2.创建 main.go
@@ -76,15 +76,13 @@ func main() {
 > 发送请求
 
 ```shell script
-$ curl -X GET localhost:8080/rk/v1/healthy
+$ curl -X GET localhost:8080/rk/v1/gc
 {
     "error":{
-        "code":429,
-        "status":"Too Many Requests",
-        "message":"",
-        "details":[
-            "slow down your request"
-        ]
+        "code":408,
+        "status":"Request Timeout",
+        "message":"Request timed out!",
+        "details":[]
     }
 }
 ```

@@ -1,9 +1,9 @@
 ---
-title: "Interceptor rate limit"
-linkTitle: "Interceptor rate limit"
-weight: 10
+title: "Interceptor timeout"
+linkTitle: "Interceptor timeout"
+weight: 11
 description: >
-  Enable rate limit interceptor/middleware for the server.
+  Enable timeout interceptor/middleware for the server.
 ---
 
 ## Installation
@@ -25,14 +25,13 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.noRecvMsgSizeLimit | Disable grpc server side receive message size limit | boolean | false | Optional |
 | grpc.gwMappingFilePaths | The grpc gateway mapping file path | []string | [] | Optional |
 
-## Rate limit options
+## Timeout options
 | name | description | type | default value |
 | ------ | ------ | ------ | ------ |
-| grpc.interceptors.rateLimit.enabled | Enable rate limit interceptor | boolean | false |
-| grpc.interceptors.rateLimit.algorithm | Provide algorithm, tokenBucket and leakyBucket are available options | string | tokenBucket |
-| grpc.interceptors.rateLimit.reqPerSec | Request per second globally | int | 0 |
-| grpc.interceptors.rateLimit.paths.path | gRPC full name | string | "" |
-| grpc.interceptors.rateLimit.paths.reqPerSec | Request per second by gRPC full method name | int | 0 |
+| grpc.interceptors.timeout.enabled | Enable timeout interceptor | boolean | false |
+| grpc.interceptors.timeout.timeoutMs | Global timeout in milliseconds. | int | 5000 |
+| grpc.interceptors.timeout.paths.path | Full path | string | "" |
+| grpc.interceptors.timeout.paths.timeoutMs | Timeout in milliseconds by full path | int | 5000 |
 
 ## Quick start
 ### 1.Create boot.yaml
@@ -43,15 +42,14 @@ grpc:
     port: 8080
     enabled: true
     commonService:
-      enabled: true          # Enable common service for testing
+      enabled: true                                 # Enable common service for testing
     interceptors:
-      rateLimit:
-        enabled: false
-        algorithm: "leakyBucket"
-        reqPerSec: 0
-        paths:
-          - path: "/rk.api.v1.RkCommonService/Healthy"
-            reqPerSec: 0
+      timeout:
+        enabled: true                               # Optional, default: false
+        timeoutMs: 5000                             # Optional, default: 5000
+        paths: 
+          - path: "/rk.api.v1.RkCommonService/Gc"   # Optional, default: ""
+            timeoutMs: 1                            # Optional, default: 5000
 ```
 
 ### 2.Create main.go
@@ -80,22 +78,26 @@ func main() {
 > Send request
 
 ```shell script
-$ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Healthy
-Error invoking method "rk.api.v1.RkCommonService.Healthy": rpc error: code = ResourceExhausted desc = failed to query for service descriptor "rk.api.v1.RkCommonService": Slow down your request
+$ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Gc
+ERROR:
+  Code: Canceled
+  Message: Request timed out!
+  Details:
+  1)	{"@type":"type.googleapis.com/rk.api.v1.ErrorDetail","code":1,"message":"[from-grpc] Request timed out!","status":"Canceled"}
 ```
 
 ```shell script
-$ curl -X GET localhost:8080/rk/v1/healthy
+$ curl -X GET localhost:8080/rk/v1/gc
 {
     "error":{
-        "code":429,
-        "status":"Too Many Requests",
-        "message":"Slow down your request.",
+        "code":408,
+        "status":"Request Timeout",
+        "message":"Request timed out!",
         "details":[
             {
-                "code":8,
-                "status":"ResourceExhausted",
-                "message":"[from-grpc] Slow down your request."
+                "code":1,
+                "status":"Canceled",
+                "message":"[from-grpc] Request timed out!"
             }
         ]
     }

@@ -39,7 +39,7 @@ go get github.com/rookie-ninja/rk-boot
 | ------ | ------ | ------ | ------ |
 | gin.name | Gin 服务名称 | string | N/A |
 | gin.port | Gin 服务端口 | integer | nil, server won't start |
-| gin.enabled | Gin 服务启动开关 ｜ bool | false |
+| gin.enabled | Gin 服务启动开关 | bool | false |
 | gin.description | Gin 服务的描述 | string | "" |
 
 ## 通用 API 选项
