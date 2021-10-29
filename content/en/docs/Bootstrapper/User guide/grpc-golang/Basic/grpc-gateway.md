@@ -75,9 +75,10 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.port | The port of grpc server | integer | 0, server won't start | Required |
 | grpc.enabled | Enable grpc entry | bool | false | Required |
 | grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.enableReflection | Enable grpc server reflection | boolean | false |
-| grpc.enableRkGwOption | Rk style server option | bool | false | Optional |
-| grpc.gwMappingFilePaths | The path of gw_mapping.yaml files | []string | false |
+| grpc.enableReflection | Enable grpc server reflection | boolean | false | Optional |
+| grpc.enableRkGwOption | Enable RK style gateway server options. | boolean | false | Optional |
+| grpc.noRecvMsgSizeLimit | Disable grpc server side receive message size limit | boolean | false | Optional |
+| grpc.gwMappingFilePaths | The grpc gateway mapping file path | []string | [] | Optional |
 
 ## Quick start
 ### 1.Create api/v1/greeter.proto

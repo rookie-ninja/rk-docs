@@ -37,11 +37,14 @@ go get github.com/rookie-ninja/rk-boot
 
 | 名字 | 描述 | 类型 | 默认值 | 必要与否
 | ------ | ------ | ------ | ------ | ------ |
-| grpc.name | GRPC 服务名称 | string | "", 服务不会启动 | Required |
-| grpc.port | GRPC 服务端口 | integer | 0, 服务不会启动 | Required |
-| grpc.enabled | GRPC 服务启动开关 ｜ bool | false | Required |
-| grpc.description | GRPC 服务的描述 | string | "" | Optional |
-| grpc.enableReflection | 启动 GRPC 反射功能 | boolean | false |
+| grpc.name | gRPC 服务名称 | string | "", 服务不会启动 | Required |
+| grpc.port | gRPC 服务端口 | integer | 0, 服务不会启动 | Required |
+| grpc.enabled | gRPC 服务启动开关 ｜ bool | false | Required |
+| grpc.description | gRPC 服务的描述 | string | "" | Optional |
+| grpc.enableReflection | 启动 gRPC 反射功能 | boolean | false | Optional |
+| grpc.enableRkGwOption | 启动 RK 自定义 Gateway Option，此 option 会默认透传所有 Header | boolean | false | Optional |
+| grpc.noRecvMsgSizeLimit | 从 gRPC 服务端取消 4MB 最大接收限制 | boolean | false | Optional |
+| grpc.gwMappingFilePaths | gw_mapping.yaml 文件路径，用于 RK TV | []string | [] | Optional |
 
 ## CommonService options
 | 名字 | 描述 | 类型 | 默认值 |
