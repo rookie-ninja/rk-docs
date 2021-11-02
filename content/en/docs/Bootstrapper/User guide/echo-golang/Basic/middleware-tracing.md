@@ -12,34 +12,34 @@ go get github.com/rookie-ninja/rk-boot
 ```
 
 ## General options
-> These are general options to start a gin server with rk-boot
+> These are general options to start a echo server with rk-boot
 
 | name | description | type | default value |
 | ------ | ------ | ------ | ------ |
-| gin.name | The name of gin server | string | N/A |
-| gin.port | The port of gin server | integer | nil, server won't start |
-| gin.enabled | Enable gin entry | bool | false |
-| gin.description | Description of gin entry. | string | "" |
+| echo.name | The name of echo server | string | N/A |
+| echo.port | The port of echo server | integer | nil, server won't start |
+| echo.enabled | Enable echo entry | bool | false |
+| echo.description | Description of echo entry. | string | "" |
 
 ## Tracing options
 | name | description | type | default value |
 | ------ | ------ | ------ | ------ |
-| gin.interceptors.tracingTelemetry.enabled | Enable tracing interceptor | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.file.enabled | Enable file exporter | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.file.outputPath | Export tracing info to files | string | stdout |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.agent.enabled | Export tracing info to jaeger agent | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.agent.host | As name described | string | localhost |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.agent.port | As name described | int | 6831 |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.enabled | Export tracing info to jaeger collector | boolean | false |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.endpoint | As name described | string | http://localhost:16368/api/trace |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.username | As name described | string | "" |
-| gin.interceptors.tracingTelemetry.exporter.jaeger.collector.password | As name described | string | "" |
+| echo.interceptors.tracingTelemetry.enabled | Enable tracing interceptor | boolean | false |
+| echo.interceptors.tracingTelemetry.exporter.file.enabled | Enable file exporter | boolean | false |
+| echo.interceptors.tracingTelemetry.exporter.file.outputPath | Export tracing info to files | string | stdout |
+| echo.interceptors.tracingTelemetry.exporter.jaeger.agent.enabled | Export tracing info to jaeger agent | boolean | false |
+| echo.interceptors.tracingTelemetry.exporter.jaeger.agent.host | As name described | string | localhost |
+| echo.interceptors.tracingTelemetry.exporter.jaeger.agent.port | As name described | int | 6831 |
+| echo.interceptors.tracingTelemetry.exporter.jaeger.collector.enabled | Export tracing info to jaeger collector | boolean | false |
+| echo.interceptors.tracingTelemetry.exporter.jaeger.collector.endpoint | As name described | string | http://localhost:16368/api/trace |
+| echo.interceptors.tracingTelemetry.exporter.jaeger.collector.username | As name described | string | "" |
+| echo.interceptors.tracingTelemetry.exporter.jaeger.collector.password | As name described | string | "" |
 
 ## Quick start
 ### 1.Create boot.yaml
 ```yaml
 ---
-gin:
+echo:
   - name: greeter
     port: 8080
     enabled: true
@@ -122,7 +122,7 @@ $ curl -X GET localhost:8080/rk/v1/healthy
 
 ```yaml
 ---
-gin:
+echo:
   - name: greeter
     ...
     interceptors:
@@ -156,7 +156,7 @@ gin:
 
 ```yaml
 ---
-gin:
+echo:
   - name: greeter
     ...
     interceptors:
@@ -179,7 +179,7 @@ gin:
 > 
 > http://localhost:16686/
 
-![jaeger](/bootstrapper/user-guide/gin-golang/basic/gin-jaeger-inter.png)
+![jaeger](/bootstrapper/user-guide/echo-golang/basic/echo-jaeger-inter.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
