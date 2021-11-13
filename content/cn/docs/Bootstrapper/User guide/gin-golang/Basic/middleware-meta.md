@@ -1,13 +1,13 @@
 ---
-title: "原数据拦截器"
-linkTitle: "原数据拦截器"
+title: "元数据拦截器"
+linkTitle: "元数据拦截器"
 weight: 8
 description: >
-  启动原数据拦截器。
+  启动元数据拦截器。
 ---
 
 ## 概述
-原数据拦截器将会把下面的信息，以 HTTP 头部的形式，返回给客户。
+元数据拦截器将会把下面的信息，以 HTTP 头部的形式，返回给客户。
 
 | Header 键 | 详情 |
 | ---- | ---- |
@@ -32,10 +32,10 @@ go get github.com/rookie-ninja/rk-boot
 | gin.enabled | Gin 服务启动开关 | bool | false |
 | gin.description | Gin 服务的描述 | string | "" |
 
-## 原数据选项
+## 元数据选项
 | 名字 | 描述 | 类型 | 默认值 |
 | ------ | ------ | ------ | ------ |
-| gin.interceptors.meta.enabled | 启动原数据拦截器 | boolean | false |
+| gin.interceptors.meta.enabled | 启动元数据拦截器 | boolean | false |
 | gin.interceptors.meta.prefix | X-<Prefix>-XXX | string | RK |
 
 ## 快速开始
