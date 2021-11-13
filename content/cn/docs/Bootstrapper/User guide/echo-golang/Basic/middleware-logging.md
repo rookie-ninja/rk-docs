@@ -54,7 +54,7 @@ RK 启动器把每一个 RPC 视作 **Event**，并且使用 [rk-query](https://
 | startTime | 开始时间 |
 | elapsedNano | Event 时间开销（Nanoseconds） |
 | timezone | 时区 |
-| ids | 包含 eventId, requestId 和 traceId。如果原数据拦截器被启动，或者 event.SetRequest() 被用户调用，新的 RequestId 将会被使用，同时 eventId 与 requestId 会一模一样。 如果调用链拦截器被启动，traceId 将会被记录。|
+| ids | 包含 eventId, requestId 和 traceId。如果元数据拦截器被启动，或者 event.SetRequest() 被用户调用，新的 RequestId 将会被使用，同时 eventId 与 requestId 会一模一样。 如果调用链拦截器被启动，traceId 将会被记录。|
 | app | 包含 [appName, appVersion](https://github.com/rookie-ninja/rk-entry#appinfoentry), entryName, entryType。 |
 | env | 包含 arch, az, domain, hostname, localIP, os, realm, region. realm, region, az, domain 字段。这些字段来自系统环境变量（REALM，REGION，AZ，DOMAIN）。 "*" 代表环境变量为空。|
 | payloads | 包含 RPC 相关信息。 |
@@ -196,7 +196,7 @@ echo:
 ![](/bootstrapper/user-guide/cheers.png)
 
 ### 5.获取 RPC 日志实例
-根据 zap logger，当每一次 RPC 请求进来的时候，拦截器会把 RequestId（当启动了原数据拦截器）注入到日志实例中。换句话说，每一个 RPC 请求，都会有一个新的 Logger 实例。
+根据 zap logger，当每一次 RPC 请求进来的时候，拦截器会把 RequestId（当启动了元数据拦截器）注入到日志实例中。换句话说，每一个 RPC 请求，都会有一个新的 Logger 实例。
 ```go
 func Greeter(ctx echo.Context) error {
 	rkechoctx.GetLogger(ctx).Info("Received request")

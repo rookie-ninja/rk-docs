@@ -18,7 +18,7 @@ description: >
 - Prometheus 客户端
 - 日志拦截器
 - 监控拦截器
-- 原数据拦截器
+- 元数据拦截器
 - 调用链拦截器（没有 Exporter）
 
 ## 布局

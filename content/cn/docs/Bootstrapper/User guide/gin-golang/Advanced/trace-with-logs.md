@@ -14,7 +14,7 @@ description: >
 ![](/bootstrapper/user-guide/gin-golang/advanced/trace-arch.png)
 
 ## 概念
-当启动了日志拦截器，原数据拦截器，调用链拦截器的时候，拦截器会往日志里写入如下三种 ID。
+当启动了日志拦截器，元数据拦截器，调用链拦截器的时候，拦截器会往日志里写入如下三种 ID。
 
 ### EventId
 当启动了日志拦截器，EventId 会自动生成。
@@ -37,7 +37,7 @@ ids={"eventId":"cd617f0c-2d93-45e1-bef0-95c89972530d"}
 ```
 
 ### RequestId
-当启动了日志拦截器和原数据拦截器，RequestId 和 EventId 会自动生成，并且这两个 ID 会一致。
+当启动了日志拦截器和元数据拦截器，RequestId 和 EventId 会自动生成，并且这两个 ID 会一致。
 
 ```yaml
 ---
