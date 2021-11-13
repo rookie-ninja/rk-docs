@@ -1,13 +1,13 @@
 ---
-title: "原数据拦截器"
-linkTitle: "原数据拦截器"
+title: "元数据拦截器"
+linkTitle: "元数据拦截器"
 weight: 9
 description: >
-  启动原数据拦截器。
+  启动元数据拦截器。
 ---
 
 ## 概述
-原数据拦截器将会把下面的信息，以 HTTP 头部的形式，返回给客户。
+元数据拦截器将会把下面的信息，以 HTTP 头部的形式，返回给客户。
 
 | Header 键 | 详情 |
 | ---- | ---- |
@@ -36,10 +36,10 @@ go get github.com/rookie-ninja/rk-boot
 | grpc.noRecvMsgSizeLimit | 从 gRPC 服务端取消 4MB 最大接收限制 | boolean | false | Optional |
 | grpc.gwMappingFilePaths | gw_mapping.yaml 文件路径，用于 RK TV | []string | [] | Optional |
 
-## 原数据选项
+## 元数据选项
 | 名字 | 描述 | 类型 | 默认值 |
 | ------ | ------ | ------ | ------ |
-| grpc.interceptors.meta.enabled | 启动原数据拦截器 | boolean | false |
+| grpc.interceptors.meta.enabled | 启动元数据拦截器 | boolean | false |
 | grpc.interceptors.meta.prefix | X-<Prefix>-XXX | string | RK |
 
 ## 快速开始
