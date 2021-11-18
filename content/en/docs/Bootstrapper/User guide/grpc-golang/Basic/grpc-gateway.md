@@ -279,7 +279,7 @@ $ curl "localhost:8080/api/v1/greeter?name=rk-dev"
 | Functionality | Description |
 | ---- | ---- |
 | HttpErrorHandler | Mainly copied from original gateway error handler. RK wrap errors to RK style error response. |
-| MarshalerOption | protojson.MarshalOptions{UseProtoNames: false, EmitUnpopulated: true},UnmarshalOptions: protojson.UnmarshalOptions{}} |
+| MarshallerOption | protojson.MarshalOptions{UseProtoNames: false, EmitUnpopulated: true},UnmarshalOptions: protojson.UnmarshalOptions{}} |
 | Metadata | Inject x-forwarded-method, x-forwarded-path, x-forwarded-scheme, x-forwarded-user-agent and x-forwarded-remote-addr into grpc metadata |
 | OutgoingHeaderMatcher | Bypass all grpc metadata to http header without prefix |
 | IncomingHeaderMatcher | Bypass all http header to grpc metadata without prefix |
@@ -326,6 +326,32 @@ func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.Greet
 ```
 ```shell script
 map[:authority:[0.0.0.0:8080] accept:[*/*] content-type:[application/grpc] user-agent:[grpc-go/1.38.0] x-forwarded-for:[::1] x-forwarded-host:[localhost:8080] x-forwarded-method:[GET] x-forwarded-path:[/v1/greeter] x-forwarded-remote-addr:[[::1]:57082] x-forwarded-scheme:[http] x-forwarded-user-agent:[curl/7.64.1]]
+```
+
+### 4.Override gateway server option for marshaller
+In some cases, we may hope to override marshaller options. For example, returning underscore style restful result instead of camelcase. 
+
+Please refer to bellow repository for detailed explanations.
+- [protobuf-go/encoding/protojson/encode.go](https://github.com/protocolbuffers/protobuf-go/blob/master/encoding/protojson/encode.go#L43)
+- [protobuf-go/encoding/protojson/decode.go ](https://github.com/protocolbuffers/protobuf-go/blob/master/encoding/protojson/decode.go#L33)
+
+```yaml
+grpc:
+  - name: greeter                                     # Required
+    port: 8080                                        # Required
+    enabled: true                                     # Required
+    enableRkGwOption: true                            # Optional, default: false
+    gwOption:                                         # Optional, default: nil
+      marshal:                                        # Optional, default: nil
+        multiline: false                              # Optional, default: false
+        emitUnpopulated: false                        # Optional, default: false
+        indent: ""                                    # Optional, default: false
+        allowPartial: false                           # Optional, default: false
+        useProtoNames: false                          # Optional, default: false
+        useEnumNumbers: false                         # Optional, default: false
+      unmarshal:                                      # Optional, default: nil
+        allowPartial: false                           # Optional, default: false
+        discardUnknown: false                         # Optional, default: false
 ```
 
 ### _**Cheers**_

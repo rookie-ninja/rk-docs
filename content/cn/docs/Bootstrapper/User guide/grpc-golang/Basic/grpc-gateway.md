@@ -327,6 +327,32 @@ func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.Greet
 map[:authority:[0.0.0.0:8080] accept:[*/*] content-type:[application/grpc] user-agent:[grpc-go/1.38.0] x-forwarded-for:[::1] x-forwarded-host:[localhost:8080] x-forwarded-method:[GET] x-forwarded-path:[/v1/greeter] x-forwarded-remote-addr:[[::1]:57082] x-forwarded-scheme:[http] x-forwarded-user-agent:[curl/7.64.1]]
 ```
 
+### 4.覆盖 gateway server option for marshaller
+在某些场景，我们希望覆盖掉默认的 gateway server option 的 marshaller。比如过，让 gateway 的返回值为下划线格式，而不是默认的驼峰格式。
+
+请参考如下的源代码，rk-boot 的选项都是来源于如下 struct。
+- [protobuf-go/encoding/protojson/encode.go](https://github.com/protocolbuffers/protobuf-go/blob/master/encoding/protojson/encode.go#L43)
+- [protobuf-go/encoding/protojson/decode.go ](https://github.com/protocolbuffers/protobuf-go/blob/master/encoding/protojson/decode.go#L33)
+
+```yaml
+grpc:
+  - name: greeter                                     # Required
+    port: 8080                                        # Required
+    enabled: true                                     # Required
+    enableRkGwOption: true                            # Optional, default: false
+    gwOption:                                         # Optional, default: nil
+      marshal:                                        # Optional, default: nil
+        multiline: false                              # Optional, default: false
+        emitUnpopulated: false                        # Optional, default: false
+        indent: ""                                    # Optional, default: false
+        allowPartial: false                           # Optional, default: false
+        useProtoNames: false                          # Optional, default: false
+        useEnumNumbers: false                         # Optional, default: false
+      unmarshal:                                      # Optional, default: nil
+        allowPartial: false                           # Optional, default: false
+        discardUnknown: false                         # Optional, default: false
+```
+
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
 
