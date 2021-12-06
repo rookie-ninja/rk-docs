@@ -26,7 +26,7 @@ go get github.com/rookie-ninja/rk-boot
 | ------ | ------ | ------ | ------ |
 | echo.interceptors.timeout.enabled | 启动超时拦截器 | boolean | false |
 | echo.interceptors.timeout.timeoutMs | 超时时间，毫秒 | int | 5000 |
-| echo.interceptors.timeout.paths.path | gRPC 方法路径 | string | "" |
+| echo.interceptors.timeout.paths.path | Echo 方法路径 | string | "" |
 | echo.interceptors.timeout.paths.timeoutMs | 基于访问路径的超时时间，毫秒 | int | 5000 |
 
 ## 快速开始

@@ -28,7 +28,7 @@ go get github.com/rookie-ninja/rk-boot
 | echo.interceptors.loggingZap.zapLoggerEncoding | json or console | string | console |
 | echo.interceptors.loggingZap.zapLoggerOutputPaths | Output paths | []string | stdout |
 | echo.interceptors.loggingZap.eventLoggerEncoding | json or console | string | console |
-| echoecho.interceptors.loggingZap.eventLoggerOutputPaths | Output paths | []string | false |
+| echo.interceptors.loggingZap.eventLoggerOutputPaths | Output paths | []string | false |
 
 ## Concept
 In order to monitor every RPC request, we introduce [EventLogger](https://github.com/rookie-ninja/rk-query) and [ZapLogger](https://github.com/uber-go/zap)

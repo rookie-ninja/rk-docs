@@ -122,7 +122,7 @@ $ curl -X GET localhost:8080/rk/v1/healthy
 
 ```yaml
 ---
-grpc:
+echo:
   - name: greeter
     ...
     interceptors:
@@ -156,7 +156,7 @@ grpc:
 
 ```yaml
 ---
-grpc:
+echo:
   - name: greeter
     ...
     interceptors:

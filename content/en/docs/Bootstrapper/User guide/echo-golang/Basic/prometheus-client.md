@@ -168,7 +168,7 @@ $ docker run prom/pushgateway -p 9091:9091
 
 > Validate metrics at local pushgateway
 >
-> [http://localhost:9091](http://localhost:909)
+> [http://localhost:9091](http://localhost:9091)
 
 ![pushgateway](/bootstrapper/user-guide/echo-golang/basic/echo-prom-pusher.png)
 

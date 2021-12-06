@@ -27,9 +27,9 @@ $ go get github.com/rookie-ninja/rk-boot
 ```yaml
 ---
 echo:
-  - name: greeter       # Name of gin entry
-    port: 8080          # Port of gin entry
-    enabled: true       # Enable gin entry
+  - name: greeter       # Name of echo entry
+    port: 8080          # Port of echo entry
+    enabled: true       # Enable echo entry
     sw:
       enabled: true     # Enable swagger UI
     commonService:
@@ -71,7 +71,7 @@ startTime=2021-11-02T05:13:03.958277+08:00
 elapsedNano=1743749
 timezone=CST
 ids={"eventId":"4ca7e0de-a5ff-4d94-91fa-dc5f75c599fb"}
-app={"appName":"gin-demo","appVersion":"master-8ad197d","entryName":"greeter","entryType":"EchoEntry"}
+app={"appName":"echo-demo","appVersion":"master-8ad197d","entryName":"greeter","entryType":"EchoEntry"}
 env={"arch":"amd64","az":"*","domain":"*","hostname":"lark.local","localIP":"10.8.0.6","os":"darwin","realm":"*","region":"*"}
 payloads={"entryName":"greeter","entryType":"EchoEntry","port":8080}
 error={}
@@ -88,11 +88,11 @@ EOE
 ### 5.Validate
 > **Swagger:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
-![](/bootstrapper/getting-started/gin-golang/gin-sw.png)
+![](/bootstrapper/getting-started/echo-golang/echo-sw.png)
 
 > **TV:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
-![](/bootstrapper/getting-started/gin-golang/gin-tv.png)
+![](/bootstrapper/getting-started/echo-golang/echo-tv.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
@@ -182,7 +182,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo/v4"
 	"github.com/rookie-ninja/rk-boot"
 	"net/http"
 )
@@ -227,7 +227,7 @@ $ tree
 In order to make rk-boot finds out available swagger config files, we need to add **echo.sw.jsonPath** in boot.yaml file.
 ```yaml
 ---
-gin:
+echo:
   - name: greeter
     ...
     sw:
@@ -239,11 +239,11 @@ gin:
 ### 5.Validate
 > **Swagger:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
-![](/bootstrapper/getting-started/gin-golang/gin-sw-api.png)
+![](/bootstrapper/getting-started/echo-golang/echo-sw-api.png)
 
 > **TV:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
-![](/bootstrapper/getting-started/gin-golang/gin-tv-api.png)
+![](/bootstrapper/getting-started/echo-golang/echo-tv-api.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)

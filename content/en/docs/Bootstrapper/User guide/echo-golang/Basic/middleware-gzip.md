@@ -12,7 +12,7 @@ go get github.com/rookie-ninja/rk-boot
 ```
 
 ## General options
-> These are general options to start a echo server with rk-boot
+> These are general options to start an echo server with rk-boot
 
 | name | description | type | default value |
 | ------ | ------ | ------ | ------ |

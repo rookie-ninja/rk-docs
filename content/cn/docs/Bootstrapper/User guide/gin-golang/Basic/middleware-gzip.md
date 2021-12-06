@@ -1,9 +1,9 @@
 ---
-title: "超时拦截器"
-linkTitle: "超时拦截器"
+title: "Gzip 拦截器"
+linkTitle: "Gzip 拦截器"
 weight: 13
 description: >
-  启动超时拦截器。
+  启动 Gzip 拦截器。
 ---
 
 ## 安装
