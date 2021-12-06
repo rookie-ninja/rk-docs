@@ -10,7 +10,7 @@ description: >
 rk-boot 提供了一个方便的方法，让用户快速实现通过网页浏览和下载静态文件的功能。
 
 目前，rk-boot 支持如下文件源。如果用户希望支持更多的文件源，可以通过实现 http.FileSystem 接口来实现。
-- 文帝文件系统
+- 本地文件系统
 - [pkger](https://github.com/markbates/pkger)
 
 ## 快速开始
