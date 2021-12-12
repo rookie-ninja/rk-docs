@@ -64,6 +64,7 @@ $ rk install buf
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-grpc
 ```
 
 ## General options
@@ -193,6 +194,7 @@ import (
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
 	"github.com/rookie-ninja/rk-demo/api/gen/v1"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 	"google.golang.org/grpc"
 )
 

@@ -93,6 +93,13 @@ ids={"eventId":"dd19cf9a-c7be-486c-b29d-7af777a78ebe","requestId":"dd19cf9a-c7be
 ```
 
 ## Quick start
+- Install
+
+```shell script
+go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
+```
+
 ### 1.Create ServerA at 8080
 > **bootA.yaml**
 ```yaml
@@ -117,6 +124,7 @@ import (
 	"context"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gf/boot"
 	"github.com/rookie-ninja/rk-gf/interceptor/context"
 	"net/http"
 )
@@ -127,7 +135,8 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootA.yaml"))
 
 	// Register handler
-	boot.GetGfEntry("greeter").Server.BindHandler("/v1/hello", func(ctx *ghttp.Request) {
+	gfEntry := boot.GetEntry("greeter").(*rkgf.GfEntry)
+    gfEntry.Server.BindHandler("/v1/hello", func(ctx *ghttp.Request) {
 		client := http.DefaultClient
 
 		// Construct request point to Server B
@@ -175,6 +184,7 @@ import (
 	"context"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gf/boot"
 	"net/http"
 )
 
@@ -184,7 +194,8 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootB.yaml"))
 
 	// Register handler
-	boot.GetGfEntry("greeter").Server.BindHandler("/v1/hello", func(ctx *ghttp.Request) {
+	gfEntry := boot.GetEntry("greeter").(*rkgf.GfEntry)
+	gfEntry.Server.BindHandler("/v1/hello", func(ctx *ghttp.Request) {
 		ctx.Response.WriteHeader(http.StatusOK)
 		ctx.Response.WriteJson("Hello!")
 	})

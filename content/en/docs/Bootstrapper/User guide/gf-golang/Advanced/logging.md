@@ -195,6 +195,13 @@ rkentry.GlobalAppCtx.GetEventLoggerEntry("event-logger").GetLumberjackConfig()
 ```
 
 ## Quick start
+- Install
+
+```shell script
+go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
+```
+
 ### 1.Custom ZapLoggerEntry
 ```yaml
 ---

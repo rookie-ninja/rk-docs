@@ -26,7 +26,9 @@ $ go get -u github.com/swaggo/swag/cmd/swag
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gin
 ```
+
 
 ## General options
 > These are general options to start a gin server with rk-boot
@@ -73,6 +75,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gin/boot"
 	"net/http"
 )
 
@@ -86,7 +89,8 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler
-	boot.GetGinEntry("greeter").Router.GET("/v1/greeter", Greeter)
+	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	ginEntry.Router.GET("/v1/greeter", Greeter)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

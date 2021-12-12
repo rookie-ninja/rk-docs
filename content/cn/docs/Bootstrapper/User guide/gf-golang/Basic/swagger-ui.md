@@ -26,6 +26,7 @@ $ go get -u github.com/swaggo/swag/cmd/swag
 ## 安装
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
 ```
 
 ## 通用选项
@@ -78,6 +79,7 @@ import (
 	"fmt"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gf/boot"
 	"net/http"
 )
 
@@ -91,7 +93,8 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler
-	boot.GetGfEntry("greeter").Server.BindHandler("/v1/greeter", Greeter)
+	gfEntry := boot.GetEntry("greeter").(*rkgf.GfEntry)
+	gfEntry.Server.BindHandler("/v1/greeter", Greeter)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

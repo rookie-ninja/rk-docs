@@ -24,6 +24,13 @@ As a result, bellow file type can be supported.
 > ConfigEntry support concept of [locale](/docs/bootstrapper/user-guide/grpc-golang/advanced/locale/).
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
+```
+
 ### 1.Create config
 > Create config file and specify in boot.yaml file
 
@@ -53,7 +60,7 @@ import (
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
 	"github.com/rookie-ninja/rk-entry/entry"
-	"github.com/rookie-ninja/rk-gin/interceptor/context"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 )
 
 // Application entrance.

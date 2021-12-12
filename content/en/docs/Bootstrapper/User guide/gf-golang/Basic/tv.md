@@ -12,6 +12,7 @@ RK TV is a web UI contains service information including APIs, process info, met
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
 ```
 
 ## General options
@@ -48,6 +49,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+    _ "github.com/rookie-ninja/rk-gf/boot"
 )
 
 // Application entrance.

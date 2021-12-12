@@ -12,6 +12,13 @@ description: >
 用户还可以同时启动 Gin 服务和 GRPC 服务。
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
+```
+
 ```yaml
 grpc:
   - name: alice
@@ -33,7 +40,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/interceptor/context"
+	"github.com/rookie-ninja/rk-grpc/boot"
 )
 
 // Application entrance.
@@ -42,9 +49,9 @@ func main() {
 	boot := rkboot.NewBoot()
     
     // Get alice
-	boot.GetGrpcEntry("alice")
+	boot.GetEntry("alice").(*rkgrpc.GrpcEntry)
     // Get bob
-	boot.GetGrpcEntry("bob")
+    boot.GetEntry("bob").(*rkgrpc.GrpcEntry)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

@@ -9,6 +9,7 @@ description: >
 ## 安装
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-grpc
 ```
 
 ## 通用选项
@@ -62,6 +63,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-grpc/boot"
 	"net/http"
 )
 
@@ -74,12 +76,12 @@ func main() {
 	boot.Bootstrap(context.Background())
 
 	// Register handler in grpc-gateway
-	entry := boot.GetGrpcEntry("greeter")
-	entry.GwMux.HandlePath("GET", "/v1/greeter", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
+	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
+	grpcEntry.GwMux.HandlePath("GET", "/v1/greeter", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
 		w.Write([]byte(fmt.Sprintf("Hello %s!", r.URL.Query().Get("name"))))
 	})
 
-	entry.GwMux.HandlePath("POST", "/v1/greeter", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
+	grpcEntry.GwMux.HandlePath("POST", "/v1/greeter", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
 		w.Write([]byte(fmt.Sprintf("Hello %s!", r.URL.Query().Get("name"))))
 	})
 

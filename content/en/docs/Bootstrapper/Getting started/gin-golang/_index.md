@@ -21,6 +21,7 @@ This is an example demonstrate how to configure boot.yaml file to start a Gin se
 ### 1.Install dependency
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gin
 ```
 
 ### 2.Create boot.yaml
@@ -45,6 +46,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.
@@ -113,6 +115,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gin/boot"
 	"net/http"
 )
 
@@ -122,7 +125,8 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler before bootstrap!
-	boot.GetGinEntry("greeter").Router.GET("/v1/greeter", Greeter)
+	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	ginEntry.Router.GET("/v1/greeter", Greeter)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

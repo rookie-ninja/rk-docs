@@ -9,6 +9,7 @@ description: >
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-echo
 ```
 
 ## General options
@@ -63,6 +64,7 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-echo/boot"
 	"net/http"
 )
 
@@ -76,8 +78,9 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler
-	boot.GetEchoEntry("greeter").Echo.POST("/v1/greeter", Greeter)
-	boot.GetEchoEntry("greeter").Echo.GET("/v1/greeter", Greeter)
+	echoEntry := boot.GetEntry("greeter").(*rkecho.EchoEntry)
+	echoEntry.Echo.POST("/v1/greeter", Greeter)
+	echoEntry.Echo.GET("/v1/greeter", Greeter)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

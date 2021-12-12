@@ -33,6 +33,13 @@ func Greeter(ctx echo.Context) error {
 ```
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-echo
+```
+
 ### RPC 中返回错误
 > 本例子中，介绍如何返回错误给 API 使用者的[最佳实践] 
 

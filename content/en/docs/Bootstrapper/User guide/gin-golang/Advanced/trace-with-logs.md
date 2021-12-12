@@ -93,6 +93,13 @@ ids={"eventId":"dd19cf9a-c7be-486c-b29d-7af777a78ebe","requestId":"dd19cf9a-c7be
 ```
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gin
+```
+
 ### 1.Create ServerA at 8080
 > **bootA.yaml**
 ```yaml
@@ -117,6 +124,7 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gin/boot"
 	"github.com/rookie-ninja/rk-gin/interceptor/context"
 	"net/http"
 )
@@ -127,7 +135,8 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootA.yaml"))
 
 	// Register handler
-	boot.GetGinEntry("greeter").Router.GET("/v1/hello", func(ctx *gin.Context) {
+	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	ginEntry.Router.GET("/v1/hello", func(ctx *gin.Context) {
 		client := http.DefaultClient
 
         // Construct request point to Server B
@@ -174,6 +183,7 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gin/boot"
 	"net/http"
 )
 
@@ -183,7 +193,8 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootB.yaml"))
 
 	// Register handler
-	boot.GetGinEntry("greeter").Router.GET("/v1/hello", func(ctx *gin.Context) {
+	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	ginEntry.Router.GET("/v1/hello", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, "Hello!")
 	})
 

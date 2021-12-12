@@ -9,6 +9,7 @@ description: >
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-grpc
 ```
 
 ## General options
@@ -58,11 +59,12 @@ grpc:
 //
 // Use of this source code is governed by an Apache-style
 // license that can be found in the LICENSE file.
-package rkdemo
+package main
 
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 )
 
 // Application entrance.

@@ -20,6 +20,13 @@ Since bootstrapper support multiple ConfigEntries in boot.yaml, we need a mechan
 ![](/bootstrapper/user-guide/gin-golang/advanced/locale-arch.png)
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gin
+```
+
 ### 1.Create config files
 **config/singapore.yaml**
 ```yaml
@@ -66,6 +73,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 	"os"
 )
 
@@ -99,6 +107,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 	"os"
 )
 
@@ -135,6 +144,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 	"os"
 )
 
@@ -171,6 +181,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.

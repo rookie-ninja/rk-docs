@@ -10,6 +10,13 @@ description: >
 With bootstrapper, user can start multiple GrpcEntry at the same time. Event for multiple different entries like Gin.
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
+```
+
 ```yaml
 grpc:
   - name: alice
@@ -31,7 +38,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/interceptor/context"
+	"github.com/rookie-ninja/rk-grpc/boot"
 )
 
 // Application entrance.
@@ -40,9 +47,9 @@ func main() {
 	boot := rkboot.NewBoot()
     
     // Get alice
-	boot.GetGrpcEntry("alice")
+	boot.GetEntry("alice").(*rkgrpc.GrpcEntry)
     // Get bob
-	boot.GetGrpcEntry("bob")
+    boot.GetEntry("bob").(*rkgrpc.GrpcEntry)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

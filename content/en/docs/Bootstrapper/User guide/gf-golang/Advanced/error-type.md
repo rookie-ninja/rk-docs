@@ -33,6 +33,13 @@ func Greeter(ctx *ghttp.Request) {
 ```
 
 ## Quick start
+- Install
+
+```shell script
+go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
+```
+
 ### Return errors
 > Here is the way how to return errors in user RPC implementation.
 

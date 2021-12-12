@@ -37,6 +37,13 @@ func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.Greet
 ```
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
+```
+
 ### Return errors
 > Here is the way how to return errors in user RPC implementation.
 

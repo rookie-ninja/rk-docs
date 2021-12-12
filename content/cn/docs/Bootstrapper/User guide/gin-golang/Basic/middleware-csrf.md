@@ -9,6 +9,7 @@ description: >
 ## 安装
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gin
 ```
 
 ## 通用选项
@@ -61,8 +62,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/labstack/echo/v4"
+	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gin/boot"
 	"net/http"
 )
 
@@ -76,8 +78,9 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler
-	boot.GetEchoEntry("greeter").Echo.POST("/v1/greeter", Greeter)
-	boot.GetEchoEntry("greeter").Echo.GET("/v1/greeter", Greeter)
+	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+    ginEntry.Router.POST("/v1/greeter", Greeter)
+	ginEntry.Router.GET("/v1/greeter", Greeter)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

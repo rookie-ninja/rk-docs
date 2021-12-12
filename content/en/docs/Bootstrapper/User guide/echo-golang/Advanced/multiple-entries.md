@@ -10,6 +10,13 @@ description: >
 With bootstrapper, user can start multiple EchoEntry at the same time. Event for multiple different entries like GRPC.
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-echo
+```
+
 ```yaml
 echo:
   - name: alice
@@ -31,7 +38,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-echo/interceptor/context"
+	"github.com/rookie-ninja/rk-echo/boot"
 )
 
 // Application entrance.
@@ -40,9 +47,9 @@ func main() {
 	boot := rkboot.NewBoot()
     
     // Get alice
-	boot.GetEchoEntry("alice")
+	boot.GetEntry("alice").(*rkecho.EchoEntry)
     // Get bob
-	boot.GetEchoEntry("bob")
+    boot.GetEntry("bob").(*rkecho.EchoEntry)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

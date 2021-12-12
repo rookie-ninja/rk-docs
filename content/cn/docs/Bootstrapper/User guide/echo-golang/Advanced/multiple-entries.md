@@ -12,6 +12,13 @@ description: >
 用户还可以同时启动 Echo 服务和 GRPC 服务。
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-echo
+```
+
 ```yaml
 echo:
   - name: alice
@@ -33,7 +40,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-echo/interceptor/context"
+	"github.com/rookie-ninja/rk-echo/boot"
 )
 
 // Application entrance.
@@ -42,9 +49,9 @@ func main() {
 	boot := rkboot.NewBoot()
     
     // Get alice
-	boot.GetEchoEntry("alice")
+	boot.GetEntry("alice").(*rkecho.EchoEntry)
     // Get bob
-	boot.GetEchoEntry("bob")
+    boot.GetEntry("bob").(*rkecho.EchoEntry)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

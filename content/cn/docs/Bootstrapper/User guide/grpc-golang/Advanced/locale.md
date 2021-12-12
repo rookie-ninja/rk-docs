@@ -21,6 +21,13 @@ description: >
 ![](/bootstrapper/user-guide/grpc-golang/advanced/locale-arch.png)
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
+```
+
 ### 1.创建配置文件
 **config/singapore.yaml**
 ```yaml
@@ -67,6 +74,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 	"os"
 )
 
@@ -103,6 +111,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 	"os"
 )
 
@@ -140,6 +149,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 	"os"
 )
 
@@ -177,6 +187,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 )
 
 // Application entrance.

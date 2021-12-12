@@ -9,8 +9,8 @@ description: >
 ## 安装
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
 ```
-
 ## 通用选项
 > 启动器包含了如下通用选项，这些选项是启动 GoFrame 服务的必要选项。
 
@@ -112,6 +112,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+    _ "github.com/rookie-ninja/rk-gf/boot"
 )
 
 // Application entrance.

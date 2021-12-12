@@ -51,6 +51,13 @@ $ cfssl gencert -config ca-config.json -ca ca.pem -ca-key ca-key.pem -profile ww
 ```
 
 ## Quick start
+- Install
+
+```shell script
+go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
+```
+
 ### 1.localFs
 | Name | Description | Default |
 | ------ | ------ | ------ |

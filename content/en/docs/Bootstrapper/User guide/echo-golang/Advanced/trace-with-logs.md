@@ -93,6 +93,13 @@ ids={"eventId":"dd19cf9a-c7be-486c-b29d-7af777a78ebe","requestId":"dd19cf9a-c7be
 ```
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-echo
+```
+
 ### 1.Create ServerA at 8080
 > **bootA.yaml**
 ```yaml
@@ -117,6 +124,7 @@ import (
 	"context"
 	"github.com/labstack/echo/v4"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-echo/boot"
 	"github.com/rookie-ninja/rk-echo/interceptor/context"
 	"net/http"
 )
@@ -127,7 +135,8 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootA.yaml"))
 
 	// Register handler
-	boot.GetEchoEntry("greeter").Echo.GET("/v1/hello", func(ctx echo.Context) error {
+	echoEntry := boot.GetEntry("greeter").(*rkecho.EchoEntry)
+	echoEntry.Echo.GET("/v1/hello", func(ctx echo.Context) error {
 		client := http.DefaultClient
 
         // Construct request point to Server B
@@ -174,6 +183,7 @@ import (
 	"context"
 	"github.com/labstack/echo/v4"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-echo/boot"
 	"net/http"
 )
 
@@ -183,7 +193,8 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootB.yaml"))
 
 	// Register handler
-	boot.GetEchoEntry("greeter").Echo.GET("/v1/hello", func(ctx echo.Context) error {
+	echoEntry := boot.GetEntry("greeter").(*rkecho.EchoEntry)
+	echoEntry.Echo.GET("/v1/hello", func(ctx echo.Context) error {
 		return ctx.JSON(http.StatusOK, "Hello!")
 	})
 

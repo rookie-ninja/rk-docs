@@ -9,6 +9,7 @@ description: >
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-echo
 ```
 
 ## General options
@@ -84,6 +85,7 @@ package rkdemo
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+    _ "github.com/rookie-ninja/rk-echo/boot"
 )
 
 // Application entrance.

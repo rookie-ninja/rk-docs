@@ -26,6 +26,13 @@ Viper 支持如下的配置文件格式：
 > ConfigEntry 支持 [locale](/docs/bootstrapper/user-guide/go/gf/advanced/locale/).
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gf
+```
+
 ### 1.创建配置文件
 > 创建配置文件，并且把路径添加到 boot.yaml 中。
 
@@ -55,7 +62,7 @@ import (
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
 	"github.com/rookie-ninja/rk-entry/entry"
-	"github.com/rookie-ninja/rk-gf/interceptor/context"
+    _ "github.com/rookie-ninja/rk-gf/boot"
 )
 
 // Application entrance.

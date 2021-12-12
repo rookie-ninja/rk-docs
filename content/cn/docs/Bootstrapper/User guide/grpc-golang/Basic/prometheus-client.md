@@ -9,6 +9,7 @@ description: >
 ## 安装
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-grpc
 ```
 
 ## 通用选项
@@ -57,6 +58,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+    _ "github.com/rookie-ninja/rk-grpc/boot"
 )
 
 // Application entrance.
@@ -104,6 +106,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-grpc/boot"
 	"github.com/rookie-ninja/rk-prom"
 )
 
@@ -116,7 +119,8 @@ func main() {
 	boot.Bootstrap(context.Background())
 
 	// Create a metrics set into prometheus.Registerer
-	set := rkprom.NewMetricsSet("rk", "demo", boot.GetGrpcEntry("greeter").GwEntry.PromEntry.Registerer)
+	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
+	set := rkprom.NewMetricsSet("rk", "demo", grpcEntry.GwEntry.PromEntry.Registerer)
 
 	// Register counter, gauge, histogram, summary
 	set.RegisterCounter("my_counter", "label")

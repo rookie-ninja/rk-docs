@@ -51,6 +51,13 @@ $ cfssl gencert -config ca-config.json -ca ca.pem -ca-key ca-key.pem -profile ww
 ```
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-echo
+```
+
 ### 1.从本地文件系统获取
 | 配置项 | 详情 | 默认值 |
 | ------ | ------ | ------ |

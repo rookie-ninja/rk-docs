@@ -47,6 +47,12 @@ $ tree
 4 directories, 14 files
 ```
 
+## Install
+```shell script
+go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gin
+```
+
 ## Code
 ### boot.yaml
 ```yaml

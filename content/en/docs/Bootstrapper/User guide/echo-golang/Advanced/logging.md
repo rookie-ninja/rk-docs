@@ -195,6 +195,13 @@ rkentry.GlobalAppCtx.GetEventLoggerEntry("event-logger").GetLumberjackConfig()
 ```
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-echo
+```
+
 ### 1.Custom ZapLoggerEntry
 ```yaml
 ---
@@ -215,6 +222,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 	"github.com/rookie-ninja/rk-entry/entry"
 )
 
@@ -277,6 +285,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 	"github.com/rookie-ninja/rk-entry/entry"
 )
 
@@ -349,6 +358,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 	"github.com/rookie-ninja/rk-entry/entry"
 )
 

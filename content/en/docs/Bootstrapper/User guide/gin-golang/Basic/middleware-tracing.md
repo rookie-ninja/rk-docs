@@ -9,7 +9,9 @@ description: >
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gin
 ```
+
 
 ## General options
 > These are general options to start a gin server with rk-boot
@@ -61,6 +63,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.

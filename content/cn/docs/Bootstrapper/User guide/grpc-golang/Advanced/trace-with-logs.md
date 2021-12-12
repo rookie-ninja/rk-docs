@@ -129,7 +129,7 @@ import (
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
 	"github.com/rookie-ninja/rk-demo/api/gen/v1"
-	"github.com/rookie-ninja/rk-grpc/interceptor/context"
+	"github.com/rookie-ninja/rk-grpc/boot"
 	"google.golang.org/grpc"
 )
 
@@ -139,7 +139,7 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootA.yaml"))
 
 	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
+	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
 	grpcEntry.AddRegFuncGrpc(registerGreeter)
 	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
@@ -201,7 +201,7 @@ import (
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
 	"github.com/rookie-ninja/rk-demo/api/gen/v1"
-	"github.com/rookie-ninja/rk-grpc/interceptor/context"
+	"github.com/rookie-ninja/rk-grpc/boot"
 	"google.golang.org/grpc"
 )
 
@@ -211,7 +211,7 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootB.yaml"))
 
 	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
+	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
 	grpcEntry.AddRegFuncGrpc(registerGreeterB)
 	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 

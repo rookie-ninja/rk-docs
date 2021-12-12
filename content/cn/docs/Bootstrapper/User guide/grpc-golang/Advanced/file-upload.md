@@ -12,6 +12,13 @@ GRPC 没有给我们提供一个简单文件上传 API，或者说通过 grpc-ga
 [grpc-gateway](https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/binary_file_uploads/) 已经支持了该弄能。
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
+```
+
 ### 1.创建 boot.yaml
 ```yaml
 ---
@@ -29,6 +36,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-grpc/boot"
 	"net/http"
 )
 
@@ -41,7 +49,7 @@ func main() {
 	boot.Bootstrap(context.Background())
 
 	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
+	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEnry)
 
 	// Attachment upload from http/s handled manually
 	grpcEntry.GwMux.HandlePath("POST", "/v1/files", handleBinaryFileUpload)

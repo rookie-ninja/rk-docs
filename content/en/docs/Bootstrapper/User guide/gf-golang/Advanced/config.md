@@ -24,6 +24,13 @@ As a result, bellow file type can be supported.
 > ConfigEntry support concept of [locale](/docs/bootstrapper/user-guide/gf-golang/advanced/locale/).
 
 ## Quick start
+- Install
+
+```shell script
+go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
+```
+
 ### 1.Create config
 > Create config file and specify in boot.yaml file
 

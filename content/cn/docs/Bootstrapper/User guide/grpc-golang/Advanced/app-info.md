@@ -20,6 +20,13 @@ app:
 ```
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
+```
+
 ```yaml
 app:
   description: "this is description"  # Optional, default: ""

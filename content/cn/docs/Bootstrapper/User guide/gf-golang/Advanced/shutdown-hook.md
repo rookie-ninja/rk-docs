@@ -15,13 +15,20 @@ description: >
 ![](/bootstrapper/user-guide/gf-golang/advanced/shutdown-hook.png)
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gf
+```
+
 ```go
 package main
 
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gf/interceptor/context"
+    _ "github.com/rookie-ninja/rk-gf/boot"
 )
 
 // Application entrance.

@@ -10,6 +10,13 @@ description: >
 [grpc-gateway](https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/binary_file_uploads/) already support file uploads.
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
+```
+
 ### 1.Create boot.yaml
 ```yaml
 ---
@@ -27,6 +34,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-grpc/boot"
 	"net/http"
 )
 
@@ -39,7 +47,7 @@ func main() {
 	boot.Bootstrap(context.Background())
 
 	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
+	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
 
 	// Attachment upload from http/s handled manually
 	grpcEntry.GwMux.HandlePath("POST", "/v1/files", handleBinaryFileUpload)

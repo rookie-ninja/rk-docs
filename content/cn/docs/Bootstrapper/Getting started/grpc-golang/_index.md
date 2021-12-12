@@ -22,6 +22,7 @@ description: >
 ### 1.安装
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
 ```
 
 ### 2.创建 boot.yaml
@@ -50,6 +51,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 )
 
 // Application entrance.
@@ -257,6 +259,7 @@ import (
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
 	"github.com/rookie-ninja/rk-demo/api/gen/v1"
+	"github.com/rookie-ninja/rk-grpc/boot"
 	"google.golang.org/grpc"
 )
 
@@ -266,7 +269,7 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
+	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
 	grpcEntry.AddRegFuncGrpc(registerGreeter)
 	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 

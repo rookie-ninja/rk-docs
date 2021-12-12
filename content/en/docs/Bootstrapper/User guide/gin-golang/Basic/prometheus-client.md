@@ -9,7 +9,9 @@ description: >
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gin
 ```
+
 
 ## General options
 > These are general options to start a gin server with rk-boot
@@ -53,6 +55,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.
@@ -100,6 +103,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gin/boot" 
 	"github.com/rookie-ninja/rk-prom"
 )
 
@@ -112,7 +116,8 @@ func main() {
 	boot.Bootstrap(context.Background())
 
 	// Create a metrics set into prometheus.Registerer
-	set := rkprom.NewMetricsSet("rk", "demo", boot.GetGinEntry("greeter").PromEntry.Registerer)
+	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	set := rkprom.NewMetricsSet("rk", "demo", ginEntry.PromEntry.Registerer)
 
 	// Register counter, gauge, histogram, summary
 	set.RegisterCounter("my_counter", "label")

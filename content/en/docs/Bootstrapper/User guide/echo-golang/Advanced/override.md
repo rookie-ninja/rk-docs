@@ -12,6 +12,13 @@ Bootstrapper support two kinds of ways to override bootstrapper configs.
 - Override values in config file (by \-\-rkset)
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-echo
+```
+
 ### 1.Override bootstrapper config file
 In order to override bootstrapper file path, **\-\-rkboot** needs to be passed.
 
@@ -44,6 +51,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 )
 
 // Application entrance.
@@ -108,6 +116,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 )
 
 // Application entrance.

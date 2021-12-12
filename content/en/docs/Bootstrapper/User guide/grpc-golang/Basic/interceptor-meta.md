@@ -20,6 +20,7 @@ Meta interceptor/middleware will attach bellow headers to server response.
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-grpc
 ```
 
 ## General options
@@ -64,6 +65,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 )
 
 // Application entrance.

@@ -22,6 +22,7 @@ This is an example demonstrate how to configure boot.yaml file to start a gin se
 ### 1.Install dependency
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
 ```
 
 ### 2.Create boot.yaml
@@ -50,6 +51,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-grpc/boot"
 )
 
 // Application entrance.
@@ -247,6 +249,7 @@ $ tree
 > 
 > - AddRegFuncGrpc
 > - AddRegFuncGw
+
 ```go
 package main
 
@@ -255,6 +258,7 @@ import (
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
 	"github.com/rookie-ninja/rk-demo/api/gen/v1"
+	"github.com/rookie-ninja/rk-grpc/boot"
 	"google.golang.org/grpc"
 )
 
@@ -264,7 +268,7 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
+	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
 	grpcEntry.AddRegFuncGrpc(registerGreeter)
 	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 

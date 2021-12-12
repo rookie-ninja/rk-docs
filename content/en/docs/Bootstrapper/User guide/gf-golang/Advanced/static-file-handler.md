@@ -14,6 +14,13 @@ Currently, rk-boot support bellow source of static files located. User can imple
 - [pkger](https://github.com/markbates/pkger)
 
 ## Quick start
+- Install
+
+```shell script
+go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
+```
+
 ```yaml
 ---
 gf:

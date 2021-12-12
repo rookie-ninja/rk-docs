@@ -21,6 +21,13 @@ description: >
 ![](/bootstrapper/user-guide/gf-golang/advanced/locale-arch.png)
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gf
+```
+
 ### 1.创建配置文件
 **config/singapore.yaml**
 ```yaml
@@ -67,6 +74,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+    _ "github.com/rookie-ninja/rk-gf/boot"
 	"os"
 )
 
@@ -100,6 +108,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+    _ "github.com/rookie-ninja/rk-gf/boot"
 	"os"
 )
 
@@ -137,6 +146,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+    _ "github.com/rookie-ninja/rk-gf/boot"
 	"os"
 )
 
@@ -173,6 +183,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+    _ "github.com/rookie-ninja/rk-gf/boot"
 )
 
 // Application entrance.

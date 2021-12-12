@@ -10,6 +10,13 @@ description: >
 With bootstrapper, user can start multiple GfEntry at the same time. Event for multiple different entries like GRPC.
 
 ## Quick start
+- Install
+
+```shell script
+go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
+```
+
 ```yaml
 gf:
   - name: alice
@@ -31,18 +38,18 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-echo/interceptor/context"
+	"github.com/rookie-ninja/rk-gf/boot"
 )
 
 // Application entrance.
 func main() {
 	// Create a new boot instance.
 	boot := rkboot.NewBoot()
-    
+
     // Get alice
-	boot.GetGfEntry("alice")
+	boot.GetEntry("alice").(*rkgf.GfEntry)
     // Get bob
-	boot.GetGfEntry("bob")
+    boot.GetEntry("bob").(*rkgf.GfEntry)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

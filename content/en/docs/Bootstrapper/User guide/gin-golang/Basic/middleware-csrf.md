@@ -9,7 +9,9 @@ description: >
 ## Installation
 ```shell script
 go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gin
 ```
+
 
 ## General options
 > These are general options to start a gin server with rk-boot
@@ -63,10 +65,11 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gin/boot"
 	"net/http"
 )
 
-// @title RK Swagger for Gin
+// @title RK Swagger for Echo
 // @version 1.0
 // @description This is a greeter service with rk-boot.
 
@@ -76,8 +79,9 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler
-	boot.GetGinEntry("greeter").Router.GET("/v1/greeter", Greeter)
-	boot.GetGinEntry("greeter").Router.POST("/v1/greeter", Greeter)
+	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+    ginEntry.Router.POST("/v1/greeter", Greeter)
+	ginEntry.Router.GET("/v1/greeter", Greeter)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())
@@ -93,9 +97,9 @@ func main() {
 // @Param name query string true "Input name"
 // @Success 200 {object} GreeterResponse
 // @Router /v1/greeter [get]
-func Greeter(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, &GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", ctx.Query("name")),
+func Greeter(ctx echo.Context) error {
+	return ctx.JSON(http.StatusOK, &GreeterResponse{
+		Message: fmt.Sprintf("Hello %s!", ctx.QueryParam("name")),
 	})
 }
 

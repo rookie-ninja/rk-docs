@@ -13,6 +13,13 @@ description: >
 - 覆盖 boot.yaml 里的参数 (通过 \-\-rkset)
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gin
+```
+
 ### 1.覆盖启动器文件
 覆盖启动器的参数文件，我们需要 **\-\-rkboot** 作为参数。
 
@@ -45,6 +52,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.
@@ -109,6 +117,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.

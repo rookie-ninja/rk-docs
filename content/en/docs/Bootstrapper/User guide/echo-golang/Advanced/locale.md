@@ -11,7 +11,6 @@ Lets assuming we need to use different config files based on the region like Sin
 
 Since bootstrapper support multiple ConfigEntries in boot.yaml, we need a mechanism to distinguish ConfigEntries.
 
-
 ## Concept
 > **How entries selected by bootstrapper?**
 > 
@@ -20,6 +19,13 @@ Since bootstrapper support multiple ConfigEntries in boot.yaml, we need a mechan
 ![](/bootstrapper/user-guide/echo-golang/advanced/locale-arch.png)
 
 ## Quick start
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-echo
+```
+
 ### 1.Create config files
 **config/singapore.yaml**
 ```yaml
@@ -66,6 +72,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 	"os"
 )
 
@@ -99,6 +106,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 	"os"
 )
 
@@ -135,6 +143,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 	"os"
 )
 
@@ -171,6 +180,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 )
 
 // Application entrance.

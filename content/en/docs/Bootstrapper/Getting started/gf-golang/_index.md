@@ -21,6 +21,7 @@ This is an example demonstrate how to configure boot.yaml file to start a GoFram
 ### 1.Install dependency
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gf
 ```
 
 ### 2.Create boot.yaml
@@ -45,6 +46,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-gf/boot"
 )
 
 // Application entrance.
@@ -111,8 +113,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/labstack/echo/v4"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-gf/boot"
 	"net/http"
 )
 
@@ -121,8 +124,10 @@ func main() {
 	// Create a new boot instance.
 	boot := rkboot.NewBoot()
 
-	// Register handler
-	boot.GetGfEntry("greeter").Server.BindHandler("/v1/greeter", Greeter)
+	// Register handler before bootstrap!
+	gfEntry := boot.GetEntry("greeter").(*rkgf.GfEntry)
+	gfEntry.Server.BindHandler("/v1/greeter", Greeter)
+
 	// Bootstrap
 	boot.Bootstrap(context.Background())
 

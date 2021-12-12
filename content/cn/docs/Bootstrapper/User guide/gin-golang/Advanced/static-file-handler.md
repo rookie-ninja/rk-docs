@@ -14,6 +14,13 @@ rk-boot 提供了一个方便的方法，让用户快速实现通过网页浏览
 - [pkger](https://github.com/markbates/pkger)
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gin
+```
+
 ```yaml
 ---
 gin:
@@ -61,6 +68,7 @@ import (
 	"github.com/rookie-ninja/rk-boot"
 	// Must be present in order to make pkger load embedded files into memory.
 	_ "github.com/rookie-ninja/rk-demo/internal"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 func init() {

@@ -15,6 +15,13 @@ We need to understand how bootstrapper stop process.
 ![](/bootstrapper/user-guide/gf-golang/advanced/shutdown-hook.png)
 
 ## Getting started
+- Install
+
+```shell script
+go get github.com/rookie-ninja/rk-boot
+go get github.com/rookie-ninja/rk-gf
+```
+
 ```go
 package main
 

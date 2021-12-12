@@ -15,13 +15,20 @@ We need to understand how bootstrapper stop process.
 ![](/bootstrapper/user-guide/gin-golang/advanced/shutdown-hook.png)
 
 ## Getting started
+- Install
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-gin
+```
+
 ```go
 package main
 
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/interceptor/context"
+	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.

@@ -12,6 +12,13 @@ description: >
 [grpc-gateway](https://grpc-ecosystem.github.io/grpc-gateway/docs/operations/inject_router/) 已经支持了此功能。
 
 ## 快速开始
+- 安装
+
+```shell script
+$ go get github.com/rookie-ninja/rk-boot
+$ go get github.com/rookie-ninja/rk-grpc
+```
+
 ### 1.创建 boot.yaml
 ```yaml
 ---
@@ -28,6 +35,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-grpc/boot"
 	"net/http"
 )
 
@@ -40,7 +48,7 @@ func main() {
 	boot.Bootstrap(context.Background())
 
 	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
+	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
     
     // !!!!!!
     // This codes should be located after Bootstrap()

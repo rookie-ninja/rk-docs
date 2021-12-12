@@ -1,17 +1,17 @@
 ---
-title: "Gin-golang"
-linkTitle: "Gin-golang"
-weight: 1
+title: "Echo-golang"
+linkTitle: "Echo-golang"
+weight: 4
 description: >
-  通过 RK 启动器，创建基于 [Gin](https://github.com/gin-gonic/gin) 框架的服务。
+  通过 RK 启动器，创建基于 [GoFrame](https://github.com/gogf/gf) 框架的服务。
 ---
 
 ## 概述
-让我们通过编辑 boot.yaml 文件来启动基于 Gin 框架的服务。
+让我们通过编辑 boot.yaml 文件来启动基于 GoFrame 框架的服务。
 
-> 例子: https://github.com/rookie-ninja/rk-demo/tree/master/gin/getting-started
+> 例子: https://github.com/rookie-ninja/rk-demo/tree/master/gf/getting-started
 
-- [Gin 服务](https://github.com/gin-gonic/gin)
+- [GoFrame](https://github.com/gogf/gf)
 - [Swagger 界面](https://swagger.io/tools/swagger-ui/)
 - 通用 API
 - RK TV Web 界面
@@ -21,16 +21,16 @@ description: >
 ### 1.安装
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-gin
+$ go get github.com/rookie-ninja/rk-gf
 ```
 
 ### 2.创建 boot.yaml
 ```yaml
 ---
-gin:
-  - name: greeter       # Name of gin entry
-    port: 8080          # Port of gin entry
-    enabled: true       # Enable gin entry
+gf:
+  - name: greeter       # Name of echo entry
+    port: 8080          # Port of echo entry
+    enabled: true       # Enable echo entry
     sw:
       enabled: true     # Enable swagger UI
     commonService:
@@ -46,7 +46,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-gf/boot"
 )
 
 // Application entrance.
@@ -66,16 +66,16 @@ func main() {
 ```go
 $ go run main.go
 ...
-2021-07-02T04:53:25.921+0800    INFO    boot/gin_entry.go:630   Bootstrapping GinEntry. {"eventId": "8fd734a2-549a-4b81-bea2-fe8e94666ab7", "entryName": "greeter", "entryType": "GinEntry", "port": 8080, "interceptorsCount": 1, "swEnabled": true, "tlsEnabled": false, "commonServiceEnabled": true, "tvEnabled": true, "swPath": "/sw/"}
+2021-07-02T04:53:25.921+0800    INFO    boot/echo_entry.go:630   Bootstrapping EchoEntry. {"eventId": "8fd734a2-549a-4b81-bea2-fe8e94666ab7", "entryName": "greeter", "entryType": "EchoEntry", "port": 8080, "interceptorsCount": 1, "swEnabled": true, "tlsEnabled": false, "commonServiceEnabled": true, "tvEnabled": true, "swPath": "/sw/"}
 ------------------------------------------------------------------------
 endTime=2021-07-02T04:53:25.921604+08:00
 startTime=2021-07-02T04:53:25.919344+08:00
 elapsedNano=2259975
 timezone=CST
 ids={"eventId":"8fd734a2-549a-4b81-bea2-fe8e94666ab7"}
-app={"appName":"rk-demo","appVersion":"master-f414049","entryName":"greeter","entryType":"GinEntry"}
+app={"appName":"rk-demo","appVersion":"master-f414049","entryName":"greeter","entryType":"EchoEntry"}
 env={"arch":"amd64","az":"*","domain":"*","hostname":"lark.local","localIP":"10.8.0.6","os":"darwin","realm":"*","region":"*"}
-payloads={"commonServiceEnabled":true,"entryName":"greeter","entryType":"GinEntry","interceptorsCount":1,"port":8080,"swEnabled":true,"swPath":"/sw/","tlsEnabled":false,"tvEnabled":true}
+payloads={"commonServiceEnabled":true,"entryName":"greeter","entryType":"EchoEntry","interceptorsCount":1,"port":8080,"swEnabled":true,"swPath":"/sw/","tlsEnabled":false,"tvEnabled":true}
 error={}
 counters={}
 pairs={}
@@ -90,11 +90,11 @@ EOE
 ### 5.验证
 > **Swagger 界面:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
-![](/bootstrapper/getting-started/gin-golang/gin-sw.png)
+![](/bootstrapper/getting-started/gf-golang/gf-sw.png)
 
 > **TV 界面:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
-![](/bootstrapper/getting-started/gin-golang/gin-tv.png)
+![](/bootstrapper/getting-started/gf-golang/gf-tv.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
@@ -103,9 +103,9 @@ EOE
 我们将会添加 "/v1/greeter" API。
 
 ### 1.注册 API
-> 基于 Gin 框架，我们需要拿到 **gin.Engine** 实例，才能注册 **HandlerFunc**。
+> 基于 GoFrame 框架，我们需要拿到 **gf.Server** 实例，才能注册 **HandlerFunc**。
 >
-> 在 GinEntry 中， 启动器会初始化 **gin.Engine**，并更名为 **Router**。
+> 在 GfEntry 中， 启动器会初始化 **ghttp.Server**，并更名为 **Server**。
 
 ```go
 package main
@@ -113,9 +113,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo/v4"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/boot"
+	"github.com/rookie-ninja/rk-gf/boot"
 	"net/http"
 )
 
@@ -125,8 +125,8 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler before bootstrap!
-	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
-	ginEntry.Router.GET("/v1/greeter", Greeter)
+	gfEntry := boot.GetEntry("greeter").(*rkgf.GfEntry)
+	gfEntry.Server.BindHandler("/v1/greeter", Greeter)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())
@@ -135,9 +135,9 @@ func main() {
 	boot.WaitForShutdownSig(context.Background())
 }
 
-// Gin handler function
-func Greeter(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, &GreeterResponse{
+// Echo handler function
+func Greeter(ctx echo.Context) error {
+	return ctx.JSON(http.StatusOK, &GreeterResponse{
 		Message: fmt.Sprintf("Hello %s!", ctx.Query("name")),
 	})
 }
@@ -186,12 +186,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo/v4"
 	"github.com/rookie-ninja/rk-boot"
 	"net/http"
 )
 
-// @title RK Swagger for Gin
+// @title RK Swagger for Echo
 // @version 1.0
 // @description This is a greeter service with rk-boot.
 
@@ -205,7 +205,7 @@ func main() {...}
 // @Param name query string true "Input name"
 // @Success 200 {object} GreeterResponse
 // @Router /v1/greeter [get]
-func Greeter(ctx *gin.Context) {...}
+func Greeter(ctx echo.Context) error {...}
 ```
 
 ### 3.生成 swagger 参数文件
@@ -228,10 +228,10 @@ $ tree
 ```
 
 ### 4.添加 Swagger 参数文件路径到 boot.yaml
-为了能让启动器能够识别 Swagger 参数文件，我们需要在 boot.yaml 文件中添加 **gin.sw.jsonPath**。
+为了能让启动器能够识别 Swagger 参数文件，我们需要在 boot.yaml 文件中添加 **echo.sw.jsonPath**。
 ```yaml
 ---
-gin:
+echo:
   - name: greeter
     ...
     sw:
@@ -243,11 +243,11 @@ gin:
 ### 5.验证
 > **Swagger 界面:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
-![](/bootstrapper/getting-started/gin-golang/gin-sw-api.png)
+![](/bootstrapper/getting-started/echo-golang/echo-sw-api.png)
 
 > **TV 界面:** [http://localhost:8080/rk/v1/tv](http://localhost:8080/rk/v1/tv)
 
-![](/bootstrapper/getting-started/gin-golang/gin-tv-api.png)
+![](/bootstrapper/getting-started/echo-golang/echo-tv-api.png)
 
 ### _**Cheers**_
 ![](/bootstrapper/user-guide/cheers.png)
