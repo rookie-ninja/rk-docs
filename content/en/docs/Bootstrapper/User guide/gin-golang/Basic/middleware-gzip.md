@@ -8,8 +8,7 @@ description: >
 
 ## Installation
 ```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-gin
+go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ## General options
@@ -57,7 +56,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
-    "github.com/rookie-ninja/rk-gin/boot"
+    "github.com/rookie-ninja/rk-boot/gin"
 	"io"
 	"net/http"
 	"strings"
@@ -69,7 +68,7 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler
-    ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+    ginEntry := rkbootgin.GetGinEntry("greeter")
 	ginEntry.Router.POST("/v1/post", post)
 
 	// Bootstrap

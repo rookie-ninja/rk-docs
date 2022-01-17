@@ -8,8 +8,7 @@ description: >
 
 ## Installation
 ```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-gin
+go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 
@@ -55,7 +54,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.
@@ -103,7 +102,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/boot" 
+	"github.com/rookie-ninja/rk-boot/gin" 
 	"github.com/rookie-ninja/rk-prom"
 )
 
@@ -116,7 +115,7 @@ func main() {
 	boot.Bootstrap(context.Background())
 
 	// Create a metrics set into prometheus.Registerer
-	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	ginEntry := rkbootgin.GetGinEntry("greeter")
 	set := rkprom.NewMetricsSet("rk", "demo", ginEntry.PromEntry.Registerer)
 
 	// Register counter, gauge, histogram, summary
@@ -168,7 +167,7 @@ gin:
 
 > Start pushgateway locally for testing
 ```shell script
-$ docker run prom/pushgateway -p 9091:9091
+$ docker run -p 9091:9091 prom/pushgateway
 ```
 
 > Validate metrics at local pushgateway

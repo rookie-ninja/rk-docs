@@ -23,8 +23,7 @@ Since bootstrapper support multiple ConfigEntries in boot.yaml, we need a mechan
 - Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-gin
+$ go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ### 1.Create config files
@@ -73,7 +72,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 	"os"
 )
 
@@ -107,7 +106,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 	"os"
 )
 
@@ -144,7 +143,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 	"os"
 )
 
@@ -181,7 +180,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.

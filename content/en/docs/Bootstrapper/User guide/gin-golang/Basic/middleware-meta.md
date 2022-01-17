@@ -19,8 +19,7 @@ Meta interceptor/middleware will attach bellow headers to server response.
 
 ## Installation
 ```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-gin
+go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ## General options
@@ -61,7 +60,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.
@@ -99,7 +98,7 @@ $ curl -vs -X GET localhost:8080/rk/v1/healthy
 ```go
 func Greeter(ctx *gin.Context) {
     // Override request id
-	rkginctx.SetHeaderToClient(ctx, rkginctx.RequestIdKey, "request-id-override")
+	rkginctx.SetHeaderToClient(ctx, rkmid.HeaderRequestId, "request-id-override")
     // We expect new request id attached to logger
 	rkginctx.GetLogger(ctx).Info("Received request")
 
@@ -113,10 +112,10 @@ func Greeter(ctx *gin.Context) {
 $ curl -vs -X GET "localhost:8080/v1/greeter?name=rk-dev"
 ...
 < X-Request-Id: request-id-override
-< X-Rk-App-Name: rk-demo
-< X-Rk-App-Unix-Time: 2021-07-06T02:49:34.27756+08:00
-< X-Rk-App-Version: master-f414049
-< X-Rk-Received-Time: 2021-07-06T02:49:34.27756+08:00
+< X-Rk-App-Locale: *::*::*::*
+< X-Rk-App-Name: rk
+< X-Rk-App-Unix-Time: 2022-01-17T14:52:14.111916+08:00
+< X-Rk-Received-Time: 2022-01-17T14:52:14.111916+08:00
 ...
 {"Message":"Hello rk-dev!"}
 ```
@@ -124,23 +123,21 @@ $ curl -vs -X GET "localhost:8080/v1/greeter?name=rk-dev"
 > If we enabled logging interceptor/middleware, then we expect request as bellow
 
 ```shell script
-2021-07-06T02:49:34.277+0800    INFO    basic/main.go:41        Received request        {"requestId": "request-id-override"}
-```
-```shell script
+2022-01-17T14:52:14.111+0800    INFO    gin/main.go:57  Received request        {"requestId": "request-id-override"}
 ------------------------------------------------------------------------
-endTime=2021-07-06T02:49:34.27773+08:00
-startTime=2021-07-06T02:49:34.277544+08:00
-elapsedNano=185412
+endTime=2022-01-17T14:52:14.111979+08:00
+startTime=2022-01-17T14:52:14.111911+08:00
+elapsedNano=68026
 timezone=CST
 ids={"eventId":"request-id-override","requestId":"request-id-override"}
-app={"appName":"rk-demo","appVersion":"master-f414049","entryName":"greeter","entryType":"GinEntry"}
+app={"appName":"rk","appVersion":"","entryName":"greeter","entryType":"Gin"}
 env={"arch":"amd64","az":"*","domain":"*","hostname":"lark.local","localIP":"10.8.0.2","os":"darwin","realm":"*","region":"*"}
-payloads={"apiMethod":"GET","apiPath":"/v1/greeter","apiProtocol":"HTTP/1.1","apiQuery":"name=rk-dev","userAgent":"curl/7.64.1"}
+payloads={"apiMethod":"GET","apiPath":"/v1/greeter","apiProtocol":"HTTP/1.1","apiQuery":"","userAgent":"curl/7.64.1"}
 error={}
 counters={}
 pairs={}
 timing={}
-remoteAddr=localhost:57600
+remoteAddr=localhost:62084
 operation=/v1/greeter
 resCode=200
 eventStatus=Ended
@@ -164,11 +161,12 @@ gin:
 ```shell script
 $ curl -vs -X GET localhost:8080/rk/v1/healthy
 ...
-< X-Override-App-Name: rk-demo
-< X-Override-App-Unix-Time: 2021-07-06T02:52:53.035941+08:00
-< X-Override-App-Version: master-f414049
-< X-Override-Received-Time: 2021-07-06T02:52:53.035941+08:00
-< X-Request-Id: c3097361-1833-4bba-9867-e8d1f2fb2207
+< X-Override-App-Locale: *::*::*::*
+< X-Override-App-Name: rk
+< X-Override-App-Unix-Time: 2022-01-17T14:53:08.417587+08:00
+< X-Override-Received-Time: 2022-01-17T14:53:08.417587+08:00
+< X-Request-Id: a1d2d57c-110f-498a-b9a4-f38a27c50e1e
+
 ...
 {"healthy":true}
 ```

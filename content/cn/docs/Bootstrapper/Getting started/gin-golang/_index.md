@@ -20,8 +20,7 @@ description: >
 ## 创建服务
 ### 1.安装
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-gin
+$ go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ### 2.创建 boot.yaml
@@ -46,7 +45,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.
@@ -115,7 +114,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/boot"
+	"github.com/rookie-ninja/rk-boot/gin"
 	"net/http"
 )
 
@@ -125,7 +124,7 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler before bootstrap!
-	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	ginEntry := rkbootgin.GetGinEntry("greeter")
 	ginEntry.Router.GET("/v1/greeter", Greeter)
 
 	// Bootstrap

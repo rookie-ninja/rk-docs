@@ -8,8 +8,7 @@ description: >
 
 ## Installation
 ```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-gin
+go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 
@@ -86,7 +85,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.
@@ -118,9 +117,7 @@ $ curl localhost:8080/rk/v1/healthy -H "Authorization: Bearer invalid-jwt-token"
         "code":401,
         "status":"Unauthorized",
         "message":"invalid or expired jwt",
-        "details":[
-            "token contains an invalid number of segments"
-        ]
+        "details":[]
     }
 }
 ```

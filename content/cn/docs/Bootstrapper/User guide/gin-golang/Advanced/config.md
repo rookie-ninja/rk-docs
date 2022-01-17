@@ -29,8 +29,7 @@ Viper 支持如下的配置文件格式：
 - 安装
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-gin
+$ go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ### 1.创建配置文件
@@ -62,7 +61,7 @@ import (
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
 	"github.com/rookie-ninja/rk-entry/entry"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.

@@ -8,8 +8,7 @@ description: >
 
 ## Installation
 ```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-gin
+go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 
@@ -63,7 +62,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.
@@ -104,7 +103,7 @@ $ curl -X GET localhost:8080/rk/v1/healthy
                         "TraceState": null,
                         "Remote": true
                 },
-                "SpanKind": 2,
+                "SpanKind": 1,
                 "Name": "/rk/v1/healthy",
                 "StartTime": "2021-07-06T03:06:50.871097+08:00",
                 "EndTime": "2021-07-06T03:06:50.871167677+08:00",
@@ -143,19 +142,20 @@ gin:
 ### 5.Export to jaeger
 
 > Start [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.23/getting-started/) for testing
-> ```shell script
-> $ docker run -d --name jaeger \
->     -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
->     -p 5775:5775/udp \
->     -p 6831:6831/udp \
->     -p 6832:6832/udp \
->     -p 5778:5778 \
->     -p 16686:16686 \
->     -p 14268:14268 \
->     -p 14250:14250 \
->     -p 9411:9411 \
->     jaegertracing/all-in-one:1.23
-> ```
+
+```shell script
+$ docker run -d --name jaeger \
+    -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
+    -p 5775:5775/udp \
+    -p 6831:6831/udp \
+    -p 6832:6832/udp \
+    -p 5778:5778 \
+    -p 16686:16686 \
+    -p 14268:14268 \
+    -p 14250:14250 \
+    -p 9411:9411 \
+    jaegertracing/all-in-one:1.23
+```
 
 ```yaml
 ---

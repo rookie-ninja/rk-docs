@@ -49,8 +49,7 @@ $ tree
 
 ## 安装
 ```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-gin
+go get github.com/rookie-ninja/rk-boot/bin
 ```
 
 ## 代码
@@ -106,6 +105,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	"github.com/rookie-ninja/rk-boot/gin"
 	"github.com/rookie-ninja/rk-demo/internal/api/v1"
 )
 
@@ -133,7 +133,7 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler
-	boot.GetGinEntry("greeter").Router.GET("/v1/greeter", api.Greeter)
+	rkbootgin.GetGinEntry("greeter").Router.GET("/v1/greeter", api.Greeter)
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

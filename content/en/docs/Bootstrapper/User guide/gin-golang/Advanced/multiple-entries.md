@@ -13,8 +13,7 @@ With bootstrapper, user can start multiple GinEntry at the same time. Event for 
 - Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-gin
+$ go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ```yaml
@@ -38,7 +37,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/boot"
+	"github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.
@@ -47,9 +46,9 @@ func main() {
 	boot := rkboot.NewBoot()
     
     // Get alice
-	boot.GetEntry("alice").(*rkgin.GinEntry)
+    rkbootgin.GetGinEntry("alice")
     // Get bob
-    boot.GetEntry("bob").(*rkgin.GinEntry)
+    rkbootgin.GetGinEntry("bob")
 
 	// Bootstrap
 	boot.Bootstrap(context.Background())

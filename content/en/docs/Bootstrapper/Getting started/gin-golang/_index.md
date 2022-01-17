@@ -20,8 +20,7 @@ This is an example demonstrate how to configure boot.yaml file to start a Gin se
 ## Create server
 ### 1.Install dependency
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-gin
+$ go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ### 2.Create boot.yaml
@@ -46,7 +45,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.
@@ -65,23 +64,22 @@ func main() {
 ### 4.Start server
 ```go
 $ go run main.go
-...
-2021-07-02T04:53:25.921+0800    INFO    boot/gin_entry.go:630   Bootstrapping GinEntry. {"eventId": "8fd734a2-549a-4b81-bea2-fe8e94666ab7", "entryName": "greeter", "entryType": "GinEntry", "port": 8080, "interceptorsCount": 1, "swEnabled": true, "tlsEnabled": false, "commonServiceEnabled": true, "tvEnabled": true, "swPath": "/sw/"}
+2022-01-17T14:34:15.758+0800    INFO    boot/gin_entry.go:596   Bootstrap ginEntry      {"eventId": "ac0502b5-e52f-4bf9-a95b-7efb1326d6e1", "entryName": "greeter"}
 ------------------------------------------------------------------------
-endTime=2021-07-02T04:53:25.921604+08:00
-startTime=2021-07-02T04:53:25.919344+08:00
-elapsedNano=2259975
+endTime=2022-01-17T14:34:15.760234+08:00
+startTime=2022-01-17T14:34:15.75864+08:00
+elapsedNano=1593960
 timezone=CST
-ids={"eventId":"8fd734a2-549a-4b81-bea2-fe8e94666ab7"}
-app={"appName":"rk-demo","appVersion":"master-f414049","entryName":"greeter","entryType":"GinEntry"}
-env={"arch":"amd64","az":"*","domain":"*","hostname":"lark.local","localIP":"10.8.0.6","os":"darwin","realm":"*","region":"*"}
-payloads={"commonServiceEnabled":true,"entryName":"greeter","entryType":"GinEntry","interceptorsCount":1,"port":8080,"swEnabled":true,"swPath":"/sw/","tlsEnabled":false,"tvEnabled":true}
+ids={"eventId":"ac0502b5-e52f-4bf9-a95b-7efb1326d6e1"}
+app={"appName":"rk","appVersion":"","entryName":"greeter","entryType":"Gin"}
+env={"arch":"amd64","az":"*","domain":"*","hostname":"lark.local","localIP":"10.8.0.2","os":"darwin","realm":"*","region":"*"}
+payloads={"commonServiceEnabled":true,"commonServicePathPrefix":"/rk/v1/","ginPort":8080,"swEnabled":true,"swPath":"/sw/","tvEnabled":true,"tvPath":"/rk/v1/tv/"}
 error={}
 counters={}
 pairs={}
 timing={}
 remoteAddr=localhost
-operation=bootstrap
+operation=Bootstrap
 resCode=OK
 eventStatus=Ended
 EOE
@@ -115,7 +113,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/boot"
+	"github.com/rookie-ninja/rk-boot/gin"
 	"net/http"
 )
 
@@ -125,7 +123,7 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler before bootstrap!
-	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	ginEntry := rkbootgin.GetGinEntry("greeter")
 	ginEntry.Router.GET("/v1/greeter", Greeter)
 
 	// Bootstrap

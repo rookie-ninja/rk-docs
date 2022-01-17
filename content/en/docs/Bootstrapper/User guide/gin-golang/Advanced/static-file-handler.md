@@ -17,8 +17,7 @@ Currently, rk-boot support bellow source of static files located. User can imple
 - Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-gin
+$ go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ```yaml
@@ -64,9 +63,9 @@ import (
 	"context"
 	"github.com/markbates/pkger"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 	// Must be present in order to make pkger load embedded files into memory.
 	_ "github.com/rookie-ninja/rk-demo/internal"
-	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 func init() {

@@ -222,8 +222,8 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 	"github.com/rookie-ninja/rk-entry/entry"
-	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.
@@ -285,8 +285,8 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 	"github.com/rookie-ninja/rk-entry/entry"
-	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.
@@ -358,8 +358,8 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 	"github.com/rookie-ninja/rk-entry/entry"
-	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.

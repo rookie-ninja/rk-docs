@@ -8,8 +8,7 @@ description: >
 
 ## 安装
 ```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-gin
+go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ## 通用选项
@@ -54,7 +53,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-gin/boot"
+    _ "github.com/rookie-ninja/rk-boot/gin"
 )
 
 // Application entrance.

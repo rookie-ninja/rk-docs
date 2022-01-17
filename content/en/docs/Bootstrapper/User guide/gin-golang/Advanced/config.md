@@ -27,8 +27,7 @@ As a result, bellow file type can be supported.
 - Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-gin
+$ go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ### 1.Create config
@@ -59,8 +58,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/rookie-ninja/rk-boot"
+	_ "github.com/rookie-ninja/rk-boot/gin"
 	"github.com/rookie-ninja/rk-entry/entry"
-	_ "github.com/rookie-ninja/rk-gin/boot"
 )
 
 // Application entrance.

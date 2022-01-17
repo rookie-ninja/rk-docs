@@ -36,8 +36,7 @@ func Greeter(ctx *gin.Context) {
 - 安装
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-gin
+$ go get github.com/rookie-ninja/rk-boot/gin
 ```
 
 ### RPC 中返回错误

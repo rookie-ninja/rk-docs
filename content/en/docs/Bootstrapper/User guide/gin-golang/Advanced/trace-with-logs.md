@@ -124,7 +124,7 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/boot"
+	"github.com/rookie-ninja/rk-boot/gin"
 	"github.com/rookie-ninja/rk-gin/interceptor/context"
 	"net/http"
 )
@@ -135,7 +135,7 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootA.yaml"))
 
 	// Register handler
-	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	ginEntry := rkbootgin.GetGinEntry("greeter")
 	ginEntry.Router.GET("/v1/hello", func(ctx *gin.Context) {
 		client := http.DefaultClient
 
@@ -183,7 +183,7 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-gin/boot"
+	"github.com/rookie-ninja/rk-boot/gin"
 	"net/http"
 )
 
@@ -193,7 +193,7 @@ func main() {
 	boot := rkboot.NewBoot(rkboot.WithBootConfigPath("bootB.yaml"))
 
 	// Register handler
-	ginEntry := boot.GetEntry("greeter").(*rkgin.GinEntry)
+	ginEntry := rkbootgin.GetGinEntry("greeter")
 	ginEntry.Router.GET("/v1/hello", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, "Hello!")
 	})
