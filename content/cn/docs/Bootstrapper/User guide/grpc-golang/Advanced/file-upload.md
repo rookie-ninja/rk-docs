@@ -9,7 +9,7 @@ description: >
 ## 概述
 GRPC 没有给我们提供一个简单文件上传 API，或者说通过 grpc-gateway on GRPC，我们无法直接实现简单文件上传的功能。
 
-[grpc-gateway](https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/binary_file_uploads/) 已经支持了该弄能。
+[grpc-gateway](https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/binary_file_uploads/) 已经支持了该功能。
 
 ## 快速开始
 - 安装
