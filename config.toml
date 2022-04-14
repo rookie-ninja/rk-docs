@@ -1,5 +1,5 @@
 baseURL = "/"
-title = "RK"
+title = "rk-boot"
 
 enableRobotsTXT = true
 
@@ -53,15 +53,15 @@ id = "UA-216672910-1"
 
 [languages]
 [languages.en]
-title = "RK Docs"
-description = "RK Docs"
+title = "rk-boot"
+description = "rk-boot"
 languageName ="English"
 # Weight used for sorting.
 weight = 1
 
 [languages.cn]
-title = "RK 文档"
-description = "RK 文档"
+title = "rk-boot"
+description = "rk-boot"
 languageName ="中文 Chinese"
 contentDir = "content/cn"
 # Weight used for sorting.

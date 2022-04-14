@@ -1,0 +1,34 @@
+---
+title: "插件"
+linkTitle: "插件"
+weight: 5
+description: >
+  rk-boot 定义了若干个插件，包括 Web 框架系列插件，数据库 ORM 系列插件，云系列插件。
+---
+
+| 类别       | 名称                                                   | 框架                                                        | 例子                                                                                       |
+|----------|------------------------------------------------------|-----------------------------------------------------------|------------------------------------------------------------------------------------------|
+| Web 框架   | [rk-gin](https://github.com/rookie-ninja/rk-gin)     | [gin-gonic/gin](https://github.com/gin-gonic/gin)         | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/web/gin)             |
+|          | [rk-grpc](https://github.com/rookie-ninja/rk-grpc)   | [gRPC](https://grpc.io/docs/languages/go/)                | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/web/grpc)            |
+|          | [rk-echo](https://github.com/rookie-ninja/rk-echo)   | [labstack/echo](https://github.com/labstack/echo)         | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/web/echo)            |
+|          | [rk-gf](https://github.com/rookie-ninja/rk-gf)       | [gogf/gf](https://github.com/gogf/gf)                     | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/web/gf)              |
+|          | [rk-fiber](https://github.com/rookie-ninja/rk-fiber) | [gofiber/fiber](https://github.com/gofiber/fiber)         | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/web/fiber)           |
+|          | [rk-zero](https://github.com/rookie-ninja/rk-zero)   | [zeromicro/go-zero](https://github.com/zeromicro/go-zero) | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/web/zero)            |
+|          | [rk-mux](https://github.com/rookie-ninja/rk-mux)     | [gorilla/mux](https://github.com/gorilla/mux)             | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/web/mux)             |
+| 数据库 GORM | [rk-db](https://github.com/rookie-ninja/rk-db)       | [MySQL](https://gorm.io/)                                 | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/database/mysql)      |
+|          | [rk-db](https://github.com/rookie-ninja/rk-db)       | [SQLite](https://gorm.io/)                                | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/database/sqlite)     |
+|          | [rk-db](https://github.com/rookie-ninja/rk-db)       | [SQL Server](https://gorm.io/)                            | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/database/sqlserver)  |
+|          | [rk-db](https://github.com/rookie-ninja/rk-db)       | [postgreSQL](https://gorm.io/)                            | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/database/postgres)   |
+|          | [rk-db](https://github.com/rookie-ninja/rk-db)       | [ClickHouse](https://gorm.io/)                            | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/database/clickhouse) |
+|          | [rk-db](https://github.com/rookie-ninja/rk-db)       | [MongoDB](https://gorm.io/)                               | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/database/mongodb)    |
+|          | [rk-db](https://github.com/rookie-ninja/rk-db)       | [Redis](https://github.com/go-redis/redis)                | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/database/redis)      |
+| 缓存       | [rk-cache](https://github.com/rookie-ninja/rk-cache) | [Redis](https://github.com/go-redis/redis)                | [example](https://github.com/rookie-ninja/rk-boot/blob/main/example/cache/redis)         |
+| 云        | [rk-cloud](https://github.com/rookie-ninja/rk-cloud) | AWS                                                       |                                                                                          |
+|          | [rk-cloud](https://github.com/rookie-ninja/rk-cloud) | AWS/KMS                                                   |                                                                                          |
+|          | [rk-cloud](https://github.com/rookie-ninja/rk-cloud) | AWS/KMS/Signer                                            |                                                                                          |
+|          | [rk-cloud](https://github.com/rookie-ninja/rk-cloud) | AWS/KMS/Crypto                                            |                                                                                          |
+|          | [rk-cloud](https://github.com/rookie-ninja/rk-cloud) | Tencent                                                   |                                                                                          |
+|          | [rk-cloud](https://github.com/rookie-ninja/rk-cloud) | Tencent/KMS                                               |                                                                                          |
+|          | [rk-cloud](https://github.com/rookie-ninja/rk-cloud) | Tencent/KMS/Signer                                        |                                                                                          |
+|          | [rk-cloud](https://github.com/rookie-ninja/rk-cloud) | Tencent/KMS/Crypto                                        |                                                                                          |
+
