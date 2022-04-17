@@ -141,7 +141,7 @@ plugins:
 
 ### 6.编译 proto file
 ```shell script
-$ buf generate
+$ buf generate --path api/v1
 ```
 
 > 如下的文件会被创建。
