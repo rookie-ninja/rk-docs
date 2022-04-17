@@ -141,7 +141,7 @@ startTime=2022-04-14T01:09:52.073337+08:00
 elapsedNano=896392
 timezone=CST
 ids={"eventId":"432fcdfb-05e8-46a4-b7b2-d6b6967eba88"}
-app={"appName":"","appVersion":"","entryName":"greeter","entryType":"GinEntry"}
+app={"appName":"rk","appVersion":"local","entryName":"greeter","entryType":"GinEntry"}
 env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
 payloads={"docsEnabled":true,"docsPath":"/docs/","ginPort":8080,"promEnabled":true,"promPath":"/metrics","promPort":8080,"swEnabled":true,"swPath":"/sw/"}
 counters={}
@@ -178,7 +178,9 @@ $ curl -vs "localhost:8080/v1/greeter?name=rk-dev"
 * ...
 < X-Request-Id: 7120529c-893b-4caa-a425-bc268de5cbc0
 < X-Rk-App-Domain: *
-< X-Rk-App-Unix-Time: 2022-04-14T01:18:39.013447+08:00
+< X-Rk-App-Name: rk
+< X-Rk-App-Unix-Time: 2022-04-15T03:37:22.848829+08:00
+< X-Rk-App-Version: local
 < X-Rk-Received-Time: 2022-04-14T01:18:39.013447+08:00
 < ...
 {"Message":"Hello rk-dev!"}
@@ -194,7 +196,7 @@ startTime=2022-04-14T01:18:39.013433+08:00
 elapsedNano=360521
 timezone=CST
 ids={"eventId":"7120529c-893b-4caa-a425-bc268de5cbc0","requestId":"7120529c-893b-4caa-a425-bc268de5cbc0"}
-app={"appName":"","appVersion":"","entryName":"greeter","entryType":"GinEntry"}
+app={"appName":"rk","appVersion":"local","entryName":"greeter","entryType":"GinEntry"}
 env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
 payloads={"apiMethod":"GET","apiPath":"/v1/greeter","apiProtocol":"HTTP/1.1","apiQuery":"name=rk-dev","userAgent":"curl/7.64.1"}
 counters={}

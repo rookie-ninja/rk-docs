@@ -277,7 +277,7 @@ startTime=2022-04-14T16:25:23.537974+08:00
 elapsedNano=4385739
 timezone=CST
 ids={"eventId":"f09d0b94-b491-4148-8438-3e65610fbdde"}
-app={"appName":"","appVersion":"","entryName":"greeter","entryType":"gRPCEntry"}
+app={"appName":"rk","appVersion":"local","entryName":"greeter","entryType":"gRPCEntry"}
 env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"10.8.0.2","os":"darwin"}
 payloads={"docsEnabled":true,"docsPath":"/docs/","grpcPort":8080,"gwPort":8080,"promEnabled":true,"promPath":"/metrics","promPort":8080,"swEnabled":true,"swPath":"/sw/"}
 counters={}
@@ -314,9 +314,9 @@ $ curl -vs localhost:8080/v1/hello
 ...
 < X-Request-Id: b047072d-a433-4b98-b2ff-3ba54bbb0243
 < X-Rk-App-Domain: *
-< X-Rk-App-Name: 
+< X-Rk-App-Name: rk
 < X-Rk-App-Unix-Time: 2022-04-14T16:35:28.387937+08:00
-< X-Rk-App-Version: 
+< X-Rk-App-Version: local
 < X-Rk-Received-Time: 2022-04-14T16:35:28.387937+08:00
 ...
 {"message":"Hello!"}
@@ -337,9 +337,9 @@ Response headers received:
 content-type: application/grpc
 x-request-id: c783eeaa-2a77-44ec-bb9c-9cbf19a58ee6
 x-rk-app-domain: *
-x-rk-app-name: 
+x-rk-app-name: rk
 x-rk-app-unix-time: 2022-04-14T16:36:59.258112+08:00
-x-rk-app-version: 
+x-rk-app-version: local
 x-rk-received-time: 2022-04-14T16:36:59.258112+08:00
 
 Response contents:
@@ -359,7 +359,7 @@ startTime=2022-04-14T16:35:28.387928+08:00
 elapsedNano=41020
 timezone=CST
 ids={"eventId":"b047072d-a433-4b98-b2ff-3ba54bbb0243","requestId":"b047072d-a433-4b98-b2ff-3ba54bbb0243"}
-app={"appName":"","appVersion":"","entryName":"greeter","entryType":"gRPCEntry"}
+app={"appName":"rk","appVersion":"local","entryName":"greeter","entryType":"gRPCEntry"}
 env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"10.8.0.2","os":"darwin"}
 payloads={"apiMethod":"","apiPath":"/api.v1.Greeter/Hello","apiProtocol":"","apiQuery":"","grpcMethod":"Hello","grpcService":"api.v1.Greeter","grpcType":"UnaryServer","gwMethod":"GET","gwPath":"/v1/hello","gwScheme":"http","gwUserAgent":"curl/7.64.1","userAgent":""}
 counters={}
