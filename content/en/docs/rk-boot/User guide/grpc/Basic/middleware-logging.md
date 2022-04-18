@@ -13,14 +13,14 @@ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
 ## Options
-| options                     | description                        | type     | default                |
-|------------------------------------------|-----------------------------|----------|---------|
+| options                                   | description                        | type     | default                |
+|-------------------------------------------|-----------------------------|----------|---------|
 | grpc.middleware.logging.enabled           | Enable logging middleware   | boolean  | false   |
 | grpc.middleware.logging.ignore            | Ignore by path              | []string | []      |
 | grpc.middleware.logging.loggerEncoding    | Logger format：json, console | string   | console |
 | grpc.middleware.logging.loggerOutputPaths | Logger output path          | []string | stdout  |
 | grpc.middleware.logging.eventEncoding     | Event format：json, console  | string   | console |
-| grpcgrpc.middleware.logging.eventOutputPaths  | Event output path           | []string | stdout  |
+| grpc.middleware.logging.eventOutputPaths  | Event output path           | []string | stdout  |
 
 ## Concept
 1. [Event](https://github.com/rookie-ninja/rk-query)
