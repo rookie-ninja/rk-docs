@@ -14,7 +14,7 @@ go get github.com/rookie-ninja/rk-echo
 
 ## 选项
 | 名字                                     | 描述                             | 类型 | 默认值 |
-|----------------------------------------|--------------------------------| ------ | -- |
+|----------------------------------------|--------------------------------| ------ | --- |
 | echo.middleware.jwt.enabled             | 启动 JWT 中间件                     | boolean | false |
 | echo.middleware.jwt.ignore              | 局部选项，忽略 API 路径                 | []string | []             |
 | echo.middleware.jwt.signerEntry         | SignerEntry 名称                 | string | "" |

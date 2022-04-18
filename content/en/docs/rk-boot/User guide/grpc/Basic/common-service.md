@@ -1,57 +1,32 @@
 ---
-title: "Common Service"
-linkTitle: "Common Service"
-weight: 4
+title: "Common API"
+linkTitle: "Common API"
+weight: 3
 description: >
-  Enable common service for server.
+  Enable Common API。
 ---
 
 ## Overview
-Common service contains builtin API commonly used by user.
+There are a couple of commonly used APIs implemented in rk-boot.
 
-| grpc-gateway Path | GRPC Method | Description |
-| ---- | ---- | ---- |
-| /rk/v1/apis | rk.api.v1.RkcCommonService.Apis | List APIs in current GrpcEntry. |
-| /rk/v1/certs | rk.api.v1.RkcCommonService.Certs | List CertEntry. |
-| /rk/v1/configs | rk.api.v1.RkcCommonService.Configs | List ConfigEntry. |
-| /rk/v1/deps | rk.api.v1.RkcCommonService.Deps | List dependencies related application, entire contents of go.mod file would be returned. |
-| /rk/v1/entries | rk.api.v1.RkcCommonService.Entries | List all Entries. |
-| /rk/v1/gc | rk.api.v1.RkcCommonService.Gc | Trigger GC |
-| /rk/v1/healthy | rk.api.v1.RkcCommonService.Healthy | Get application healthy status. |
-| /rk/v1/info | rk.api.v1.RkcCommonService.Info | Get application and process info. |
-| /rk/v1/license | rk.api.v1.RkcCommonService.License | Get license related application, entire contents of LICENSE file would be returned. |
-| /rk/v1/logs | rk.api.v1.RkcCommonService.Logs | List logger related entries. |
-| /rk/v1/git | rk.api.v1.RkcCommonService.Git | Get git information. |
-| /rk/v1/readme | rk.api.v1.RkcCommonService.Readme | Get contents of README file. |
-| /rk/v1/req | rk.api.v1.RkcCommonService.Req | List prometheus metrics of requests. |
-| /rk/v1/sys | rk.api.v1.RkcCommonService.Sys | Get OS stat. |
-| /rk/v1/tv | rk.api.v1.RkcCommonService.Tv | Get HTML page of /tv. |
+| Path         | Description             |
+|--------------|-------------------------|
+| /rk/v1/alive | For K8S liveness        |
+| /rk/v1/ready | For K8S readiness       |
+| /rk/v1/info  | Return Application Info |
+| /rk/v1/gc    | Trigger GC              |
 
-## Installation
-```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-grpc
+## Install
+```shell
+go get github.com/rookie-ninja/rk-boot/v2
+go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
-## General options
-> These are general options to start a grpc server with rk-boot
-
-| name | description | type | default value | Required |
-| ------ | ------ | ------ | ------ | ------ |
-| grpc.name | The name of grpc server | string | "", server won't start | Required |
-| grpc.port | The port of grpc server | integer | 0, server won't start | Required |
-| grpc.enabled | Enable grpc entry | bool | false | Required |
-| grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.enableReflection | Enable grpc server reflection | boolean | false | Optional |
-| grpc.enableRkGwOption | Enable RK style gateway server options. | boolean | false | Optional |
-| grpc.noRecvMsgSizeLimit | Disable grpc server side receive message size limit | boolean | false | Optional |
-| grpc.gwMappingFilePaths | The grpc gateway mapping file path | []string | [] | Optional |
-
-
-## CommonService options
-| name | description | type | default value |
-| ------ | ------ | ------ | ------ |
-| grpc.commonService.enabled | Enable embedded common service | boolean | false |
+## Options
+| Name                          | Description     | Type    | Default |
+|-------------------------------|-----------------|---------|---------|
+| grpc.commonService.enabled    | 启动 Common API   | boolean | false   |
+| grpc.commonService.pathPrefix | Common API 路径前缀 | string  | /rk/v1  |
 
 ## Quick start
 ### 1.Create boot.yaml
@@ -61,9 +36,9 @@ grpc:
   - name: greeter
     port: 8080
     enabled: true
-    enableReflection: true    # Enable reflection in order to use grpcurl for validation
     commonService:
-      enabled: true           # Enable common service
+      enabled: true
+#      pathPrefix: ""
 ```
 
 ### 2.Create main.go
@@ -72,8 +47,8 @@ package main
 
 import (
 	"context"
-	"github.com/rookie-ninja/rk-boot"
-    _ "github.com/rookie-ninja/rk-grpc/boot"
+    "github.com/rookie-ninja/rk-boot/v2"
+    _ "github.com/rookie-ninja/rk-grpc/v2/boot"
 )
 
 // Application entrance.
@@ -90,56 +65,25 @@ func main() {
 ```
 
 ### 3.Validate
-> Install grpcurl from the official site.
-> https://github.com/fullstorydev/grpcurl
-
-```shell script
-# List grpc services at port 8080 without TLS
-# Expect RkCommonService since we enabled common services.
-$ grpcurl -plaintext localhost:8080 list                           
-grpc.reflection.v1alpha.ServerReflection
-rk.api.v1.RkCommonService
-
-# List grpc methods in rk.api.v1.RkCommonService
-$ grpcurl -plaintext localhost:8080 list rk.api.v1.RkCommonService            
-rk.api.v1.RkCommonService.Apis
-rk.api.v1.RkCommonService.Certs
-rk.api.v1.RkCommonService.Configs
-rk.api.v1.RkCommonService.Deps
-rk.api.v1.RkCommonService.Entries
-rk.api.v1.RkCommonService.Gc
-rk.api.v1.RkCommonService.GwErrorMapping
-rk.api.v1.RkCommonService.Healthy
-rk.api.v1.RkCommonService.Info
-rk.api.v1.RkCommonService.License
-rk.api.v1.RkCommonService.Logs
-rk.api.v1.RkCommonService.Readme
-rk.api.v1.RkCommonService.Req
-rk.api.v1.RkCommonService.Sys
-rk.api.v1.RkCommonService.Git
-
-# Send request to rk.api.v1.RkCommonService.Healthy
-$ grpcurl -plaintext localhost:8080 rk.api.v1.RkCommonService.Healthy
+```shell
+$ curl localhost:8080/rk/v1/ready
 {
-    "healthy": true
+  "ready": true
 }
 ```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)
 
 ### 4.Enable swagger UI
-> In order to visualise common service in swagger UI, we need to enable swagger in boot.yaml as bellow.
-
 ```yaml
 ---
 grpc:
   - name: greeter
     port: 8080
     enabled: true
-    enableReflection: true    # Enable reflection in order to use grpcurl for validation
     commonService:
-      enabled: true           # Enable common service
+      enabled: true
     sw:
       enabled: true
 ```
@@ -148,7 +92,8 @@ grpc:
 >
 > [http://localhost:8080/sw](http://localhost:8080/sw)
 
-![sw-common](/bootstrapper/getting-started/grpc-golang/grpc-sw.png)
+![sw-common](/rk-boot/user-guide/gin/basic/gin-sw-common.png)
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)
+

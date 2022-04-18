@@ -1,31 +1,31 @@
 ---
-title: "JWT 中间件"
-linkTitle: "JWT 中间件"
+title: "Middleware JWT"
+linkTitle: "Middleware JWT"
 weight: 14
 description: >
-  启动 JWT 中间件。
+  Enable JWT middleware
 ---
 
-## 安装
+## Install
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
 go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
-## 选项
-| 名字                                     | 描述                             | 类型 | 默认值 |
-|----------------------------------------|--------------------------------| ------ | --- |
-| grpc.middleware.jwt.enabled             | 启动 JWT 中间件                     | boolean | false |
-| grpc.middleware.jwt.ignore              | 局部选项，忽略 API 路径                 | []string | []             |
-| grpc.middleware.jwt.signerEntry         | SignerEntry 名称                 | string | "" |
-| grpc.middleware.jwt.symmetric.algorithm | 对称加密算法, 选项：HS256, HS384, HS512                         | string | "" |
-| grpc.middleware.jwt.symmetric.token     | 对称加密密钥                         | string | "" |
-| grpc.middleware.jwt.symmetric.tokenPath | 对称加密密钥本地路径                     | string | "" |
-| grpc.middleware.jwt.asymmetric.algorithm| 非对称加密算法, 选项：RS256, RS384, RS512, ES256, ES384, ES512                        | string | "" |
-| grpc.middleware.jwt.tokenLookup         | 寻找 JWT Token 的格式，参考下面的例子 | string | "header:Authorization" |
-| grpc.middleware.jwt.authScheme          | 提供 Auth Scheme                 | string | Bearer |
+## Options
+| options                     | description                        | type     | default                |
+|----------------------------------------|--------------------------------| ------ |------------------------|
+| grpc.middleware.jwt.enabled             | Enable JWT middleware                     | boolean | false                  |
+| grpc.middleware.jwt.ignore  | Ignore by path                                                                       | []string | []                     |
+| grpc.middleware.jwt.signerEntry         | SignerEntry name                 | string | ""                     |
+| grpc.middleware.jwt.symmetric.algorithm | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
+| grpc.middleware.jwt.symmetric.token     | Symmetric token                         | string | ""                     |
+| grpc.middleware.jwt.symmetric.tokenPath | Symmetric token path                     | string | ""                     |
+| grpc.middleware.jwt.asymmetric.algorithm| Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512                        | string | ""                     |
+| grpc.middleware.jwt.tokenLookup         | JWT Token format，see example bellow | string | "header:Authorization" |
+| grpc.middleware.jwt.authScheme          | Auth Scheme                 | string | Bearer                 |
 
-**tokenLookup** 格式
+**tokenLookup**
 
 ```
 // Optional. Default value "header:Authorization".
@@ -36,11 +36,11 @@ go get github.com/rookie-ninja/rk-grpc/v2
 // - "header: Authorization,cookie: myowncookie"
 ```
 
-## 快速开始
-### 1.创建并编译 protocol buffer
-[使用 buf 编译 protocol buf](/cn/docs/rk-boot/user-guide/grpc/basic/buf/)
+## Quick start
+### 1.Create and compile protocol buffer
+[Compile protobuf](/en/docs/rk-boot/user-guide/grpc/basic/buf/)
 
-### 2.创建 boot.yaml
+### 2.Create boot.yaml
 ```yaml
 ---
 grpc:
@@ -66,7 +66,7 @@ grpc:
 #        authScheme: "Bearer"
 ```
 
-### 3.创建 main.go
+### 3.Create main.go
 ```go
 package main
 
@@ -110,15 +110,15 @@ func (server *GreeterServer) Hello(ctx context.Context, _ *greeter.HelloRequest)
 }
 ```
 
-### 4.验证
-> 正确的 JWT Token
+### 4.Validate
+> Valid JWT Token
 
 ```shell script
 $ curl localhost:8080/v1/hello -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.EpM5XBzTJZ4J8AfoJEcJrjth8pfH28LWdjLo90sYb9g"
 {"message":"hello!"}
 ```
 
-> 非法 JWT Token
+> Invalid JWT Token
 
 ```shell script
 $ curl localhost:8080/v1/hello -H "Authorization: Bearer invalid-jwt-token"

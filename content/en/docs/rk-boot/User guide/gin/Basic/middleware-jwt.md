@@ -13,17 +13,17 @@ go get github.com/rookie-ninja/rk-gin/v2
 ```
 
 ## 选项
-| options                     | description                        | type     | default |
-|----------------------------------------|--------------------------------| ------ | -- |
-| gin.middleware.jwt.enabled             | Enable JWT middleware                     | boolean | false |
-| gin.middleware.jwt.ignore  | Ignore by path                                                                       | []string | []                 |
-| gin.middleware.jwt.signerEntry         | SignerEntry name                 | string | "" |
-| gin.middleware.jwt.symmetric.algorithm | Symmetric algorithm, options: HS256, HS384, HS512                         | string | "" |
-| gin.middleware.jwt.symmetric.token     | Symmetric token                         | string | "" |
-| gin.middleware.jwt.symmetric.tokenPath | Symmetric token path                     | string | "" |
-| gin.middleware.jwt.asymmetric.algorithm| Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512                        | string | "" |
+| options                     | description                        | type     | default                |
+|----------------------------------------|--------------------------------| ------ |------------------------|
+| gin.middleware.jwt.enabled             | Enable JWT middleware                     | boolean | false                  |
+| gin.middleware.jwt.ignore  | Ignore by path                                                                       | []string | []                     |
+| gin.middleware.jwt.signerEntry         | SignerEntry name                 | string | ""                     |
+| gin.middleware.jwt.symmetric.algorithm | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
+| gin.middleware.jwt.symmetric.token     | Symmetric token                         | string | ""                     |
+| gin.middleware.jwt.symmetric.tokenPath | Symmetric token path                     | string | ""                     |
+| gin.middleware.jwt.asymmetric.algorithm| Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512                        | string | ""                     |
 | gin.middleware.jwt.tokenLookup         | JWT Token format，see example bellow | string | "header:Authorization" |
-| gin.middleware.jwt.authScheme          | Auth Scheme                 | string | Bearer |
+| gin.middleware.jwt.authScheme          | Auth Scheme                 | string | Bearer                 |
 
 **tokenLookup** format
 

@@ -1,247 +1,103 @@
 ---
-title: "GRPC Gateway"
-linkTitle: "GRPC Gateway"
+title: "grpc-gateway"
+linkTitle: "grpc-gateway"
 weight: 2
 description: >
   Enable grpc-gateway.
 ---
 
 ## Overview
-In traditional way, we need to add a bunch of codes in order to enable [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway), 
+By default, gRPC and grpc-gateway wil use the same port if service was started by rk-boot.
 
-With bootstrapper, grpc-gateway will be automatically started and bind to one single port with grpc for convenience.
-
-> **Steps to enable grpc-gateway:**
-> 1. Write gw_mapping.yaml
-> 2. Write buf.yaml & buf.gen.yaml
-> 3. Generate gateway file based on gw_mapping.yaml
-> 4. Register gateway function into GRPC server
-
-## Prerequisite
-Install required tools.
-> We recommend use [rk](https://github.com/rookie-ninja/rk) install them easily.
+## Install
 ```shell script
-# Install RK CLI
-$ go get -u github.com/rookie-ninja/rk/cmd/rk
-
-# List available installation
-$ rk install
-COMMANDS:
-    buf                      install buf on local machine
-    cfssl                    install cfssl on local machine
-    cfssljson                install cfssljson on local machine
-    gocov                    install gocov on local machine
-    golangci-lint            install golangci-lint on local machine
-    mockgen                  install mockgen on local machine
-    pkger                    install pkger on local machine
-    protobuf                 install protobuf on local machine
-    protoc-gen-doc           install protoc-gen-doc on local machine
-    protoc-gen-go            install protoc-gen-go on local machine
-    protoc-gen-go-grpc       install protoc-gen-go-grpc on local machne
-    protoc-gen-grpc-gateway  install protoc-gen-grpc-gateway on local machine
-    protoc-gen-openapiv2     install protoc-gen-openapiv2 on local machine
-    swag                     install swag on local machine
-    rk-std                   install rk standard environment on local machine
-    help, h                  Shows a list of commands or help for one command
-
-# Install buf, protoc-gen-go, protoc-gen-go-grpc, protoc-gen-grpc-gateway, protoc-gen-openapiv2
-$ rk install protoc-gen-go
-$ rk install protoc-gen-go-grpc
-$ rk install protoc-gen-go-grpc-gateway
-$ rk install protoc-gen-openapiv2
-$ rk install buf
+go get github.com/rookie-ninja/rk-boot/v2
+go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
-| Tool | Description | Installation |
-| ---- | ---- | ---- |
-| [protobuf](https://github.com/protocolbuffers/protobuf) | protocol buffer | [Install](http://google.github.io/proto-lens/installing-protoc.html) |
-| [buf](https://docs.buf.build) | Help you create consistent Protobuf APIs that preserve compatibility and comply with design best-practices. | [Install](https://docs.buf.build/installation) |
-| [protoc-gen-go](https://github.com/golang/protobuf/tree/master/protoc-gen-go) | Plugin for the Google protocol buffer compiler to generate Go code.. | [Install](https://grpc.io/docs/languages/go/quickstart/) |
-| [protoc-gen-go-grpc](https://github.com/grpc/grpc-go) | This project aims to provide that HTTP+JSON interface to your gRPC service. | [Install](https://grpc.io/docs/languages/go/quickstart/) |
-| [protoc-gen-grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) | plugin for Google protocol buffer compiler to generate a reverse-proxy, which converts incoming RESTful HTTP/1 requests gRPC invocation. | [Install](https://github.com/grpc-ecosystem/grpc-gateway#installation) |
-| [protoc-gen-openapiv2](https://github.com/grpc-ecosystem/grpc-gateway) | plugin for Google protocol buffer compiler to generate open API config file. | [Install](https://github.com/grpc-ecosystem/grpc-gateway#installation) |
-
-## Installation
-```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-grpc
-```
-
-## General options
-> These are general options to start a grpc server with rk-boot
-
-| name | description | type | default value | Required |
-| ------ | ------ | ------ | ------ | ------ |
-| grpc.name | The name of grpc server | string | "", server won't start | Required |
-| grpc.port | The port of grpc server | integer | 0, server won't start | Required |
-| grpc.enabled | Enable grpc entry | bool | false | Required |
-| grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.enableReflection | Enable grpc server reflection | boolean | false | Optional |
-| grpc.enableRkGwOption | Enable RK style gateway server options. | boolean | false | Optional |
-| grpc.noRecvMsgSizeLimit | Disable grpc server side receive message size limit | boolean | false | Optional |
-| grpc.gwMappingFilePaths | The grpc gateway mapping file path | []string | [] | Optional |
+## Options
+| Name                    | Description                                                                 | Type    | Default |
+|-------------------------|-----------------------------------------------------------------------------|---------|---------|
+| grpc.name               | gRPC name                                                                   | string  | ""      |
+| grpc.port               | gRPC port                                                                   | integer | 0       |
+| grpc.enabled            | Enable gRPC                                                                 | bool    | false   |
+| grpc.description        | gRPC description                                                            | string  | ""      |
+| grpc.enableReflection   | Enable gRPC reflection                                                      | boolean | false   |
+| grpc.enableRkGwOption   | Enable RK sytle grpc-gateway option which pass all headers to gRPC metadata | boolean | false   |
+| grpc.noRecvMsgSizeLimit | gRPC server side message size limit                                         | int     | 4000000 |
 
 ## Quick start
-### 1.Create api/v1/greeter.proto
-```protobuf
-syntax = "proto3";
+### 1.Create and compile protocol buffer
+[Compile protobuf](/en/docs/rk-boot/user-guide/grpc/basic/buf/)
 
-package api.v1;
-
-option go_package = "api/v1/greeter";
-
-service Greeter {
-  rpc Greeter (GreeterRequest) returns (GreeterResponse) {}
-}
-
-message GreeterRequest {
-  string name = 1;
-}
-
-message GreeterResponse {
-  string message = 1;
-}
-```
-
-### 2.Create api/v1/gw_mapping.yaml
-```yaml
-type: google.api.Service
-config_version: 3
-
-# Please refer google.api.Http in https://github.com/googleapis/googleapis/blob/master/google/api/http.proto file for details.
-http:
-  rules:
-    - selector: api.v1.Greeter.Greeter
-      get: /api/v1/greeter
-```
-
-### 3.Create buf.yaml
-```yaml
-version: v1beta1
-name: github.com/rk-dev/rk-demo
-build:
-  roots:
-    - api
-```
-
-### 4.Create buf.gen.yaml
-```yaml
-version: v1beta1
-plugins:
-  # protoc-gen-go needs to be installed, generate go files based on proto files
-  - name: go
-    out: api/gen
-    opt:
-     - paths=source_relative
-  # protoc-gen-go-grpc needs to be installed, generate grpc go files based on proto files
-  - name: go-grpc
-    out: api/gen
-    opt:
-      - paths=source_relative
-      - require_unimplemented_servers=false
-  # protoc-gen-grpc-gateway needs to be installed, generate grpc-gateway go files based on proto files
-  - name: grpc-gateway
-    out: api/gen
-    opt:
-      - paths=source_relative
-      - grpc_api_configuration=api/v1/gw_mapping.yaml
-  # protoc-gen-openapiv2 needs to be installed, generate swagger config files based on proto files
-  - name: openapiv2
-    out: api/gen
-    opt:
-      - grpc_api_configuration=api/v1/gw_mapping.yaml
-```
-
-### 5.Compile proto file
-```shell script
-$ buf generate
-```
-
-> There will be bellow files generated.
-```shell script
-$ tree api/gen 
-api/gen
-└── v1
-    ├── greeter.pb.go
-    ├── greeter.pb.gw.go
-    ├── greeter.swagger.json
-    └── greeter_grpc.pb.go
- 
-1 directory, 4 files
-```
-
-### 6.Create boot.yaml
-> **grpc.gw.gwMappingFilePaths** is not required, however, we strongly recommend specify this path since bootstrapper will use this in bellow:
-> 1. /rk/v1/apis
-> 2. RK TV
-
+### 2.Create boot.yaml
 ```yaml
 ---
 grpc:
-  - name: greeter                   # Name of grpc entry
-    port: 8080                      # Port of grpc entry
-    enabled: true                   # Enable grpc entry
-    gwMappingFilePaths:
-      - "api/v1/gw_mapping.yaml"    # Boot will look for gateway mapping files and load information into memory
+  - name: greeter
+    port: 8080
+    enabled: true
+    enableReflection: true
+    enableRkGwOption: true
 ```
 
-### 7. Create main.go
+### 3.Create main.go
 ```go
 package main
 
 import (
-	"context"
-	"fmt"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-demo/api/gen/v1"
-	_ "github.com/rookie-ninja/rk-grpc/boot"
-	"google.golang.org/grpc"
+  "context"
+  "github.com/rookie-ninja/rk-boot/v2"
+  "github.com/rookie-ninja/rk-demo/api/gen/v1"
+  "github.com/rookie-ninja/rk-grpc/v2/boot"
+  "google.golang.org/grpc"
 )
 
-// Application entrance.
 func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
+  boot := rkboot.NewBoot()
 
-    // ***************************************
-    // ******* Register GRPC & Gateway *******
-    // ***************************************
+  // register grpc
+  entry := rkgrpc.GetGrpcEntry("greeter")
+  entry.AddRegFuncGrpc(registerGreeter)
+  entry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
-	// Get grpc entry with name
-	grpcEntry := boot.GetGrpcEntry("greeter")
-    // Register grpc registration function
-	grpcEntry.AddRegFuncGrpc(registerGreeter)
-    // Register grpc-gateway registration function
-	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
+  // Bootstrap
+  boot.Bootstrap(context.TODO())
 
-	// Bootstrap
-	boot.Bootstrap(context.Background())
-
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
+  // Wait for shutdown sig
+  boot.WaitForShutdownSig(context.TODO())
 }
 
-// Implementation of [type GrpcRegFunc func(server *grpc.Server)]
 func registerGreeter(server *grpc.Server) {
-	greeter.RegisterGreeterServer(server, &GreeterServer{})
+  greeter.RegisterGreeterServer(server, &GreeterServer{})
 }
 
-// Implementation of grpc service defined in proto file
 type GreeterServer struct{}
 
-func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
-	return &greeter.GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", request.Name),
-	}, nil
+func (server *GreeterServer) Hello(_ context.Context, _ *greeter.HelloRequest) (*greeter.HelloResponse, error) {
+  return &greeter.HelloResponse{
+    Message: "hello!",
+  }, nil
 }
 ```
 
-### 8.Full structure
+### 4.Directory hierarchy
 ```shell script
 $ tree
 .
+├── Makefile
+├── README.md
 ├── api
 │   ├── gen
+│   │   ├── google
+│   │   │   ├── api
+│   │   │   │   ├── annotations.pb.go
+│   │   │   │   ├── http.pb.go
+│   │   │   │   └── httpbody.pb.go
+│   │   │   └── rpc
+│   │   │       ├── code.pb.go
+│   │   │       ├── error_details.pb.go
+│   │   │       └── status.pb.go
 │   │   └── v1
 │   │       ├── greeter.pb.go
 │   │       ├── greeter.pb.gw.go
@@ -255,85 +111,109 @@ $ tree
 ├── buf.yaml
 ├── go.mod
 ├── go.sum
-└── main.go
-
-4 directories, 12 files
+├── main.go
+└── third-party
+    └── googleapis
+        ├── LICENSE
+        ├── README.grpc-gateway
+        └── google
+            ├── api
+            │   ├── annotations.proto
+            │   ├── http.proto
+            │   └── httpbody.proto
+            └── rpc
+                ├── code.proto
+                ├── error_details.proto
+                └── status.proto
 ```
 
-### 9.Validate
+### 5.Validate
 ```shell script
 $ go run main.go
+2022-04-17T18:15:55.603+0800    INFO    boot/grpc_entry.go:960  Bootstrap grpcEntry     {"eventId": "46a79118-2966-4b55-a062-8714e6ac54ac", "entryName": "greeter", "entryType": "gRPCEntry"}
+------------------------------------------------------------------------
+endTime=2022-04-17T18:15:55.603368+08:00
+startTime=2022-04-17T18:15:55.603117+08:00
+elapsedNano=251193
+timezone=CST
+ids={"eventId":"46a79118-2966-4b55-a062-8714e6ac54ac"}
+app={"appName":"","appVersion":"","entryName":"greeter","entryType":"gRPCEntry"}
+env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
+payloads={"grpcPort":8080,"gwPort":8080}
+counters={}
+pairs={}
+timing={}
+remoteAddr=localhost
+operation=Bootstrap
+resCode=OK
+eventStatus=Ended
+EOE
 ```
 
+> Restful API
+
 ```shell script
-$ curl "localhost:8080/api/v1/greeter?name=rk-dev"
-{"message":"Hello rk-dev!"}
+$ curl localhost:8080/v1/hello             
+{"message":"hello!"}
+```
+
+> gRPC
+
+```shell
+$ grpcurl -plaintext localhost:8080 api.v1.Greeter.Hello 
+{
+  "message": "hello!"
+}
 ```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)
 
 ## Gateway server option
-> RK introduced gateway server options with bellow functionality.
->
-> [rkgrpc.RkGwServerMuxOptions](https://github.com/rookie-ninja/rk-grpc/blob/master/boot/gw_server_options.go)
-
-| Functionality | Description |
-| ---- | ---- |
-| HttpErrorHandler | Mainly copied from original gateway error handler. RK wrap errors to RK style error response. |
-| MarshallerOption | protojson.MarshalOptions{UseProtoNames: false, EmitUnpopulated: true},UnmarshalOptions: protojson.UnmarshalOptions{}} |
-| Metadata | Inject x-forwarded-method, x-forwarded-path, x-forwarded-scheme, x-forwarded-user-agent and x-forwarded-remote-addr into grpc metadata |
-| OutgoingHeaderMatcher | Bypass all grpc metadata to http header without prefix |
-| IncomingHeaderMatcher | Bypass all http header to grpc metadata without prefix |
-
-### 1.Enable rkServerOption
+### 1.Enable RkServerOption
 ```yaml
 ---
 grpc:
-  - name: greeter                   # Name of grpc entry
-    port: 8080                      # Port of grpc entry
-    enabled: true                   # Enable grpc entry
-    enableRkGwOption: true          # Enable rk style grpc gateway server option
-    gwMappingFilePaths:
-      - "api/v1/gw_mapping.yaml"    # Bootstrapper will look for gateway mapping files and load information into memory
-    interceptors:
-      loggingZap:
-        enabled: true               # Enable logging interceptor for validation
+  - name: greeter
+    port: 8080
+    enabled: true
+    enableRkGwOption: true
+    middleware:
+      logging:
+        enabled: true
 ```
 
-### 2.Validate log
+### 2.Validate logs
 ```shell script
-$ curl "localhost:8080/api/v1/greeter?name=rk-dev"
+$ curl localhost:8080/v1/hello
 ```
 
-> gwMethod, gwPath, gwScheme, gwUserAgent would be logged
+> gwMethod, gwPath, gwScheme, gwUserAgent will be in Event
 ```shell script
 ------------------------------------------------------------------------
 endTime=2021-07-09T21:03:43.518106+08:00
 ...
-payloads={"grpcMethod":"Greeter","grpcService":"api.v1.Greeter","grpcType":"unaryServer","gwMethod":"GET","gwPath":"/v1/greeter","gwScheme":"http","gwUserAgent":"curl/7.64.1"}
+payloads={"grpcMethod":"Hello","grpcService":"api.v1.Greeter","grpcType":"unaryServer","gwMethod":"GET","gwPath":"/v1/hello","gwScheme":"http","gwUserAgent":"curl/7.64.1"}
 ...
 ```
 
-### 3.Validate incoming metadata
+### 3.Validate gRPC metadata
 ```go
-func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
-    // Print incoming headers
-	fmt.Println(rkgrpcctx.GetIncomingHeaders(ctx))
+func (server *GreeterServer) Hello(ctx context.Context, _ *greeter.HelloRequest) (*greeter.HelloResponse, error) {
+    fmt.Println(rkgrpcctx.GetIncomingHeaders(ctx))
 
-	return &greeter.GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", request.Name),
-	}, nil
+    return &greeter.HelloResponse{
+        Message: "hello!",
+    }, nil
 }
 ```
+
 ```shell script
-map[:authority:[0.0.0.0:8080] accept:[*/*] content-type:[application/grpc] user-agent:[grpc-go/1.38.0] x-forwarded-for:[::1] x-forwarded-host:[localhost:8080] x-forwarded-method:[GET] x-forwarded-path:[/v1/greeter] x-forwarded-remote-addr:[[::1]:57082] x-forwarded-scheme:[http] x-forwarded-user-agent:[curl/7.64.1]]
+map[:authority:[0.0.0.0:8080] accept:[*/*] content-type:[application/grpc] user-agent:[grpc-go/1.44.1-dev] x-forwarded-for:[127.0.0.1] x-forwarded-host:[localhost:8080] x-forwarded-method:[GET] x-forwarded-path:[/v1/hello] x-forwarded-remote-addr:[127.0.0.1:49273] x-forwarded-scheme:[http] x-forwarded-user-agent:[curl/7.64.1]]
 ```
 
 ### 4.Override gateway server option for marshaller
-In some cases, we may hope to override marshaller options. For example, returning underscore style restful result instead of camelcase. 
-
-Please refer to bellow repository for detailed explanations.
+Please refer bellow codes to override marshaller.
 - [protobuf-go/encoding/protojson/encode.go](https://github.com/protocolbuffers/protobuf-go/blob/master/encoding/protojson/encode.go#L43)
 - [protobuf-go/encoding/protojson/decode.go ](https://github.com/protocolbuffers/protobuf-go/blob/master/encoding/protojson/decode.go#L33)
 
@@ -357,42 +237,40 @@ grpc:
 ```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)
 
 ## Error mapping
-> It is important to understand grpc-gateway error to grpc error mapping.
->
-> Here is the default error mapping defind in grpc-gateway.
 
-| GRPC Error | GRPC Error Str | Gateway(Http) Error Code | Gateway(Http) Error Str |
-| ---- | ---- | ---- | ---- |
-| 0 | OK | 200 | OK |
-| 1 | CANCELLED | 408 | Request Timeout |
-| 2 | UNKNOWN | 500 | Internal Server Error |
-| 3 | INVALID_ARGUMENT | 400 | Bad Request |
-| 4 | DEADLINE_EXCEEDED | 504 | Gateway Timeout |
-| 5 | NOT_FOUND | 404 | Not Found |
-| 6 | ALREADY_EXISTS | 409 | Conflict |
-| 7 | PERMISSION_DENIED | 403 | Forbidden |
-| 8 | RESOURCE_EXHAUSTED | 429 | Too Many Requests |
-| 9 | FAILED_PRECONDITION | 400 | Bad Request |
-| 10 | ABORTED | 409 | Conflict |
-| 11 | OUT_OF_RANGE | 400 | Bad Request |
-| 12 | UNIMPLEMENTED | 501 | Not Implemented |
-| 13 | INTERNAL | 500 | Internal Server Error |
-| 14 | UNAVAILABLE | 503 | Service Unavailable |
-| 15 | DATA_LOSS | 500 | Internal Server Error |
-| 16 | UNAUTHENTICATED | 401 | Unauthorized |
+| gRPC Code | gRPC Status         | Gateway(Http) Code | Gateway(Http) Status  |
+|-----------|---------------------|--------------------|-----------------------|
+| 0         | OK                  | 200                | OK                    |
+| 1         | CANCELLED           | 408                | Request Timeout       |
+| 2         | UNKNOWN             | 500                | Internal Server Error |
+| 3         | INVALID_ARGUMENT    | 400                | Bad Request           |
+| 4         | DEADLINE_EXCEEDED   | 504                | Gateway Timeout       |
+| 5         | NOT_FOUND           | 404                | Not Found             |
+| 6         | ALREADY_EXISTS      | 409                | Conflict              |
+| 7         | PERMISSION_DENIED   | 403                | Forbidden             |
+| 8         | RESOURCE_EXHAUSTED  | 429                | Too Many Requests     |
+| 9         | FAILED_PRECONDITION | 400                | Bad Request           |
+| 10        | ABORTED             | 409                | Conflict              |
+| 11        | OUT_OF_RANGE        | 400                | Bad Request           |
+| 12        | UNIMPLEMENTED       | 501                | Not Implemented       |
+| 13        | INTERNAL            | 500                | Internal Server Error |
+| 14        | UNAVAILABLE         | 503                | Service Unavailable   |
+| 15        | DATA_LOSS           | 500                | Internal Server Error |
+| 16        | UNAUTHENTICATED     | 401                | Unauthorized          |
 
-### 1.Validate error(Standard go error)
-> Based on default error mapping, we expect 500 response code.
+### 1.Validate error
+> Expect 500
 ```go
 func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
 	return nil, errors.New("error triggered manually")
 }
 ```
+
 ```shell script
-$ curl "localhost:8080/v1/greeter?name=rk-dev"
+$ curl localhost:8080/v1/hello
 {
     "error":{
         "code":500,
@@ -403,19 +281,17 @@ $ curl "localhost:8080/v1/greeter?name=rk-dev"
 }
 ```
 
-### 2.Validate error(grpc error)
-> grpc needs to specify errors with status.New().
-> 
-> We recommend use rkerror to generate errors as bellow.
+### 2.Validate error（grpc error）
+> We will use status.New() to create gRPC error.
 
 ```go
 func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
-	return nil, rkerror.PermissionDenied("permission denied manually").Err()
+	return nil, rkgrpcerr.PermissionDenied("permission denied manually").Err()
 }
 ```
 
 ```shell script
-curl "localhost:8080/v1/greeter?name=rk-dev"
+$ curl localhost:8080/v1/hello
 {
     "error":{
         "code":403,
@@ -433,4 +309,4 @@ curl "localhost:8080/v1/greeter?name=rk-dev"
 ```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)

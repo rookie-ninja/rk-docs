@@ -14,7 +14,7 @@ go get github.com/rookie-ninja/rk-gin/v2
 
 ## 选项
 | 名字                                     | 描述                             | 类型 | 默认值 |
-|----------------------------------------|--------------------------------| ------ | -- |
+|----------------------------------------|--------------------------------| ------ | --- |
 | gin.middleware.jwt.enabled             | 启动 JWT 中间件                     | boolean | false |
 | gin.middleware.jwt.ignore              | 局部选项，忽略 API 路径                 | []string | []             |
 | gin.middleware.jwt.signerEntry         | SignerEntry 名称                 | string | "" |
