@@ -1,33 +1,33 @@
 ---
-title: "CSRF 中间件"
-linkTitle: "CSRF 中间件"
+title: "Middleware CSRF"
+linkTitle: "Middleware CSRF"
 weight: 17
 description: >
-  启动 CSRF 中间件。
+  Enable CSRF Middleware
 ---
 
-## 安装
+## Install
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
 go get github.com/rookie-ninja/rk-gin/v2
 ```
 
-## CSRF 选项
-| 名字                                 | 描述                                                          | 类型       | 默认值                   |
-|------------------------------------|-------------------------------------------------------------|----------|-----------------------|
-| gin.middleware.csrf.enabled        | 启动 CSRF 中间件                                                 | boolean  | false                 |
-| gin.middleware.csrf.ignore         | 局部选项，忽略 API 路径                                              | []string | []                    |
-| gin.middleware.csrf.tokenLength    | 生成的 CSRF Token 的长度                                          | int      | 32                    |
-| gin.middleware.csrf.tokenLookup    | 寻找 CSRF Token 的方法，请参考代码注释                                   | string   | "header:X-CSRF-Token" |
-| gin.middleware.csrf.cookieName     | CSRF cookie 名字                                              | string   | _csrf                 |
-| gin.middleware.csrf.cookieDomain   | CSRF cookie 的 Domain 名称                                     | string   | ""                    |
-| gin.middleware.csrf.cookiePath     | CSRF cookie 路径                                              | string   | ""                    |
-| gin.middleware.csrf.cookieMaxAge   | CSRF cookie 的 MaxAge（秒）                                     | int      | 86400                 |
-| gin.middleware.csrf.cookieHttpOnly | CSRF cookie 是否只支持 HTTP                                      | bool     | false                 |
-| gin.middleware.csrf.cookieSameSite | 描述 CSRF cookie 的 SameSite 模式。选项: lax, strict, none, default | string   | default               |
+## CSRF options
+| options                     | description                        | type     | default |
+|------------------------------------|----------------------------------------------------|----------|-----------------------|
+| gin.middleware.csrf.enabled        | Enable CSRF middleware                             | boolean  | false                 |
+| gin.middleware.csrf.ignore         | Ignore by path                                     | []string | []                    |
+| gin.middleware.csrf.tokenLength    | Length of CSRF Token                               | int      | 32                    |
+| gin.middleware.csrf.tokenLookup    | Scheme of CSRF Token, See code comment for details | string   | "header:X-CSRF-Token" |
+| gin.middleware.csrf.cookieName     | Name of cookie                                     | string   | _csrf                 |
+| gin.middleware.csrf.cookieDomain   | Name of cookie domain                              | string   | ""                    |
+| gin.middleware.csrf.cookiePath     | Name of cookie path                                | string   | ""                    |
+| gin.middleware.csrf.cookieMaxAge   | Name of cookie max age                             | int      | 86400                 |
+| gin.middleware.csrf.cookieHttpOnly | Support http only                                  | bool     | false                 |
+| gin.middleware.csrf.cookieSameSite | SameSite mode, options: lax, strict, none, default | string   | default               |
 
-## 快速开始
-### 1.创建 boot.yaml
+## Quick start
+### 1.Create boot.yaml
 ```yaml
 ---
 gin:
@@ -48,7 +48,7 @@ gin:
 #        cookieSameSite: "default"
 ```
 
-### 2.创建 main.go
+### 2.Create main.go
 ```go
 package main
 
@@ -86,8 +86,8 @@ type GreeterResponse struct {
 }
 ```
 
-### 3.验证
-- 发送 GET 请求, 对于 GET 请求，一个新的 Cookie 将会返回。
+### 3.Validation
+- GET request, a new cookie is expected
 
 ```shell script
 $ curl -X GET -vs localhost:8080/v1/greeter
@@ -102,7 +102,7 @@ $ curl -X GET -vs localhost:8080/v1/greeter
   {"Message":"Hello !"}
 ```
 
-- 发送 POST 请求，通过 CSRF 验证。
+- POST request
 
 ```shell script
 $ curl -X POST -v --cookie "_csrf=my-test-csrf-token" -H "X-CSRF-Token:my-test-csrf-token" localhost:8080/v1/greeter
@@ -121,7 +121,7 @@ $ curl -X POST -v --cookie "_csrf=my-test-csrf-token" -H "X-CSRF-Token:my-test-c
 {"Message":"Hello rk-dev!"}
 ```
 
-- 发送 POST 请求，携带非法 CSRF。
+- POST request, invalid CSRF。
 
 ```shell script
 $ curl -X POST -v -H "X-CSRF-Token:my-test-csrf-token" localhost:8080/v1/greeter

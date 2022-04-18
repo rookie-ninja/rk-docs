@@ -22,7 +22,7 @@ go get github.com/rookie-ninja/rk-boot/v2
 go get github.com/rookie-ninja/rk-gin/v2
 ```
 
-## 通用 API 选项
+## 选项
 | 名字                           | 描述              | 类型      | 默认值    |
 |------------------------------|-----------------|---------|--------|
 | gin.commonService.enabled    | 启动 Common API   | boolean | false  |
