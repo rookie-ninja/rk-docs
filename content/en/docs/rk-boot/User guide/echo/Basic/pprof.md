@@ -9,21 +9,21 @@ description: >
 ## Install
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
-go get github.com/rookie-ninja/rk-gin/v2
+go get github.com/rookie-ninja/rk-echo
 ```
 
 ## Options
-| options           | description          | type    | default |
-|-------------------|----------------------|---------|---------|
-| gin.pprof.enabled | Enable pprof web UI  | boolean | false   |
-| gin.pprof.path    | Path of pprof web UI | string  | pprof   |
+| options            | description          | type    | default |
+|--------------------|----------------------|---------|---------|
+| echo.pprof.enabled | Enable pprof web UI  | boolean | false   |
+| echo.pprof.path    | Path of pprof web UI | string  | pprof   |
 
 ## Quick start
 ### 1.Create boot.yaml
 
 ```yaml
 ---
-gin:
+echo:
   - name: greeter
     port: 8080
     enabled: true
@@ -39,10 +39,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/rookie-ninja/rk-boot/v2"
-	"github.com/rookie-ninja/rk-gin/v2/boot"
-	"net/http"
+    "github.com/labstack/echo/v4"
+    "github.com/rookie-ninja/rk-boot/v2"
+    "github.com/rookie-ninja/rk-echo/boot"
+    "net/http"
 )
 
 func main() {
@@ -50,8 +50,8 @@ func main() {
 	boot := rkboot.NewBoot()
 
 	// Register handler
-	entry := rkgin.GetGinEntry("greeter")
-	entry.Router.GET("/v1/greeter", Greeter)
+    echoEntry := rkecho.GetEchoEntry("greeter")
+    echoEntry.Echo.GET("/v1/greeter", Greeter)
 
 	// Bootstrap
 	boot.Bootstrap(context.TODO())
@@ -59,10 +59,10 @@ func main() {
 	boot.WaitForShutdownSig(context.TODO())
 }
 
-func Greeter(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, &GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", ctx.Query("name")),
-	})
+func Greeter(ctx echo.Context) error {
+  return ctx.JSON(http.StatusOK, &GreeterResponse{
+    Message: fmt.Sprintf("Hello %s!", ctx.QueryParam("name")),
+  })
 }
 
 type GreeterResponse struct {

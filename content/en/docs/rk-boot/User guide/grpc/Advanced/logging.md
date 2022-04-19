@@ -179,10 +179,10 @@ logger:
 
 > Most commonly used options
 
-| option                 | description                 |
+| option            | description                    |
 |-------------------|--------------------------------|
-| event.outputPaths | 日志输出路径，可设置多路径                  |
-| event.encoding    | 日志格式，支持 console, json, flatten |
+| event.outputPaths | log output path                  |
+| event.encoding    | log format: console or json, flatten |
 
 ```yaml
 event:

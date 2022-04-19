@@ -9,23 +9,23 @@ description: >
 ## Install
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
-go get github.com/rookie-ninja/rk-gin/v2
+go get github.com/rookie-ninja/rk-echo
 ```
 
 ## Options
 | options                     | description                        | type     | default                |
 |----------------------------------------|--------------------------------| ------ |------------------------|
-| gin.middleware.jwt.enabled             | Enable JWT middleware                     | boolean | false                  |
-| gin.middleware.jwt.ignore  | Ignore by path                                                                       | []string | []                     |
-| gin.middleware.jwt.signerEntry         | SignerEntry name                 | string | ""                     |
-| gin.middleware.jwt.symmetric.algorithm | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
-| gin.middleware.jwt.symmetric.token     | Symmetric token                         | string | ""                     |
-| gin.middleware.jwt.symmetric.tokenPath | Symmetric token path                     | string | ""                     |
-| gin.middleware.jwt.asymmetric.algorithm| Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512                        | string | ""                     |
-| gin.middleware.jwt.tokenLookup         | JWT Token format，see example bellow | string | "header:Authorization" |
-| gin.middleware.jwt.authScheme          | Auth Scheme                 | string | Bearer                 |
+| echo.middleware.jwt.enabled             | Enable JWT middleware                     | boolean | false                  |
+| echo.middleware.jwt.ignore  | Ignore by path                                                                       | []string | []                     |
+| echo.middleware.jwt.signerEntry         | SignerEntry name                 | string | ""                     |
+| echo.middleware.jwt.symmetric.algorithm | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
+| echo.middleware.jwt.symmetric.token     | Symmetric token                         | string | ""                     |
+| echo.middleware.jwt.symmetric.tokenPath | Symmetric token path                     | string | ""                     |
+| echo.middleware.jwt.asymmetric.algorithm| Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512                        | string | ""                     |
+| echo.middleware.jwt.tokenLookup         | JWT Token format，see example bellow | string | "header:Authorization" |
+| echo.middleware.jwt.authScheme          | Auth Scheme                 | string | Bearer                 |
 
-**tokenLookup** format
+**tokenLookup** 格式
 
 ```
 // Optional. Default value "header:Authorization".
@@ -40,7 +40,7 @@ go get github.com/rookie-ninja/rk-gin/v2
 ### 1.Create boot.yaml
 ```yaml
 ---
-gin:
+echo:
   - name: greeter
     port: 8080
     enabled: true
@@ -69,10 +69,10 @@ package main
 import (
   "context"
   "fmt"
-  "github.com/gin-gonic/gin"
+  "github.com/labstack/echo/v4"
   "github.com/rookie-ninja/rk-boot/v2"
-  "github.com/rookie-ninja/rk-gin/v2/boot"
-  "github.com/rookie-ninja/rk-gin/v2/middleware/context"
+  "github.com/rookie-ninja/rk-echo/boot"
+  "github.com/rookie-ninja/rk-echo/middleware/context"
   "net/http"
 )
 
@@ -81,8 +81,8 @@ func main() {
   boot := rkboot.NewBoot()
 
   // Register handler
-  entry := rkgin.GetGinEntry("greeter")
-  entry.Router.GET("/v1/greeter", Greeter)
+  echoEntry := rkecho.GetEchoEntry("greeter")
+  echoEntry.Echo.GET("/v1/greeter", Greeter)
 
   // Bootstrap
   boot.Bootstrap(context.TODO())
@@ -90,12 +90,12 @@ func main() {
   boot.WaitForShutdownSig(context.TODO())
 }
 
-func Greeter(ctx *gin.Context) {
+func Greeter(ctx echo.Context) error {
   // Get JWT token
-  rkginctx.GetJwtToken(ctx)
+  rkechoctx.GetJwtToken(ctx)
   
-  ctx.JSON(http.StatusOK, &GreeterResponse{
-    Message: fmt.Sprintf("Hello %s!", ctx.Query("name")),
+  return ctx.JSON(http.StatusOK, &GreeterResponse{
+    Message: fmt.Sprintf("Hello %s!", ctx.QueryParam("name")),
   })
 }
 
@@ -104,7 +104,7 @@ type GreeterResponse struct {
 }
 ```
 
-### 3.Validation
+### 3.Validate
 - Valid JWT Token
 
 ```shell script

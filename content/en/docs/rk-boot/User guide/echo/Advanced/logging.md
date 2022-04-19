@@ -9,9 +9,9 @@ description: >
 ## Concept
 rk-boot defines two types of logs.
 
-| Type   | Description                                                                             |
-|--------|-----------------------------------------------------------------------------------------|
-| Logger | [zap](https://github.com/uber-go/zap) logger                                            |
+| Type   | Description                                                              |
+|--------|--------------------------------------------------------------------------|
+| Logger | [zap](https://github.com/uber-go/zap) logger                             |
 | Event  | [Event](https://github.com/rookie-ninja/rk-query) , used to record Event |
 
 ## Quick start
@@ -19,7 +19,7 @@ rk-boot defines two types of logs.
 
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot/v2
-$ go get github.com/rookie-ninja/rk-gin/v2
+$ go get github.com/rookie-ninja/rk-echo
 ```
 
 ### 2.Define output path
@@ -32,7 +32,7 @@ logger:
 event:
   - name: my-event
     outputPaths: ["logs/event.log"]
-gin:
+echo:
   - name: greeter
     port: 8080
     enabled: true
@@ -48,7 +48,7 @@ import (
   "context"
   "github.com/rookie-ninja/rk-boot/v2"
   "github.com/rookie-ninja/rk-entry/v2/entry"
-  _ "github.com/rookie-ninja/rk-gin/v2/boot"
+  _ "github.com/rookie-ninja/rk-echo/boot"
   "github.com/rookie-ninja/rk-query"
 )
 
@@ -88,7 +88,7 @@ func main() {
 ### 5.Validate
 ```shell
 $ cat logs/log.log 
-2022-04-16T21:45:04.855+0800    INFO    gin/main.go:35  This is my-logger
+2022-04-16T21:45:04.855+0800    INFO    echo/main.go:35  This is my-logger
 
 $ cat logs/event.log 
 ------------------------------------------------------------------------

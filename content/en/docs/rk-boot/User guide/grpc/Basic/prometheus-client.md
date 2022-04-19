@@ -79,16 +79,16 @@ func main() {
 ### 4.Add metrics into Prometheus
 ![prom](/rk-boot/user-guide/gin/basic/gin-prom-arch.png)
 
-| Name                                                                                                    | Description                                                               |
-|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [MetricsSet](https://github.com/rookie-ninja/rk-prom/blob/master/metrics_set.go)                        | RK 自定义的结构，通过 MetricsSet 注册 Prometheus 的 Counter，Gauge，Histogram 和 Summary |
-| [Prometheus Registerer](https://github.com/prometheus/client_golang/blob/master/prometheus/registry.go) | Prometheus 会通过 Registrerer 来管理 Counter，Gauge，Histogram 和 Summary          |
-| [Prometheus Counter](https://prometheus.io/docs/concepts/metric_types/#counter)                         | Counter 是一个累积度量，表示单个单调增加的计数器，其值只能增加或重置为零                                  |
-| [Prometheus Gauge](https://prometheus.io/docs/concepts/metric_types/#gauge)                             | Gauge 值可以随意加减                                                             |
-| [Prometheus Histogram](https://prometheus.io/docs/concepts/metric_types/#histogram)                     | Histogram 进行采样（通常是请求持续时间或响应大小之类的内容）并将它们计算在可配置的桶中，同时还提供所有观测值的总和            |
-| [Prometheus Summary](https://prometheus.io/docs/concepts/metric_types/#summary)                         | 与 Histogram 类似，摘要样本观察（通常是请求持续时间和响应大小之类的东西）                                |
-| Prometheus Namespace                                                                                    | Prometheus 监控名格式： namespace_subSystem_metricsName                         |
-| Prometheus SubSystem                                                                                    | Prometheus 监控名格式： namespace_subSystem_metricsName                         |
+| Name                                                                                                    | Description                                                                        |
+|---------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| [MetricsSet](https://github.com/rookie-ninja/rk-prom/blob/master/metrics_set.go)                        | Register Counter，Gauge，Histogram and Summary through MetricsSet                    |
+| [Prometheus Registerer](https://github.com/prometheus/client_golang/blob/master/prometheus/registry.go) | Prometheus will manage Counter，Gauge，Histogram and Summary through Registrerer 来管理 |
+| [Prometheus Counter](https://prometheus.io/docs/concepts/metric_types/#counter)                         | Counter, increase only                                                             |
+| [Prometheus Gauge](https://prometheus.io/docs/concepts/metric_types/#gauge)                             | Gauge                                                                              |
+| [Prometheus Histogram](https://prometheus.io/docs/concepts/metric_types/#histogram)                     | Histogram                                                                          |
+| [Prometheus Summary](https://prometheus.io/docs/concepts/metric_types/#summary)                         | Summary                                                                            |
+| Prometheus Namespace                                                                                    | Format: namespace_subSystem_metricsName                                            |
+| Prometheus SubSystem                                                                                    | Format: namespace_subSystem_metricsName                                            |
 
 ```go
 package main

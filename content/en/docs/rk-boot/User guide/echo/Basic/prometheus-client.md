@@ -9,26 +9,26 @@ description: >
 ## Install
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
-go get github.com/rookie-ninja/rk-gin/v2
+go get github.com/rookie-ninja/rk-echo
 ```
 
 ## Prometheus options
-| options           | description                                    | type    | default |
-|-------------------------------|------------------------------------------------| ------ | ------ |
-| gin.prom.enabled              | Enable prometheus client                       | boolean | false |
-| gin.prom.path                 | Prometheus web path                            | string | /metrics |
-| gin.prom.pusher.enabled       | Enable prometheus pusher                       | bool | false |
-| gin.prom.pusher.jobName       | Job name metrics                               | string | "" |
-| gin.prom.pusher.remoteAddress | Pushgateway address, http://x.x.x.x or x.x.x.x | string | "" |
-| gin.prom.pusher.intervalMs    | Interval in milliseconds                       | string | 1000 |
-| gin.prom.pusher.basicAuth     | Basic auth of Pushgateway. Scheme：[user:pass]  | string | "" |
-| gin.prom.pusher.certEntry     | Name of rkentry.CertEntry                      | string | "" |
+| options                        | description                                    | type    | default  |
+|--------------------------------|------------------------------------------------|---------|----------|
+| echo.prom.enabled              | Enable prometheus client                       | boolean | false    |
+| echo.prom.path                 | Prometheus web path                            | string  | /metrics |
+| echo.prom.pusher.enabled       | Enable prometheus pusher                       | bool    | false    |
+| echo.prom.pusher.jobName       | Job name metrics                               | string  | ""       |
+| echo.prom.pusher.remoteAddress | Pushgateway address, http://x.x.x.x or x.x.x.x | string  | ""       |
+| echo.prom.pusher.intervalMs    | Interval in milliseconds                       | string  | 1000     |
+| echo.prom.pusher.basicAuth     | Basic auth of Pushgateway. Scheme：[user:pass]  | string  | ""       |
+| echo.prom.pusher.certEntry     | Name of rkentry.CertEntry                      | string  | ""       |
 
 ## Quick start
 ### 1.Create boot.yaml
 ```yaml
 ---
-gin:
+echo:
   - name: greeter
     port: 8080
     enabled: true
@@ -51,7 +51,7 @@ package main
 import (
 	"context"
     "github.com/rookie-ninja/rk-boot/v2"
-	_ "github.com/rookie-ninja/rk-gin/v2/boot"
+	_ "github.com/rookie-ninja/rk-echo/boot"
 )
 
 // Application entrance.
@@ -97,10 +97,10 @@ package main
 import (
   "context"
   "fmt"
-  "github.com/gin-gonic/gin"
+  "github.com/labstack/echo/v4"
   "github.com/rookie-ninja/rk-boot/v2"
   "github.com/rookie-ninja/rk-entry/v2/middleware/prom"
-  "github.com/rookie-ninja/rk-gin/v2/boot"
+  "github.com/rookie-ninja/rk-echo/boot"
   "net/http"
 )
 
@@ -110,7 +110,7 @@ func main() {
   boot := rkboot.NewBoot()
 
   // Register handler
-  entry := rkgin.GetGinEntry("greeter")
+  entry := rkecho.GetEchoEntry("greeter")
 
   set := rkmidprom.NewMetricsSet("rk", "demo", entry.PromEntry.Registerer)
 
@@ -144,10 +144,9 @@ func main() {
 ![](/rk-boot/user-guide/cheers.png)
 
 ### 6.Push to Pushgateway
-
 ```yaml
 ---
-gin:
+echo:
   - name: greeter
     port: 8080
     enabled: true
