@@ -103,8 +103,8 @@ func (server *GreeterServer) Hello(ctx context.Context, _ *greeter.HelloRequest)
 > 发送请求
 
 ```shell script
-$ curl localhost:8080/v1/hello 
-{"message":"hello!"}
+$ curl -vs -X GET localhost:8080/v1/greeter
+{"Message":"Hello !"}
 ```
 
 ```json

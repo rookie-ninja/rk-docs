@@ -129,7 +129,7 @@ Open cors.html
 ![](/rk-boot/user-guide/gin/basic/cors-success.png)
 
 ### 6.Blocked CORS
-Set echo.middleware.cors.allowOrigins to http://localhost:8080。
+Set echo.middleware.cors.allowOrigins to http://localhost:8080
 
 ```yaml
 ---

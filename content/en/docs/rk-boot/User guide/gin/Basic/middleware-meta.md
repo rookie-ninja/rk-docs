@@ -85,7 +85,7 @@ type GreeterResponse struct {
 ### 3.Validate
 
 ```shell script
-$ curl -vs -X GET localhost:8080/rk/v1/healthy
+$ curl -vs -X GET "localhost:8080/v1/greeter?name=rk-dev"
 ...
 < X-Request-Id: dad72f8c-cd35-43b6-9414-493edf7e0d10
 < X-Rk-App-Domain: *

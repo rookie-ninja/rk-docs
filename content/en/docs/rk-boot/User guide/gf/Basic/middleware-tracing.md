@@ -9,29 +9,29 @@ description: >
 ## Install
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
-go get github.com/rookie-ninja/rk-echo
+go get github.com/rookie-ninja/rk-gf
 ```
 
 ## Options
 | options                                                  | description                  | type     | default                          |
 |----------------------------------------------------------|------------------------------|----------|----------------------------------|
-| echo.middleware.trace.enabled                            | Enable tracing middleware    | boolean  | false                            |
-| echo.middleware.trace.ignore                             | Ignore by path               | []string | []                               |
-| echo.middleware.trace.exporter.file.enabled              | Enable file exporter         | boolean  | false                            |
-| echo.middleware.trace.exporter.file.outputPath           | Path of file exporter        | string   | stdout                           |
-| echo.middleware.trace.exporter.jaeger.agent.enabled      | Enable jaeger agent exporter | boolean  | false                            |
-| echo.middleware.trace.exporter.jaeger.agent.host         | Hostname of jaeger agent     | string   | localhost                        |
-| echo.middleware.trace.exporter.jaeger.agent.port         | Port of jaeger agent         | int      | 6831                             |
-| echo.middleware.trace.exporter.jaeger.collector.enabled  | Enable jaeger collector      | boolean  | false                            |
-| echo.middleware.trace.exporter.jaeger.collector.endpoint | Hostname of jaeger collector | string   | http://localhost:16368/api/trace |
-| echo.middleware.trace.exporter.jaeger.collector.username | Username of jaeger collector | string   | ""                               |
-| echo.middleware.trace.exporter.jaeger.collector.password | Password of jaeger collector | string   | ""                               |
+| gf.middleware.trace.enabled                              | Enable tracing middleware    | boolean  | false                            |
+| gf.middleware.trace.ignore                             | Ignore by path               | []string | []                               |
+| gf.middleware.trace.exporter.file.enabled              | Enable file exporter         | boolean  | false                            |
+| gf.middleware.trace.exporter.file.outputPath           | Path of file exporter        | string   | stdout                           |
+| gf.middleware.trace.exporter.jaeger.agent.enabled      | Enable jaeger agent exporter | boolean  | false                            |
+| gf.middleware.trace.exporter.jaeger.agent.host         | Hostname of jaeger agent     | string   | localhost                        |
+| gf.middleware.trace.exporter.jaeger.agent.port         | Port of jaeger agent         | int      | 6831                             |
+| gf.middleware.trace.exporter.jaeger.collector.enabled  | Enable jaeger collector      | boolean  | false                            |
+| gf.middleware.trace.exporter.jaeger.collector.endpoint | Hostname of jaeger collector | string   | http://localhost:16368/api/trace |
+| gf.middleware.trace.exporter.jaeger.collector.username | Username of jaeger collector | string   | ""                               |
+| gf.middleware.trace.exporter.jaeger.collector.password | Password of jaeger collector | string   | ""                               |
 
 ## Quick start
 ### 1.Create boot.yaml
 ```yaml
 ---
-echo:
+gf:
   - name: greeter
     port: 8080
     enabled: true
@@ -63,9 +63,9 @@ package main
 import (
   "context"
   "fmt"
-  "github.com/labstack/echo/v4"
+  "github.com/gogf/gf/v2/net/ghttp"
   "github.com/rookie-ninja/rk-boot/v2"
-  "github.com/rookie-ninja/rk-echo/boot"
+  "github.com/rookie-ninja/rk-gf/boot"
   "net/http"
 )
 
@@ -74,8 +74,8 @@ func main() {
   boot := rkboot.NewBoot()
 
   // Register handler
-  echoEntry := rkecho.GetEchoEntry("greeter")
-  echoEntry.Echo.GET("/v1/greeter", Greeter)
+  entry := rkgf.GetGfEntry("greeter")
+  entry.Server.BindHandler("/v1/greeter", Greeter)
 
   // Bootstrap
   boot.Bootstrap(context.TODO())
@@ -83,9 +83,10 @@ func main() {
   boot.WaitForShutdownSig(context.TODO())
 }
 
-func Greeter(ctx echo.Context) error {
-  return ctx.JSON(http.StatusOK, &GreeterResponse{
-    Message: fmt.Sprintf("Hello %s!", ctx.QueryParam("name")),
+func Greeter(ctx *ghttp.Request) {
+  ctx.Response.WriteHeader(http.StatusOK)
+  ctx.Response.WriteJson(&GreeterResponse{
+    Message: fmt.Sprintf("Hello %s!", ctx.GetQuery("name").String()),
   })
 }
 
@@ -145,7 +146,7 @@ $ curl -X GET "localhost:8080/v1/healthy?name=rk-dev"
       "Key": "service.entryType",
       "Value": {
         "Type": "STRING",
-        "Value": "EchoEntry"
+        "Value": "GfEntry"
       }
     },
   ],
@@ -165,7 +166,7 @@ $ curl -X GET "localhost:8080/v1/healthy?name=rk-dev"
 
 ```yaml
 ---
-echo:
+gf:
   - name: greeter
     port: 8080
     enabled: true
@@ -200,7 +201,7 @@ echo:
 
 ```yaml
 ---
-echo:
+gf:
   - name: greeter
     port: 8080
     enabled: true

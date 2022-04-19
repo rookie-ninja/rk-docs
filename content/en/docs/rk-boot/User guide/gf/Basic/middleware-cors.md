@@ -1,31 +1,31 @@
 ---
-title: "CORS 中间件"
-linkTitle: "CORS 中间件"
+title: "Middleware CORS"
+linkTitle: "Middleware CORS"
 weight: 15
 description: >
-  启动 CORS 中间件。
+  Enable CORS middleware
 ---
 
-## 安装
+## Install
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
 go get github.com/rookie-ninja/rk-echo
 ```
 
-## CORS 选项
-| 名字                                    | 描述                                           | 类型       | 默认值                  |
-|---------------------------------------|----------------------------------------------|----------|----------------------|
-| gf.middleware.cors.enabled            | 启动 CORS 中间件                                  | boolean  | false                |
-| gf.middleware.cors.ignore           | 局部选项，忽略 API 路径                               | []string | []                   |
-| gf.middleware.cors.allowOrigins     | 可通过验证的 Origin 地址。                            | []string | *                    |
-| gf.middleware.cors.allowMethods     | 可通过的 http method, 会包含在 OPTIONS 请求的 Header 中。 | []string | All http methods     |
-| gf.middleware.cors.allowHeaders     | 可通过的 http header, 会包含在 OPTIONS 请求的 Header 中。 | []string | Headers from request |
-| gf.middleware.cors.allowCredentials | 会包含在 OPTIONS 请求的 Header 中。                   | bool     | false                |
-| gf.middleware.cors.exposeHeaders    | 会包含在 OPTIONS 请求的 Header 中的 Header。           | []string | ""                   |
-| gf.middleware.cors.maxAge           | 会包含在 OPTIONS 请求的 Header 中的 MaxAge。           | int      | 0                    |
+## CORS options
+| options                               | description                        | type     | default |
+|---------------------------------------|--------------------------|----------|----------------------|
+| gf.middleware.cors.enabled            | Enable CORS middleware   | boolean  | false                |
+| gf.middleware.cors.ignore           | Ignore by path           | []string | []                   |
+| gf.middleware.cors.allowOrigins     | Allowed origin list      | []string | *                    |
+| gf.middleware.cors.allowMethods     | Allowed http method list | []string | All http methods     |
+| gf.middleware.cors.allowHeaders     | Allowed http header list | []string | Headers from request |
+| gf.middleware.cors.allowCredentials | Allowed credential list  | bool     | false                |
+| gf.middleware.cors.exposeHeaders    | Exposed list of headers  | []string | ""                   |
+| gf.middleware.cors.maxAge           | Max age                  | int      | 0                    |
 
-## 快速开始
-### 1.创建 boot.yaml
+## Quick start
+### 1.Create boot.yaml
 ```yaml
 gf:
   - name: greeter
@@ -44,7 +44,7 @@ gf:
 #        maxAge: 0
 ```
 
-### 2.创建 main.go
+### 2.Create main.go
 ```go
 package main
 
@@ -83,7 +83,7 @@ type GreeterResponse struct {
 }
 ```
 
-### 3.创建 cors.html
+### 3.Create.html
 ```html
 <!DOCTYPE html>
 <html>
@@ -111,7 +111,7 @@ type GreeterResponse struct {
 </html>
 ```
 
-### 4.文件夹结构
+### 4.Directory hierarchy
 ```shell script
 .
 ├── boot.yaml
@@ -123,13 +123,13 @@ type GreeterResponse struct {
 0 directories, 5 files
 ```
 
-### 5.验证
-打开 cors.html
+### 5.Validate
+Open cors.html
 
 ![](/rk-boot/user-guide/gin/basic/cors-success.png)
 
-### 6.被拦截的 CORS
-将 gf.middleware.cors.allowOrigins 设置成 http://localhost:8080。
+### 6.Blocked CORS
+Set echo.middleware.cors.allowOrigins to http://localhost:8080
 
 ```yaml
 ---

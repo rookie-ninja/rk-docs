@@ -1,55 +1,51 @@
 ---
-title: "TLS/SSL 认证"
-linkTitle: "TLS/SSL 认证"
+title: "TLS/SSL"
+linkTitle: "TLS/SSL"
 weight: 4
 description: >
-  启动 TLS/SSL。
+  Enable TLS/SSL。
 ---
 
-## 概述
-为了能在服务中启动 TLS/SSL，我们需要服务证书和服务证书密钥。
-
-启动器会从 boot.yaml 中读取 CertEntry 部分，并且载入到内存中。
+## Overview
+rk-boot will load element of CertEntry into memory and start server with TLS/SSL.
 
 ## DOMAIN
-CertEntry 支持通过 DOMAIN 区分环境
+CertEntry use environment variable of DOMAIN to distinguish different environments.
 
-## 生成 Self-Signed Certificate
-> 我们推荐使用 [cfssl](https://github.com/cloudflare/cfssl) 来生成自定义证书。
+## Generate Self-Signed Certificate
+> We suggest use [cfssl](https://github.com/cloudflare/cfssl) to generate certificates
 
-### 1.下载 cfssl & cfssljson
-> 用 rk 命令行安装 cfssl 与 cfssljson
+### 1.Download cfssl & cfssljson
 ```shell script
 $ go get github.com/rookie-ninja/rk/cmd/rk
 $ rk install cfssl
 $ rk install cfssljson
 ```
 
-### 2.生成 CA
+### 2.Generate CA
 ```shell script
 $ cfssl print-defaults config > ca-config.json
 $ cfssl print-defaults csr > ca-csr.json
 ```
-> 根据需要修改 ca-config.json 和 ca-csr.json。
+> Modify ca-config.json and ca-csr.json as needed
 ```shell script
 $ cfssl gencert -initca ca-csr.json | cfssljson -bare ca -
 ```
 
-### 3.生成服务端证书
-> server.csr，server.pem 和 server-key.pem 将会被生成。
+### 3.Generate server side certs
 ```shell script
 $ cfssl gencert -config ca-config.json -ca ca.pem -ca-key ca-key.pem -profile www csr.json | cfssljson -bare server
 ```
 
-## 快速开始
-### 1.安装
+## Quick start
+### 1.Install
 
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot/v2
-$ go get github.com/rookie-ninja/rk-gf
+$ go get github.com/rookie-ninja/rk-gin/v2
 ```
 
-### 2.创建 boot.yaml
+### 2.Create boot.yaml
 ```yaml
 ---
 cert:
@@ -81,7 +77,7 @@ $ curl --insecure  "https://localhost:8080/v1/greeter?name=rk-dev"
 ### _**Cheers**_
 ![](/rk-boot/user-guide/cheers.png)
 
-## YAML 选项
+## YAML optioins
 ```yaml
 cert:
   - name: my-cert                                         # Required

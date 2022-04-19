@@ -9,21 +9,21 @@ description: >
 ## Install
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
-go get github.com/rookie-ninja/rk-echo
+go get github.com/rookie-ninja/rk-gf
 ```
 
 ## Options
-| options                     | description                        | type     | default                |
-|----------------------------------------|--------------------------------| ------ |------------------------|
-| echo.middleware.jwt.enabled             | Enable JWT middleware                     | boolean | false                  |
-| echo.middleware.jwt.ignore  | Ignore by path                                                                       | []string | []                     |
-| echo.middleware.jwt.signerEntry         | SignerEntry name                 | string | ""                     |
-| echo.middleware.jwt.symmetric.algorithm | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
-| echo.middleware.jwt.symmetric.token     | Symmetric token                         | string | ""                     |
-| echo.middleware.jwt.symmetric.tokenPath | Symmetric token path                     | string | ""                     |
-| echo.middleware.jwt.asymmetric.algorithm| Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512                        | string | ""                     |
-| echo.middleware.jwt.tokenLookup         | JWT Token format，see example bellow | string | "header:Authorization" |
-| echo.middleware.jwt.authScheme          | Auth Scheme                 | string | Bearer                 |
+| options                                  | description                        | type     | default                |
+|------------------------------------------|--------------------------------| ------ |------------------------|
+| gf.middleware.jwt.enabled                | Enable JWT middleware                     | boolean | false                  |
+| gf.middleware.jwt.ignore               | Ignore by path                                                                       | []string | []                     |
+| gf.middleware.jwt.signerEntry          | SignerEntry name                 | string | ""                     |
+| gf.middleware.jwt.symmetric.algorithm  | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
+| gf.middleware.jwt.symmetric.token      | Symmetric token                         | string | ""                     |
+| gf.middleware.jwt.symmetric.tokenPath  | Symmetric token path                     | string | ""                     |
+| gf.middleware.jwt.asymmetric.algorithm | Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512                        | string | ""                     |
+| gf.middleware.jwt.tokenLookup          | JWT Token format，see example bellow | string | "header:Authorization" |
+| gf.middleware.jwt.authScheme           | Auth Scheme                 | string | Bearer                 |
 
 **tokenLookup**
 
@@ -40,7 +40,7 @@ go get github.com/rookie-ninja/rk-echo
 ### 1.Create boot.yaml
 ```yaml
 ---
-echo:
+gf:
   - name: greeter
     port: 8080
     enabled: true
@@ -69,10 +69,10 @@ package main
 import (
   "context"
   "fmt"
-  "github.com/labstack/echo/v4"
+  "github.com/gogf/gf/v2/net/ghttp"
   "github.com/rookie-ninja/rk-boot/v2"
-  "github.com/rookie-ninja/rk-echo/boot"
-  "github.com/rookie-ninja/rk-echo/middleware/context"
+  "github.com/rookie-ninja/rk-gf/boot"
+  "github.com/rookie-ninja/rk-gf/middleware/context"
   "net/http"
 )
 
@@ -81,8 +81,8 @@ func main() {
   boot := rkboot.NewBoot()
 
   // Register handler
-  echoEntry := rkecho.GetEchoEntry("greeter")
-  echoEntry.Echo.GET("/v1/greeter", Greeter)
+  entry := rkgf.GetGfEntry("greeter")
+  entry.Server.BindHandler("/v1/greeter", Greeter)
 
   // Bootstrap
   boot.Bootstrap(context.TODO())
@@ -90,12 +90,13 @@ func main() {
   boot.WaitForShutdownSig(context.TODO())
 }
 
-func Greeter(ctx echo.Context) error {
+func Greeter(ctx *ghttp.Request) {
   // Get JWT token
-  rkechoctx.GetJwtToken(ctx)
+  rkgfctx.GetJwtToken(ctx)
   
-  return ctx.JSON(http.StatusOK, &GreeterResponse{
-    Message: fmt.Sprintf("Hello %s!", ctx.QueryParam("name")),
+  ctx.Response.WriteHeader(http.StatusOK)
+  ctx.Response.WriteJson(&GreeterResponse{
+    Message: fmt.Sprintf("Hello %s!", ctx.GetQuery("name").String()),
   })
 }
 

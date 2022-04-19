@@ -13,8 +13,8 @@ go get github.com/rookie-ninja/rk-echo
 ```
 
 ## gzip options
-| options                     | description                        | type     | default |
-|-----------------------------|--------------------------------------------------------------------------------------|----------|--------------------|
+| options                      | description                                                                          | type     | default            |
+|------------------------------|--------------------------------------------------------------------------------------|----------|--------------------|
 | echo.middleware.gzip.enabled | Enable gzip middleware                                                               | boolean  | false              |
 | echo.middleware.gzip.ignore  | Ignore by path                                                                       | []string | []                 |
 | echo.middleware.gzip.level   | options: noCompression, bestSpeed, bestCompression, defaultCompression, huffmanOnly. | string   | defaultCompression |

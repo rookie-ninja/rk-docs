@@ -1,28 +1,27 @@
 ---
-title: "权限中间件"
-linkTitle: "权限中间件"
+title: "Middleware auth"
+linkTitle: "Middleware auth"
 weight: 10
 description: >
-  启动权限中间件。
+  Enable auth middleware.
 ---
 
-## 安装
+## Install
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
 go get github.com/rookie-ninja/rk-gf
 ```
 
-## 权限选项
-| 名字                          | 描述                           | 类型       | 默认值   |
-|-----------------------------|------------------------------|----------|-------|
-| gf.middleware.auth.enabled | 启动权限中间件                      | boolean  | false |
-| gf.middleware.auth.ignore  | 局部选项，忽略 API 路径               | []string | []    |
-| gf.middleware.auth.basic   | Basic Auth 信息，格式：<user:pass> | []string | []    |
-| gf.middleware.auth.apiKey  | X-API-Key                    | []string | []    |
-| gf.middleware.auth.ignore  | 提供字符串前缀，中间件会忽略包含这些字符串的请求路径   | []string | []    |
+## Options
+| options                      | description                        | type     | default |
+|------------------------------|------------------------------------|----------|---------|
+| gf.middleware.auth.enabled | Enable auth middleware             | boolean  | false   |
+| gf.middleware.auth.ignore  | Ignore by path                     | []string | []      |
+| gf.middleware.auth.basic   | Basic Auth info，format：<user:pass> | []string | []      |
+| gf.middleware.auth.apiKey  | X-API-Key                          | []string | []      |
 
-## 快速开始
-### 1.创建 boot.yaml
+## Quick start
+### 1.Create boot.yaml
 ```yaml
 ---
 gf:
@@ -38,7 +37,7 @@ gf:
 #          - "keys"
 ```
 
-### 2.创建 main.go
+### 2.Create main.go
 ```go
 package main
 
@@ -77,7 +76,7 @@ type GreeterResponse struct {
 }
 ```
 
-### 3.验证
+### 3.Validate
 ```shell script
 $ curl "localhost:8080/v1/greeter?name=rk-dev"
 # This is RK style error code if unauthorized
@@ -94,7 +93,7 @@ $ curl "localhost:8080/v1/greeter?name=rk-dev"
 ### _**Cheers**_
 ![](/rk-boot/user-guide/cheers.png)
 
-### 4.X-API-Key 类型授权
+### 4.X-API-Key
 ```yaml
 ---
 gf:
@@ -109,7 +108,7 @@ gf:
 ### _**Cheers**_
 ![](/rk-boot/user-guide/cheers.png)
 
-### 5.忽略请求路径
+### 5.Ignore
 ```yaml
 ---
 gf:
