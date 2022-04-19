@@ -3,7 +3,7 @@ title: "Domain"
 linkTitle: "Domain"
 weight: 2
 description: >
-rk-boot can distinguish environments with environment variable of DOMAIN
+  rk-boot can distinguish environments with environment variable of DOMAIN
 ---
 
 ## Overview

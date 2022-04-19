@@ -3,7 +3,7 @@ title: "Shutdown hook"
 linkTitle: "Shutdown hook"
 weight: 8
 description: >
-Graceful shutdown.
+  Graceful shutdown.
 ---
 
 ## Quick start

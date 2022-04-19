@@ -3,7 +3,7 @@ title: "AppInfo"
 linkTitle: "AppInfo"
 weight: 6
 description: >
-Specify AppInfo in boot.yaml
+  Specify AppInfo in boot.yaml
 ---
 
 ## Quick start

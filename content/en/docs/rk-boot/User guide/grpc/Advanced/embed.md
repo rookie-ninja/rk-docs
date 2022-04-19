@@ -3,7 +3,7 @@ title: "Start with embedFS"
 linkTitle: "Start with embedFS"
 weight: 11
 description: >
-User can use embedFS to provide static files to rk-boot.
+  User can use embedFS to provide static files to rk-boot.
 ---
 
 ## Overview
