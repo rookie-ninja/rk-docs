@@ -7,23 +7,11 @@ description: >
 ---
 
 ## Overview
-It is always not easy to define a user-friendly API. However, errors could happen anywhere. 
+It is always not easy to define a user-friendly API. However, errors could happen anywhere.
 
 In order to return standard error type to user, it is **important** to define an error type.
 
 By default, panic middleware/interceptor will be attached which will catch panic and return internal server error as bellow:
-
-> Error type used by bootstrapper was defined in [rkerror.ErrorResp](https://github.com/rookie-ninja/rk-common/blob/master/error/error.go)
-
-```go
-func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
-	panic("Panic manually!")
-
-	return &greeter.GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", request.Name),
-	}, nil
-}
-```
 
 ```json
 {
@@ -40,20 +28,19 @@ func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.Greet
 - Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-grpc
+$ go get github.com/rookie-ninja/rk-boot/v2
+$ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
-### Return errors
-> Here is the way how to return errors in user RPC implementation.
-
+### RPC Error
 ```go
 func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
 	return nil, rkerror.Unimplemented("Trigger manually!", errors.New("this is detail")).Err()
 }
 ```
+
 ```shell script
-$ curl "localhost:8080/v1/greeter?name=rk-dev"
+$ curl localhost:8080/v1/hello
 {
     "error":{
         "code":501,
@@ -76,4 +63,4 @@ $ curl "localhost:8080/v1/greeter?name=rk-dev"
 ```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)

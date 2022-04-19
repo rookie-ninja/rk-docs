@@ -3,61 +3,88 @@ title: "Multiple entries"
 linkTitle: "Multiple entries"
 weight: 7
 description: >
-  How to start multiple Grpc server with different port in one process?
+  Start multiple entries in one process.
 ---
 
 ## Overview
-With bootstrapper, user can start multiple GrpcEntry at the same time. Event for multiple different entries like Gin.
+User can start multiple Entry in one single process.
+
+Furthermore, use can even start Gin and gRPC in one single process.
 
 ## Quick start
-- Install
+### 1.Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-grpc
+$ go get github.com/rookie-ninja/rk-boot/v2
+$ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
+### 2.Create and compile protocol buffer
+[Compile protobuf](/en/docs/rk-boot/user-guide/grpc/basic/buf/)
+
+### 3.Create boot.yaml
 ```yaml
 grpc:
   - name: alice
-    port: 1949
+    port: 8080
     enabled: true
-    commonService:
-      enabled: true
   - name: bob
-    port: 2008
+    port: 8081
     enabled: true
-    commonService:
-      enabled: true
 ```
 
-### 1.Access entries
+### 4.Create main.go
 ```go
 package main
 
 import (
-	"context"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-grpc/boot"
+  "context"
+  "github.com/rookie-ninja/rk-boot/v2"
+  "github.com/rookie-ninja/rk-demo/api/gen/v1"
+  "github.com/rookie-ninja/rk-grpc/v2/boot"
+  "google.golang.org/grpc"
 )
 
-// Application entrance.
 func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
-    
-    // Get alice
-	boot.GetEntry("alice").(*rkgrpc.GrpcEntry)
-    // Get bob
-    boot.GetEntry("bob").(*rkgrpc.GrpcEntry)
+  boot := rkboot.NewBoot()
 
-	// Bootstrap
-	boot.Bootstrap(context.Background())
+  // register grpc
+  alice := rkgrpc.GetGrpcEntry("alice")
+  alice.AddRegFuncGrpc(registerGreeter)
+  alice.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
+  bob := rkgrpc.GetGrpcEntry("bob")
+  bob.AddRegFuncGrpc(registerGreeter)
+  bob.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
+
+  // Bootstrap
+  boot.Bootstrap(context.TODO())
+
+  // Wait for shutdown sig
+  boot.WaitForShutdownSig(context.TODO())
+}
+
+func registerGreeter(server *grpc.Server) {
+  greeter.RegisterGreeterServer(server, &GreeterServer{})
+}
+
+type GreeterServer struct{}
+
+func (server *GreeterServer) Hello(ctx context.Context, _ *greeter.HelloRequest) (*greeter.HelloResponse, error) {
+  return &greeter.HelloResponse{
+    Message: "hello!",
+  }, nil
 }
 ```
 
+### 5.Validate
+```shell
+$ curl localhost:8080/v1/hello
+{"message":"hello!"}
+
+$ curl localhost:8081/v1/hello
+{"message":"hello!"}
+```
+
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)

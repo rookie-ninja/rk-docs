@@ -16,9 +16,9 @@ go get github.com/rookie-ninja/rk-grpc/v2
 | options                      | description                        | type     | default |
 |------------------------------|------------------------------------|----------|---------|
 | grpc.middleware.auth.enabled | Enable auth middleware             | boolean  | false   |
-| grpc.middleware.auth.ignore   | Ignore by path                     | []string | []      |
-| grpc.middleware.auth.basic    | Basic Auth info，format：<user:pass> | []string | []      |
-| grpc.middleware.auth.apiKey   | X-API-Key                          | []string | []      |
+| grpc.middleware.auth.ignore  | Ignore by path                     | []string | []      |
+| grpc.middleware.auth.basic   | Basic Auth info，format：<user:pass> | []string | []      |
+| grpc.middleware.auth.apiKey  | X-API-Key                          | []string | []      |
 
 ## Quick start
 ### 1.Create and compile protocol buffer

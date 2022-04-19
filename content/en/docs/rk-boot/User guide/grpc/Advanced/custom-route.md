@@ -1,29 +1,29 @@
 ---
-title: "Custom routes"
-linkTitle: "Custom routes"
+title: "Custom route"
+linkTitle: "Custom route"
 weight: 11
 description: >
-  How to add custom routes in grpc-gateway without grpc?
+  How to define custom route in grpc-gateway?
 ---
 
 ## Overview
-[grpc-gateway](https://grpc-ecosystem.github.io/grpc-gateway/docs/operations/inject_router/) already support custom routing.
+User can add custom HTTP handler into grpc-gateway.
 
 ## Quick start
 - Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-grpc
+$ go get github.com/rookie-ninja/rk-boot/v2
+$ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
 ### 1.Create boot.yaml
 ```yaml
 ---
 grpc:
-  - name: greeter                   # Name of grpc entry
-    port: 8080                      # Port of grpc entry
-    enabled: true                   # Enable grpc entry
+  - name: greeter
+    port: 8080
+    enabled: true
 ```
 
 ### 2.Create main.go
@@ -31,31 +31,29 @@ grpc:
 package main
 
 import (
-	"context"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-grpc/boot"
-	"net/http"
+  "context"
+  "github.com/rookie-ninja/rk-boot/v2"
+  "github.com/rookie-ninja/rk-grpc/v2/boot"
+  "net/http"
 )
 
-// Application entrance.
 func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
+  boot := rkboot.NewBoot()
 
-	// Bootstrap
-	boot.Bootstrap(context.Background())
+  // Bootstrap
+  boot.Bootstrap(context.TODO())
 
-	// Get grpc entry with name
-	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
-    
-    // !!!!!!
-    // This codes should be located after Bootstrap()
-	grpcEntry.GwMux.HandlePath("GET", "/custom", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
-		w.Write([]byte("Custom routes!"))
-	})
+  // register grpc
+  entry := rkgrpc.GetGrpcEntry("greeter")
 
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
+  // !!!!!!
+  // This codes should be located after Bootstrap()
+  entry.GwMux.HandlePath("GET", "/custom", func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
+    w.Write([]byte("Custom routes!"))
+  })
+
+  // Wait for shutdown sig
+  boot.WaitForShutdownSig(context.TODO())
 }
 ```
 
@@ -66,4 +64,4 @@ Custom routes!
 ```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)

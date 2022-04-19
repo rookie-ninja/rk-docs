@@ -3,33 +3,21 @@ title: "TLS/SSL"
 linkTitle: "TLS/SSL"
 weight: 4
 description: >
-  Enable TLS/SSL for the server.
+  Enable TLS/SSL。
 ---
 
 ## Overview
-In order to enable TLS/SSL on the server, we need server certificate and server key at least.
+rk-boot will load element of CertEntry into memory and start server with TLS/SSL.
 
-Bootstrapper will read CertEntry section in boot.yaml file and load certificates into memory.
-
-We support four types of CertEntry retrievers. We will extend retriever future.
-- LocalFs
-- RemoteFs
-- Consul
-- Etcd
-
-## Architecture
-![](/bootstrapper/user-guide/grpc-golang/advanced/tls-arch.png)
-
-## Locale
-> CertEntry support concept of [locale](/docs/bootstrapper/user-guide/grpc-golang/advanced/locale/).
+## DOMAIN
+CertEntry use environment variable of DOMAIN to distinguish different environments.
 
 ## Generate Self-Signed Certificate
-> There is a convenient way to generate certificates with [cfssl](https://github.com/cloudflare/cfssl)
+> We suggest use [cfssl](https://github.com/cloudflare/cfssl) to generate certificates
 
 ### 1.Download cfssl & cfssljson
-> Install cfssl with rk cli
 ```shell script
-$ go get -u github.com/rookie-ninja/rk/cmd/rk
+$ go get github.com/rookie-ninja/rk/cmd/rk
 $ rk install cfssl
 $ rk install cfssljson
 ```
@@ -39,193 +27,63 @@ $ rk install cfssljson
 $ cfssl print-defaults config > ca-config.json
 $ cfssl print-defaults csr > ca-csr.json
 ```
-> Adjust ca-config.json and ca-csr.json as needed.
+> Modify ca-config.json and ca-csr.json as needed
 ```shell script
 $ cfssl gencert -initca ca-csr.json | cfssljson -bare ca -
 ```
 
-### 3.Generate server certificates
-> server.csr, server.pem and server-key.pem would be created.
+### 3.Generate server side certs
 ```shell script
 $ cfssl gencert -config ca-config.json -ca ca.pem -ca-key ca-key.pem -profile www csr.json | cfssljson -bare server
 ```
 
 ## Quick start
-- Install
+### 1.Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-grpc
+$ go get github.com/rookie-ninja/rk-boot/v2
+$ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
-### 1.localFs
-| Name | Description | Default |
-| ------ | ------ | ------ |
-| cert.localFs.name | Name of localFs retriever | "" |
-| cert.localFs.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
-| cert.localFs.serverCertPath | Path of server cert in local file system. | "" |
-| cert.localFs.serverKeyPath | Path of server key in local file system. | "" |
-| cert.localFs.clientCertPath | Path of client cert in local file system. | "" |
-| cert.localFs.clientCertPath | Path of client key in local file system. | "" |
-
-> Enable TLS on grpc and gateway
-
+### 2.Create boot.yaml
 ```yaml
 ---
 cert:
-  - name: "local-cert"                     # Required
-    description: "Description of entry"    # Optional
-    provider: "localFs"                    # Required, etcd, consul, localFs, remoteFs are supported options
-    locale: "*::*::*::*"                   # Required, default: ""
-    serverCertPath: "cert/server.pem"      # Optional, default: "", path of certificate on local FS
-    serverKeyPath: "cert/server-key.pem"   # Optional, default: "", path of certificate on local FS
+  - name: my-cert
+    certPemPath: "server.pem"
+    keyPemPath: "server-key.pem"
 grpc:
   - name: greeter
     port: 8080
     enabled: true
-    enableReflection: true
-    cert:
-      ref: "local-cert"                    # Enable grpc TLS
-    commonService: 
-      enabled: true
+    certEntry: "my-cert"
 ```
 
 ```shell script
-# try call http service
-$ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
-{"healthy":true}
-# try call grpc service
-grpcurl -insecure localhost:8080 rk.api.v1.RkCommonService.Healthy
-{
-    "healthy": true
-}
+$ curl --insecure https://localhost:8080/v1/hello
+{"message":"hello!"}
+```
+
+```shell
+.
+├── boot.yaml
+├── go.mod
+├── go.sum
+├── main.go
+├── server-key.pem
+└── server.pem
 ```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)
 
-### 2.remoteFs
-| Name | Description | Default |
-| ------ | ------ | ------ |
-| cert.remoteFs.name | Name of remoteFileStore retriever | "" |
-| cert.remoteFs.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
-| cert.remoteFs.endpoint | Endpoint of remoteFileStore server, http://x.x.x.x or x.x.x.x both acceptable. | N/A |
-| cert.remoteFs.basicAuth | Basic auth for remoteFileStore server, like <user:pass>. | "" |
-| cert.remoteFs.serverCertPath | Path of server cert in remoteFs server. | "" |
-| cert.remoteFs.serverKeyPath | Path of server key in remoteFs server. | "" |
-| cert.remoteFs.clientCertPath | Path of client cert in remoteFs server. | "" |
-| cert.remoteFs.clientCertPath | Path of client key in remoteFs server. | "" |
-
+## YAML options
 ```yaml
----
 cert:
-  - name: "remote-cert"                    # Required
-    description: "Description of entry"    # Optional
-    provider: "remoteFs"                   # Required, etcd, consul, localFs, remoteFs are supported options
-    endpoint: "localhost:8081"             # Required, both http://x.x.x.x or x.x.x.x are acceptable
-    locale: "*::*::*::*"                   # Required, default: ""
-    serverCertPath: "cert/server.pem"      # Optional, default: "", path of certificate on local FS
-    serverKeyPath: "cert/server-key.pem"   # Optional, default: "", path of certificate on local FS
-grpc:
-  - name: greeter
-    port: 8080
-    enabled: true
-    cert:
-      ref: "remote-cert"                   # Enable grpc TLS
-    commonService: 
-      enabled: true
+  - name: my-cert                                         # Required
+    description: "Description of entry"                   # Optional, default: ""
+    domain: "*"                                           # Optional, default: "*"
+    caPath: "certs/ca.pem"                                # Optional, default: ""
+    certPemPath: "certs/server-cert.pem"                  # Optional, default: ""
+    keyPemPath: "certs/server-key.pem"                    # Optional, default: ""
 ```
-
-```shell script
-$ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
-{"healthy":true}
-```
-
-### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
-
-### 3.consul
-| Name | Description | Default |
-| ------ | ------ | ------ |
-| cert.consul.name | Name of consul retriever | "" |
-| cert.consul.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
-| cert.consul.endpoint | Endpoint of Consul server, http://x.x.x.x or x.x.x.x both acceptable. | N/A |
-| cert.consul.datacenter | consul datacenter. | "" |
-| cert.consul.token | Token for access consul. | "" |
-| cert.consul.basicAuth | Basic auth for consul server, like <user:pass>. | "" |
-| cert.consul.serverCertPath | Path of server cert in Consul server. | "" |
-| cert.consul.serverKeyPath | Path of server key in Consul server. | "" |
-| cert.consul.clientCertPath | Path of client cert in Consul server. | "" |
-| cert.consul.clientCertPath | Path of client key in Consul server. | "" |
-
-```yaml
----
-cert:
-  - name: "consul-cert"                    # Required
-    provider: "consul"                     # Required, etcd, consul, localFS, remoteFs are supported options
-    description: "Description of entry"    # Optional
-    locale: "*::*::*::*"                   # Required, default: ""
-    endpoint: "localhost:8500"             # Required, http://x.x.x.x or x.x.x.x both acceptable.
-    datacenter: "dc1"                      # Optional, default: "", consul datacenter
-    serverCertPath: "server.pem"           # Optional, default: "", key of value in consul
-    serverKeyPath: "server-key.pem"        # Optional, default: "", key of value in consul
-grpc:
-  - name: greeter
-    port: 8080
-    enabled: true
-    cert:
-      ref: "consul-cert"                   # Enable grpc TLS
-    commonService: 
-      enabled: true
-```
-
-```shell script
-$ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
-{"healthy":true}
-```
-
-### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
-
-### 4.etcd
-| Name | Description | Default |
-| ------ | ------ | ------ |
-| cert.etcd.name | Name of etcd retriever | "" |
-| cert.etcd.locale | Represent environment of current process follows schema of \<realm\>::\<region\>::\<az\>::\<domain\> | "" | 
-| cert.etcd.endpoint | Endpoint of etcd server, http://x.x.x.x or x.x.x.x both acceptable. | N/A |
-| cert.etcd.basicAuth | Basic auth for etcd server, like <user:pass>. | "" |
-| cert.etcd.serverCertPath | Path of server cert in etcd server. | "" |
-| cert.etcd.serverKeyPath | Path of server key in etcd server. | "" |
-| cert.etcd.clientCertPath | Path of client cert in etcd server. | "" |
-| cert.etcd.clientCertPath | Path of client key in etcd server. | "" |
-
-```yaml
----
-cert:
-  - name: "etcd-cert"                      # Required
-    description: "Description of entry"    # Optional
-    provider: "etcd"                       # Required, etcd, consul, localFs, remoteFs are supported options
-    locale: "*::*::*::*"                   # Required, default: ""
-    endpoint: "localhost:2379"             # Required, http://x.x.x.x or x.x.x.x both acceptable.
-    serverCertPath: "server.pem"           # Optional, default: "", key of value in etcd
-    serverKeyPath: "server-key.pem"        # Optional, default: "", key of value in etcd
-grpc:
-  - name: greeter
-    port: 8080
-    enabled: true
-    cert:
-      ref: "etcd-cert"                   # Enable grpc TLS
-    commonService: 
-      enabled: true
-```
-
-```shell script
-$ curl -X GET --insecure https://localhost:8080/rk/v1/healthy
-{"healthy":true}
-```
-
-### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
-
-### 5.Access CertEntry
-User can access CertEntry by calling **rkentry.GlobalAppCtx.GetCertEntry()**.

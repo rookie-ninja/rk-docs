@@ -1,227 +1,115 @@
 ---
 title: "Swagger UI"
 linkTitle: "Swagger UI"
-weight: 3
+weight: 2
 description: >
-  Enable swagger UI for server.
+  Enable Swagger UI.
 ---
 
-## Prerequisite
-In order to enable swagger, we need to enable grpc-gateway first.
-
-Follow steps at [prerequisite](/docs/bootstrapper/user-guide/go/grpc/basic/grpc-gateway/#prerequisite)
-
-## Installation
+## Install
 ```shell script
-go get github.com/rookie-ninja/rk-boot
-go get github.com/rookie-ninja/rk-grpc
+go get github.com/rookie-ninja/rk-boot/v2
+go get github.com/rookie-ninja/rk-grpc/v2
 ```
-
-## General options
-> These are general options to start a grpc server with rk-boot
-
-| name | description | type | default value | Required |
-| ------ | ------ | ------ | ------ | ------ |
-| grpc.name | The name of grpc server | string | "", server won't start | Required |
-| grpc.port | The port of grpc server | integer | 0, server won't start | Required |
-| grpc.enabled | Enable grpc entry | bool | false | Required |
-| grpc.description | Description of grpc entry. | string | "" | Optional |
-| grpc.enableReflection | Enable grpc server reflection | boolean | false | Optional |
-| grpc.enableRkGwOption | Enable RK style gateway server options. | boolean | false | Optional |
-| grpc.noRecvMsgSizeLimit | Disable grpc server side receive message size limit | boolean | false | Optional |
-| grpc.gwMappingFilePaths | The grpc gateway mapping file path | []string | [] | Optional |
 
 ## Swagger options
-| name | description | type | default value |
-| ------ | ------ | ------ | ------ |
-| grpc.sw.enabled | Enable swagger service over gRpc server | boolean | false |
-| grpc.sw.path | The path access swagger service from web | string | /sw |
-| grpc.sw.jsonPath | Where the swagger.json files are stored locally | string | "" |
-| grpc.sw.headers | Headers would be sent to caller as scheme of [key:value] | []string | [] |
+| name | description                              | type | default value |
+|-----------------|------------------------------------------|----------|-------|
+| grpc.sw.enabled  | Enable Swagger UI                        | boolean  | false |
+| grpc.sw.path     | Path of Swagger Web UI                   | string   | sw    |
+| grpc.sw.jsonPath | Path Swagger config（swagger.json）file    | string   | ""    |
+| grpc.sw.headers     | Headers returned by server, format: [key:value] | []string | []    |
 
 ## Quick start
-### 1.Create api/v1/greeter.proto
-```protobuf
-syntax = "proto3";
+### 1.Create and compile protocol buffer
+[Compile protobuf](/en/docs/rk-boot/user-guide/grpc/basic/buf/)
 
-package api.v1;
+### 2.Create boot.yaml
+> rk-boot will search docs/, api/gen/v1/ folder for swagger JSON file
+>
+> If swagger JSON located at other location，**grpc.sw.jsonPath** needs to be configured
 
-option go_package = "api/v1/greeter";
-
-service Greeter {
-  rpc Greeter (GreeterRequest) returns (GreeterResponse) {}
-}
-
-message GreeterRequest {
-  string name = 1;
-}
-
-message GreeterResponse {
-  string message = 1;
-}
-```
-
-### 2.Create api/v1/gw_mapping.yaml
-```yaml
-type: google.api.Service
-config_version: 3
-
-# Please refer google.api.Http in https://github.com/googleapis/googleapis/blob/master/google/api/http.proto file for details.
-http:
-  rules:
-    - selector: api.v1.Greeter.Greeter
-      get: /api/v1/greeter
-```
-
-### 3.Create buf.yaml
-```yaml
-version: v1beta1
-name: github.com/rk-dev/rk-demo
-build:
-  roots:
-    - api
-```
-
-### 4.Create buf.gen.yaml
-```yaml
-version: v1beta1
-plugins:
-  # protoc-gen-go needs to be installed, generate go files based on proto files
-  - name: go
-    out: api/gen
-    opt:
-     - paths=source_relative
-  # protoc-gen-go-grpc needs to be installed, generate grpc go files based on proto files
-  - name: go-grpc
-    out: api/gen
-    opt:
-      - paths=source_relative
-      - require_unimplemented_servers=false
-  # protoc-gen-grpc-gateway needs to be installed, generate grpc-gateway go files based on proto files
-  - name: grpc-gateway
-    out: api/gen
-    opt:
-      - paths=source_relative
-      - grpc_api_configuration=api/v1/gw_mapping.yaml
-  # protoc-gen-openapiv2 needs to be installed, generate swagger config files based on proto files
-  - name: openapiv2
-    out: api/gen
-    opt:
-      - grpc_api_configuration=api/v1/gw_mapping.yaml
-```
-
-### 5.Compile proto file
-```shell script
-$ buf generate
-```
-
-> There will be bellow files generated.
-```shell script
-$ tree api/gen 
-api/gen
-└── v1
-    ├── greeter.pb.go
-    ├── greeter.pb.gw.go
-    ├── greeter.swagger.json
-    └── greeter_grpc.pb.go
- 
-1 directory, 4 files
-```
-
-### 6.Create boot.yaml
 ```yaml
 ---
 grpc:
-  - name: greeter                   # Name of grpc entry
-    port: 8080                      # Port of grpc entry
-    enabled: true                   # Enable grpc entry
-    enableRkGwOption: true          # Enable RK style server options
-    gwMappingFilePaths:
-      - "api/v1/gw_mapping.yaml"    # Bootstrapper will look for gateway mapping files and load information into memory
+  - name: greeter
+    port: 8080
+    enabled: true
     sw:
-      enabled: true                 # Enable swagger
-      jsonPath: "api/gen/v1"            # Provide swagger config file path
+      enabled: true
+#      jsonPath: ""
+#      path: "sw"
+#      headers: []
 ```
 
-### 7. Create main.go
+### 3.Create main.go
 ```go
 package main
 
 import (
-	"context"
-	"fmt"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-demo/api/gen/v1"
-	"github.com/rookie-ninja/rk-grpc/boot"
-	"google.golang.org/grpc"
+  "context"
+  "github.com/rookie-ninja/rk-boot/v2"
+  "github.com/rookie-ninja/rk-demo/api/gen/v1"
+  "github.com/rookie-ninja/rk-grpc/v2/boot"
+  "google.golang.org/grpc"
 )
 
-// Application entrance.
 func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
+  boot := rkboot.NewBoot()
 
-    // ***************************************
-    // ******* Register GRPC & Gateway *******
-    // ***************************************
+  // register grpc
+  entry := rkgrpc.GetGrpcEntry("greeter")
+  entry.AddRegFuncGrpc(registerGreeter)
+  entry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
 
-	// Get grpc entry with name
-	grpcEntry := boot.GetEntry("greeter").(*rkgrpc.GrpcEntry)
-    // Register grpc registration function
-	grpcEntry.AddRegFuncGrpc(registerGreeter)
-    // Register grpc-gateway registration function
-	grpcEntry.AddRegFuncGw(greeter.RegisterGreeterHandlerFromEndpoint)
+  // Bootstrap
+  boot.Bootstrap(context.TODO())
 
-	// Bootstrap
-	boot.Bootstrap(context.Background())
-
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
+  // Wait for shutdown sig
+  boot.WaitForShutdownSig(context.TODO())
 }
 
-// Implementation of [type GrpcRegFunc func(server *grpc.Server)]
 func registerGreeter(server *grpc.Server) {
-	greeter.RegisterGreeterServer(server, &GreeterServer{})
+  greeter.RegisterGreeterServer(server, &GreeterServer{})
 }
 
-// Implementation of grpc service defined in proto file
 type GreeterServer struct{}
 
-func (server *GreeterServer) Greeter(ctx context.Context, request *greeter.GreeterRequest) (*greeter.GreeterResponse, error) {
-	return &greeter.GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", request.Name),
-	}, nil
+func (server *GreeterServer) Hello(_ context.Context, _ *greeter.HelloRequest) (*greeter.HelloResponse, error) {
+  return &greeter.HelloResponse{
+    Message: "hello!",
+  }, nil
 }
 ```
 
-### 8.Full structure
-```shell script
-$ tree
-.
-├── api
-│   ├── gen
-│   │   └── v1
-│   │       ├── greeter.pb.go
-│   │       ├── greeter.pb.gw.go
-│   │       ├── greeter.swagger.json
-│   │       └── greeter_grpc.pb.go
-│   └── v1
-│       ├── greeter.proto
-│       └── gw_mapping.yaml
-├── boot.yaml
-├── buf.gen.yaml
-├── buf.yaml
-├── go.mod
-├── go.sum
-└── main.go
-
-4 directories, 12 files
+### 4.Start main.go
+```shell
+$ go run main.go
+2022-04-17T18:36:57.925+0800    INFO    boot/grpc_entry.go:960  Bootstrap grpcEntry     {"eventId": "1628d013-ad5d-4b8e-9a2f-447404db7157", "entryName": "greeter", "entryType": "gRPCEntry"}
+2022-04-17T18:36:57.927+0800    INFO    boot/grpc_entry.go:681  SwaggerEntry: http://localhost:8080/sw/
+------------------------------------------------------------------------
+endTime=2022-04-17T18:36:57.927808+08:00
+startTime=2022-04-17T18:36:57.925577+08:00
+elapsedNano=2230586
+timezone=CST
+ids={"eventId":"1628d013-ad5d-4b8e-9a2f-447404db7157"}
+app={"appName":"","appVersion":"","entryName":"greeter","entryType":"gRPCEntry"}
+env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
+payloads={"grpcPort":8080,"gwPort":8080,"swEnabled":true,"swPath":"/sw/"}
+counters={}
+pairs={}
+timing={}
+remoteAddr=localhost
+operation=Bootstrap
+resCode=OK
+eventStatus=Ended
+EOE
 ```
 
-### 9.Validate
+### 4.Validate
 > **Swagger:** [http://localhost:8080/sw](http://localhost:8080/sw)
 
-![](/bootstrapper/getting-started/go/grpc/grpc-sw-api.png)
+![](/rk-boot/getting-started/grpc/sw-grpc.png)
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)

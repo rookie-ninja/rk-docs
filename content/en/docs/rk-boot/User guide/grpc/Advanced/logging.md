@@ -1,400 +1,212 @@
 ---
-title: "Logging"
-linkTitle: "Logging"
+title: "Log management"
+linkTitle: "Log management"
 weight: 3
 description: >
-  Customise logging.
+  Manage logs.
 ---
 
-## Architecture
-![](/bootstrapper/user-guide/grpc-golang/advanced/grpc-logger-arch.png)
+## Concept
+rk-boot defines two types of logs.
 
-## ZapLoggerEntry
-[ZapLoggerEntry](https://github.com/rookie-ninja/rk-entry#zaploggerentry) is used for initializing zap logger.
-
-```go
-// ZapLoggerEntry contains bellow fields.
-// 1: EntryName: Name of entry.
-// 2: EntryType: Type of entry which is ZapLoggerEntryType.
-// 3: EntryDescription: Description of ZapLoggerEntry.
-// 4: Logger: zap.Logger which was initialized at the beginning.
-// 5: LoggerConfig: zap.Logger config which was initialized at the beginning which is not accessible after initialization..
-// 6: LumberjackConfig: lumberjack.Logger which was initialized at the beginning.
-type ZapLoggerEntry struct {
-	EntryName        string             `yaml:"entryName" json:"entryName"`
-	EntryType        string             `yaml:"entryType" json:"entryType"`
-	EntryDescription string             `yaml:"entryDescription" json:"entryDescription"`
-	Logger           *zap.Logger        `yaml:"-" json:"-"`
-	LoggerConfig     *zap.Config        `yaml:"zapConfig" json:"zapConfig"`
-	LumberjackConfig *lumberjack.Logger `yaml:"lumberjackConfig" json:"lumberjackConfig"`
-}
-```
-
-### YAML
-> ZapLoggerEntry follows zap and lumberjack YAML hierarchy.
->
-> Please refer to [zap](https://pkg.go.dev/go.uber.org/zap#section-documentation) and [lumberjack](https://github.com/natefinch/lumberjack) site for details.
-
-```yaml
----
-zapLogger:
-  - name: zap-logger                      # Required
-    description: "Description of entry"   # Optional
-    zap:
-      level: info                         # Optional, default: info, options: [debug, DEBUG, info, INFO, warn, WARN, dpanic, DPANIC, panic, PANIC, fatal, FATAL]
-      development: true                   # Optional, default: true
-      disableCaller: false                # Optional, default: false
-      disableStacktrace: true             # Optional, default: true
-      sampling:                           # Optional, default: empty map
-        initial: 0
-        thereafter: 0
-      encoding: console                   # Optional, default: "console", options: [console, json]
-      encoderConfig:
-        messageKey: "msg"                 # Optional, default: "msg"
-        levelKey: "level"                 # Optional, default: "level"
-        timeKey: "ts"                     # Optional, default: "ts"
-        nameKey: "logger"                 # Optional, default: "logger"
-        callerKey: "caller"               # Optional, default: "caller"
-        functionKey: ""                   # Optional, default: ""
-        stacktraceKey: "stacktrace"       # Optional, default: "stacktrace"
-        lineEnding: "\n"                  # Optional, default: "\n"
-        levelEncoder: "capitalColor"      # Optional, default: "capitalColor", options: [capital, capitalColor, color, lowercase]
-        timeEncoder: "iso8601"            # Optional, default: "iso8601", options: [rfc3339nano, RFC3339Nano, rfc3339, RFC3339, iso8601, ISO8601, millis, nanos]
-        durationEncoder: "string"         # Optional, default: "string", options: [string, nanos, ms]
-        callerEncoder: ""                 # Optional, default: ""
-        nameEncoder: ""                   # Optional, default: ""
-        consoleSeparator: ""              # Optional, default: ""
-      outputPaths: [ "stdout" ]           # Optional, default: ["stdout"], stdout would be replaced if specified
-      errorOutputPaths: [ "stderr" ]      # Optional, default: ["stderr"], stderr would be replaced if specified
-      initialFields:                      # Optional, default: empty map
-        key: "value"
-    lumberjack:                           # Optional
-      filename: "rkapp-event.log"         # Optional, default: It uses <processname>-lumberjack.log in os.TempDir() if empty.
-      maxsize: 1024                       # Optional, default: 1024 (MB)
-      maxage: 7                           # Optional, default: 7 (days)
-      maxbackups: 3                       # Optional, default: 3 (days)
-      localtime: true                     # Optional, default: true
-      compress: true                      # Optional, default: true
-```
-
-### Access
-```go
-// Access entry
-rkentry.GlobalAppCtx.GetZapLoggerEntry("zap-logger")
-
-// Access zap logger
-rkentry.GlobalAppCtx.GetZapLoggerEntry("zap-logger").GetLogger()
-
-// Access zap logger config
-rkentry.GlobalAppCtx.GetZapLoggerEntry("zap-logger").GetLoggerConfig()
-
-// Access lumberjack config
-rkentry.GlobalAppCtx.GetZapLoggerEntry("zap-logger").GetLumberjackConfig()
-```
-
-## EventLoggerEntry
-RK bootstrapper treat RPC request as an **Event**, and record every RPC request into Event type in [rk-query](https://github.com/rookie-ninja/rk-query).
-
-```go
-// EventLoggerEntry contains bellow fields.
-// 1: EntryName: Name of entry.
-// 2: EntryType: Type of entry which is EventLoggerEntryType.
-// 3: EntryDescription: Description of EventLoggerEntry.
-// 4: EventFactory: rkquery.EventFactory was initialized at the beginning.
-// 5: EventHelper: rkquery.EventHelper was initialized at the beginning.
-// 6: LoggerConfig: zap.Config which was initialized at the beginning which is not accessible after initialization.
-// 7: LumberjackConfig: lumberjack.Logger which was initialized at the beginning.
-type EventLoggerEntry struct {
-	EntryName        string                `yaml:"entryName" json:"entryName"`
-	EntryType        string                `yaml:"entryType" json:"entryType"`
-	EntryDescription string                `yaml:"entryDescription" json:"entryDescription"`
-	EventFactory     *rkquery.EventFactory `yaml:"-" json:"-"`
-	EventHelper      *rkquery.EventHelper  `yaml:"-" json:"-"`
-	LoggerConfig     *zap.Config           `yaml:"zapConfig" json:"zapConfig"`
-	LumberjackConfig *lumberjack.Logger    `yaml:"lumberjackConfig" json:"lumberjackConfig"`
-}
-```
-
-### Fields
-| Field | Description |
-| ---- | ---- |
-| endTime | As name described |
-| startTime | As name described |
-| elapsedNano | Elapsed time for RPC in nanoseconds |
-| timezone | As name described |
-| ids | Contains three different ids(eventId, requestId and traceId). If meta interceptor was enabled or event.SetRequestId() was called by user, then requestId would be attached. eventId would be the same as requestId if meta interceptor was enabled. If trace interceptor was enabled, then traceId would be attached. |
-| app | Contains [appName, appVersion](https://github.com/rookie-ninja/rk-entry#appinfoentry), entryName, entryType. |
-| env | Contains arch, az, domain, hostname, localIP, os, realm, region. realm, region, az, domain were retrieved from environment variable named as REALM, REGION, AZ and DOMAIN. "*" means empty environment variable.|
-| payloads | Contains RPC related metadata |
-| error | Contains errors if occur |
-| counters | Set by calling event.SetCounter() by user. |
-| pairs | Set by calling event.AddPair() by user. |
-| timing | Set by calling event.StartTimer() and event.EndTimer() by user. |
-| remoteAddr |  As name described |
-| operation | RPC method name |
-| resCode | Response code of RPC |
-| eventStatus | Ended or InProgress |
-
-> Example
-> 
-> ```shell script
-> ------------------------------------------------------------------------
-> endTime=2021-07-10T03:00:12.153392+08:00
-> startTime=2021-07-10T03:00:12.153261+08:00
-> elapsedNano=130727
-> timezone=CST
-> ids={"eventId":"c9a1f6b0-b9ec-4e46-9ed4-238c3c6759ab","requestId":"c9a1f6b0-b9ec-4e46-9ed4-238c3c6759ab","traceId":"5441ff5c3855f03b573e95d81139123b"}
-> app={"appName":"rk-demo","appVersion":"master-f414049","entryName":"greeter","entryType":"GrpcEntry"}
-> env={"arch":"amd64","az":"*","domain":"*","hostname":"lark.local","localIP":"10.8.0.2","os":"darwin","realm":"*","region":"*"}
-> payloads={"grpcMethod":"Greeter","grpcService":"api.v1.Greeter","grpcType":"unaryServer","gwMethod":"GET","gwPath":"/v1/greeter","gwScheme":"http","gwUserAgent":"curl/7.64.1"}
-> error={}
-> counters={}
-> pairs={}
-> timing={}
-> remoteAddr=localhost:59631
-> operation=/api.v1.Greeter/Greeter
-> resCode=OK
-> eventStatus=Ended
-> EOE
-> ```
-
-
-### YAML
-EventLoggerEntry needs application name while creating event log. 
-The application name retrieved from go.mod file. If there is go.mod file missing, then default one would be used.
-
-```yaml
----
-eventLogger:
-  - name: event-logger                 # Required
-    description: "This is description" # Optional
-    encoding: console                  # Optional, default: console, options: console and json
-    outputPaths: ["stdout"]            # Optional
-    lumberjack:                        # Optional
-      filename: "rkapp-event.log"      # Optional, default: It uses <processname>-lumberjack.log in os.TempDir() if empty.
-      maxsize: 1024                    # Optional, default: 1024 (MB)
-      maxage: 7                        # Optional, default: 7 (days)
-      maxbackups: 3                    # Optional, default: 3 (days)
-      localtime: true                  # Optional, default: true
-      compress: true                   # Optional, default: true
-```
-
-### Access
-```go
-// Access entry
-rkentry.GlobalAppCtx.GetEventLoggerEntry("event-logger")
-
-// Access event factory
-rkentry.GlobalAppCtx.GetEventLoggerEntry("event-logger").GetEventFactory()
-
-// Access event helper
-rkentry.GlobalAppCtx.GetEventLoggerEntry("event-logger").GetEventHelper()
-
-// Access lumberjack config
-rkentry.GlobalAppCtx.GetEventLoggerEntry("event-logger").GetLumberjackConfig()
-```
+| Type   | Description                                                                             |
+|--------|-----------------------------------------------------------------------------------------|
+| Logger | [zap](https://github.com/uber-go/zap) logger                                            |
+| Event  | [Event](https://github.com/rookie-ninja/rk-query) , used to record Event |
 
 ## Quick start
-- Install
+### 1.Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-grpc
+$ go get github.com/rookie-ninja/rk-boot/v2
+$ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
-### 1.Custom ZapLoggerEntry
+### 2.Define output path
 ```yaml
 ---
-zapLogger:
-  - name: zap-logger                      # Required
-    description: "Description of entry"   # Optional
+logger:
+  - name: my-logger
     zap:
-      encoding: json
+      outputPaths: ["logs/log.log"]
+event:
+  - name: my-event
+    outputPaths: ["logs/event.log"]
 grpc:
   - name: greeter
     port: 8080
     enabled: true
+    loggerEntry: my-logger
+    eventEntry: my-event
 ```
 
+### 3.Create main.go
 ```go
 package main
 
 import (
-	"context"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-entry/entry"
-	_ "github.com/rookie-ninja/rk-grpc/boot"
+  "context"
+  "github.com/rookie-ninja/rk-boot/v2"
+  "github.com/rookie-ninja/rk-entry/v2/entry"
+  _ "github.com/rookie-ninja/rk-grpc/v2/boot"
+  "github.com/rookie-ninja/rk-query"
 )
 
-// Application entrance.
 func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
-    
-    // Get custom ZapLoggerEntry
-	rkentry.GlobalAppCtx.GetZapLoggerEntry("zap-logger").GetLogger().Info("Custom zap logger")
+  // Create a new boot instance.
+  boot := rkboot.NewBoot()
 
-	// Bootstrap
-	boot.Bootstrap(context.Background())
+  // Try logger
+  logger := rkentry.GlobalAppCtx.GetLoggerEntry("my-logger")
+  logger.Info("This is my-logger")
 
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
+  // Try event
+  eventEntry := rkentry.GlobalAppCtx.GetEventEntry("my-event")
+  event := eventEntry.CreateEvent(rkquery.WithOperation("test"))
+  event.AddPair("key", "value")
+  event.Finish()
+
+  // Bootstrap
+  boot.Bootstrap(context.TODO())
+
+  boot.WaitForShutdownSig(context.TODO())
 }
 ```
 
-```shell script
-{"level":"INFO","ts":"2021-07-06T05:06:16.252+0800","msg":"Custom zap logger"}
+### 4.Directory hierarchy
+```shell
+.
+├── boot.yaml
+├── go.mod
+├── go.sum
+├── logs
+│   ├── event.log
+│   └── log.log
+└── main.go
 ```
 
-### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+### 5.Validate
+```shell
+$ cat logs/log.log 
+2022-04-17T22:58:57.803+0800	INFO	grpc/main.go:35	This is my-logger
 
-### 2.Reference ZapLoggerEntry
-Bootstrapper will use this logger by default including interceptor.
-
-```yaml
----
-zapLogger:
-  - name: zap-logger
-grpc:
-  - name: greeter
-    port: 8080
-    enabled: true
-    logger:
-     zapLogger:
-        ref: zap-logger
-```
-
-### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
-
-### 3.Custom EventLoggerEntry
-```yaml
----
-eventLogger:
-  - name: event-logger
-grpc:
-  - name: greeter
-    port: 8080
-    enabled: true
-```
-
-```go
-package main
-
-import (
-	"context"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-entry/entry"
-	_ "github.com/rookie-ninja/rk-grpc/boot"
-)
-
-// Application entrance.
-func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
-    
-    // Get custom EventLoggerEntry
-	helper := rkentry.GlobalAppCtx.GetEventLoggerEntry("event-logger").GetEventHelper()
-	event := helper.Start("demo")
-	event.AddPair("key", "value")
-	helper.Finish(event)
-
-	// Bootstrap
-	boot.Bootstrap(context.Background())
-
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
-}
-```
-
-```shell script
+$ cat logs/event.log 
 ------------------------------------------------------------------------
-endTime=2021-07-10T03:02:58.540804+08:00
-startTime=2021-07-10T03:02:58.540803+08:00
-elapsedNano=568
+endTime=0001-01-01T00:00:00Z
+startTime=2022-04-17T22:58:57.803722+08:00
+elapsedNano=-9223372036854775808
 timezone=CST
-ids={"eventId":"55f9dd94-9bb8-42a0-b3ed-9164d5f00a64"}
-app={"appName":"rk-demo","appVersion":"master-f414049","entryName":"","entryType":""}
-env={"arch":"amd64","az":"*","domain":"*","hostname":"lark.local","localIP":"10.8.0.2","os":"darwin","realm":"*","region":"*"}
+ids={"eventId":"f4df423c-a50a-4157-ad70-86745ff96944"}
+app={"appName":"rk","appVersion":"local","entryName":"","entryType":""}
+env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
 payloads={}
-error={}
 counters={}
 pairs={"key":"value"}
 timing={}
 remoteAddr=localhost
-operation=demo
-resCode=OK
-eventStatus=Ended
+operation=test
+eventStatus=NotStarted
 EOE
 ```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)
 
-### 4.Reference EventLoggerEntry
-Bootstrapper will use this logger by default including interceptor.
+## YAML options
+### Logger
+- [zap](https://github.com/uber-go/zap) competitive
+- [lumberjack](https://github.com/natefinch/lumberjack) competitive
+- [loki](https://grafana.com/oss/loki/): Push logs to [Grafana Loki](https://grafana.com/oss/loki/)
+
+> Most commonly used options
+
+| option                 | description                 |
+|------------------------|-----------------------------|
+| logger.zap.outputPaths | log output path             |
+| logger.zap.encoding    | log format: console or json |
 
 ```yaml
----
-eventLogger:
-  - name: event-logger
-grpc:
-  - name: greeter
-    port: 8080
-    enabled: true
-    logger:
-      eventLogger:
-        ref: event-logger
+logger:
+  - name: my-logger                                       # Required
+    description: "Description of entry"                   # Optional
+    domain: "*"                                           # Optional, default: "*"
+    zap:                                                  # Optional
+      level: info                                         # Optional, default: info
+      development: true                                   # Optional, default: true
+      disableCaller: false                                # Optional, default: false
+      disableStacktrace: true                             # Optional, default: true
+      encoding: console                                   # Optional, default: console
+      outputPaths: ["stdout"]                             # Optional, default: [stdout]
+      errorOutputPaths: ["stderr"]                        # Optional, default: [stderr]
+      encoderConfig:                                      # Optional
+        timeKey: "ts"                                     # Optional, default: ts
+        levelKey: "level"                                 # Optional, default: level
+        nameKey: "logger"                                 # Optional, default: logger
+        callerKey: "caller"                               # Optional, default: caller
+        messageKey: "msg"                                 # Optional, default: msg
+        stacktraceKey: "stacktrace"                       # Optional, default: stacktrace
+        skipLineEnding: false                             # Optional, default: false
+        lineEnding: "\n"                                  # Optional, default: \n
+        consoleSeparator: "\t"                            # Optional, default: \t
+      sampling:                                           # Optional, default: nil
+        initial: 0                                        # Optional, default: 0
+        thereafter: 0                                     # Optional, default: 0
+      initialFields:                                      # Optional, default: empty map
+        key: value
+    lumberjack:                                           # Optional, default: nil
+      filename:
+      maxsize: 1024                                       # Optional, suggested: 1024 (MB)
+      maxage: 7                                           # Optional, suggested: 7 (day)
+      maxbackups: 3                                       # Optional, suggested: 3 (day)
+      localtime: true                                     # Optional, suggested: true
+      compress: true                                      # Optional, suggested: true
+    loki:
+      enabled: true                                       # Optional, default: false
+      addr: localhost:3100                                # Optional, default: localhost:3100
+      path: /loki/api/v1/push                             # Optional, default: /loki/api/v1/push
+      username: ""                                        # Optional, default: ""
+      password: ""                                        # Optional, default: ""
+      maxBatchWaitMs: 3000                                # Optional, default: 3000
+      maxBatchSize: 1000                                  # Optional, default: 1000
+      insecureSkipVerify: false                           # Optional, default: false
+      labels:                                             # Optional, default: empty map
+        my_label_key: my_label_value
 ```
 
-### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+### Event
+- [lumberjack](https://github.com/natefinch/lumberjack) competitive
+- [loki](https://grafana.com/oss/loki/): Push logs to [Grafana Loki](https://grafana.com/oss/loki/)
 
-### 5.Set env at EventLoggerEntry
-```go
-package main
+> Most commonly used options
 
-import (
-	"context"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-entry/entry"
-	_ "github.com/rookie-ninja/rk-grpc/boot"
-)
+| option                 | description                 |
+|-------------------|--------------------------------|
+| event.outputPaths | 日志输出路径，可设置多路径                  |
+| event.encoding    | 日志格式，支持 console, json, flatten |
 
-// Application entrance.
-func main() {
-    // Set env
-	os.Setenv("REALM", "my-realm")
-	os.Setenv("REGION", "my-region")
-	os.Setenv("AZ", "my-az")
-	os.Setenv("DOMAIN", "my-domain")
-
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
-    
-    // Get custom EventLoggerEntry
-	helper := rkentry.GlobalAppCtx.GetEventLoggerEntry("event-logger").GetEventHelper()
-	event := helper.Start("demo")
-	helper.Finish(event)
-
-	// Bootstrap
-	boot.Bootstrap(context.Background())
-
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
-}
+```yaml
+event:
+  - name: my-event                                        # Required
+    description: "Description of entry"                   # Optional
+    domain: "*"                                           # Optional, default: "*"
+    encoding: console                                     # Optional, default: console
+    outputPaths: ["stdout"]                               # Optional, default: [stdout]
+    lumberjack:                                           # Optional, default: nil
+      filename:
+      maxsize: 1024                                       # Optional, suggested: 1024 (MB)
+      maxage: 7                                           # Optional, suggested: 7 (day)
+      maxbackups: 3                                       # Optional, suggested: 3 (day)
+      localtime: true                                     # Optional, suggested: true
+      compress: true                                      # Optional, suggested: true
+    loki:
+      enabled: true                                       # Optional, default: false
+      addr: localhost:3100                                # Optional, default: localhost:3100
+      path: /loki/api/v1/push                             # Optional, default: /loki/api/v1/push
+      username: ""                                        # Optional, default: ""
+      password: ""                                        # Optional, default: ""
+      maxBatchWaitMs: 3000                                # Optional, default: 3000
+      maxBatchSize: 1000                                  # Optional, default: 1000
+      insecureSkipVerify: false                           # Optional, default: false
+      labels:                                             # Optional, default: empty map
+        my_label_key: my_label_value
 ```
-
-```shell script
-------------------------------------------------------------------------
-...
-env={"arch":"amd64","az":"my-az","domain":"my-domain","hostname":"lark.local","localIP":"10.8.0.2","os":"darwin","realm":"my-realm","region":"my-region"}
-...
-```
-
-### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
-
-### 6.Access ZapLoggerEntry & EventLoggerEntry
-User can access by calling **rkentry.GlobalAppCtx.GetEventLoggerEntry()** & **rkentry.GlobalAppCtx.GetZapLoggerEntry()**.

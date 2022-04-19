@@ -1,15 +1,13 @@
 ---
-title: "Override boot.yaml"
-linkTitle: "Override boot.yaml"
-weight: 9
+title: "Start with embedFS"
+linkTitle: "Start with embedFS"
+weight: 11
 description: >
-  Override values in boot.yaml with flags and environment variable
+User can use embedFS to provide static files to rk-boot.
 ---
 
 ## Overview
-User can override values in boot.yaml with flags and environment variable
-
-- Override value in boot.yaml with (\-\-rkset)
+User can provide Swagger UI config file, API Docs config file and boot.yaml file to rk-boot with embedFS.
 
 ## Quick start
 ### 1.Install
@@ -24,11 +22,11 @@ $ go get github.com/rookie-ninja/rk-grpc/v2
 
 ### 3.Create boot.yaml
 ```yaml
----
 grpc:
   - name: greeter
     port: 8080
     enabled: true
+    enableRkGwOption: true
 ```
 
 ### 4.Create main.go
@@ -37,14 +35,18 @@ package main
 
 import (
   "context"
+  _ "embed"
   "github.com/rookie-ninja/rk-boot/v2"
   "github.com/rookie-ninja/rk-demo/api/gen/v1"
   "github.com/rookie-ninja/rk-grpc/v2/boot"
   "google.golang.org/grpc"
 )
 
+//go:embed boot.yaml
+var bootRaw []byte
+
 func main() {
-  boot := rkboot.NewBoot()
+  boot := rkboot.NewBoot(rkboot.WithBootConfigRaw(bootRaw))
 
   // register grpc
   entry := rkgrpc.GetGrpcEntry("greeter")
@@ -71,22 +73,19 @@ func (server *GreeterServer) Hello(ctx context.Context, _ *greeter.HelloRequest)
 }
 ```
 
-### 5.Change Port with flag
-Follows format of【grpc[0].port】if value was in List.
-
+### 5.Start main.go
 ```shell
-$ go run main.go --rkset grpc[0].port=8081
-2022-04-17T23:04:53.960+0800    INFO    entry/util.go:332       Found flag to override, applying...     {"flags": ["grpc[0].port=8081"]}
-2022-04-17T23:04:53.960+0800    INFO    boot/grpc_entry.go:965  Bootstrap grpcEntry     {"eventId": "df4a9ff3-6537-433e-8718-bb07880070c4", "entryName": "greeter", "entryType": "gRPCEntry"}
+$ go run main.go
+2022-04-17T22:45:36.589+0800    INFO    boot/grpc_entry.go:965  Bootstrap grpcEntry     {"eventId": "010319cd-4a66-40db-81b1-970bb23440dd", "entryName": "greeter", "entryType": "gRPCEntry"}
 ------------------------------------------------------------------------
-endTime=2022-04-17T23:04:53.961165+08:00
-startTime=2022-04-17T23:04:53.960979+08:00
-elapsedNano=185688
+endTime=2022-04-17T22:45:36.589583+08:00
+startTime=2022-04-17T22:45:36.589326+08:00
+elapsedNano=256907
 timezone=CST
-ids={"eventId":"df4a9ff3-6537-433e-8718-bb07880070c4"}
+ids={"eventId":"010319cd-4a66-40db-81b1-970bb23440dd"}
 app={"appName":"rk","appVersion":"local","entryName":"greeter","entryType":"gRPCEntry"}
 env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
-payloads={"grpcPort":8081,"gwPort":8081}
+payloads={"grpcPort":8080,"gwPort":8080}
 counters={}
 pairs={}
 timing={}
@@ -97,36 +96,64 @@ eventStatus=Ended
 EOE
 ```
 
-> Send request to 8081
-```shell script
-$ curl localhost:8081/v1/hello
+### 6.Validate
+```shell
+$ curl localhost:8080/v1/hello  
 {"message":"hello!"}
 ```
 
-### _**Cheers**_
-![](/rk-boot/user-guide/cheers.png)
+## Swagger UI & Docs UI
+### 1.Swagger JSON in local FS
+```shell
+├── api
+│   ├── gen
+│   │   └── v1
+│   │       ├── greeter.swagger.json
+```
 
-### 6.Override Port with environment variable
-【RK_】should be included as prefix while using environment variables.
+### 2.Create boot.yaml
+```yaml
+grpc:
+  - name: greeter
+    port: 8080
+    enabled: true
+    sw:
+      enabled: true
+    docs:
+      enabled: true
+```
 
-Example：RK_GRPC_0_PORT
-
+### 3.Create main.go
 ```go
 package main
 
 import (
   "context"
+  "embed"
+  _ "embed"
   "github.com/rookie-ninja/rk-boot/v2"
   "github.com/rookie-ninja/rk-demo/api/gen/v1"
+  "github.com/rookie-ninja/rk-entry/v2/entry"
   "github.com/rookie-ninja/rk-grpc/v2/boot"
   "google.golang.org/grpc"
-  "os"
 )
 
-func main() {
-  os.Setenv("RK_GRPC_0_PORT", "8081")
+//go:embed boot.yaml
+var bootRaw []byte
 
-  boot := rkboot.NewBoot()
+//go:embed api/gen/v1
+var docsFS embed.FS
+
+//go:embed api/gen/v1
+var swFS embed.FS
+
+func init() {
+  rkentry.GlobalAppCtx.AddEmbedFS(rkentry.SWEntryType, "greeter", &docsFS)
+  rkentry.GlobalAppCtx.AddEmbedFS(rkentry.DocsEntryType, "greeter", &swFS)
+}
+
+func main() {
+  boot := rkboot.NewBoot(rkboot.WithBootConfigRaw(bootRaw))
 
   // register grpc
   entry := rkgrpc.GetGrpcEntry("greeter")
@@ -151,27 +178,4 @@ func (server *GreeterServer) Hello(ctx context.Context, _ *greeter.HelloRequest)
     Message: "hello!",
   }, nil
 }
-```
-
-```shell
-$ go run main.go
-2022-04-17T23:05:49.493+0800    INFO    entry/util.go:299       Found ENV to override, applying...      {"env": ["RK_GRPC_0_PORT=8081 => grpc[0].port=8081"]}
-2022-04-17T23:05:49.493+0800    INFO    boot/grpc_entry.go:965  Bootstrap grpcEntry     {"eventId": "fa9dba2d-ec47-4720-ae89-537b61063013", "entryName": "greeter", "entryType": "gRPCEntry"}
-------------------------------------------------------------------------
-endTime=2022-04-17T23:05:49.493936+08:00
-startTime=2022-04-17T23:05:49.49368+08:00
-elapsedNano=256504
-timezone=CST
-ids={"eventId":"fa9dba2d-ec47-4720-ae89-537b61063013"}
-app={"appName":"rk","appVersion":"local","entryName":"greeter","entryType":"gRPCEntry"}
-env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
-payloads={"grpcPort":8081,"gwPort":8081}
-counters={}
-pairs={}
-timing={}
-remoteAddr=localhost
-operation=Bootstrap
-resCode=OK
-eventStatus=Ended
-EOE
 ```

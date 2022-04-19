@@ -3,13 +3,13 @@ title: "Config"
 linkTitle: "Config"
 weight: 5
 description: >
-  How to read configs in local file system.
+  Read config from local file system.
 ---
 
 ## Overview
-Bootstrapper will try to read config files described in [config] section in boot.yaml file and load the file content with [viper](https://github.com/spf13/viper).
+rk-boot uses [viper](https://github.com/spf13/viper) as config reader.
 
-As a result, bellow file type can be supported.
+Bellow file types are supported by Viper:
 - JSON
 - TOML
 - YAML
@@ -17,70 +17,142 @@ As a result, bellow file type can be supported.
 - envfile
 - Java propertie
 
-## Architecture
-![](/bootstrapper/user-guide/grpc-golang/advanced/config-arch.png)
-
-## Locale
-> ConfigEntry support concept of [locale](/docs/bootstrapper/user-guide/grpc-golang/advanced/locale/).
+## DOMAIN
+Environment variable of DOMAIN can be used to distinguish environment.
 
 ## Quick start
-- Install
+### 1.Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-grpc
+$ go get github.com/rookie-ninja/rk-boot/v2
+$ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
-### 1.Create config
-> Create config file and specify in boot.yaml file
-
-**config/default.yaml**
+### 2.Create config/default.yaml
 ```yaml
-region: default
+---
+value: default
 ```
-**boot.yaml**
+
+### 3.Create boot.yaml
 ```yaml
+---
 config:
   - name: my-config
-    locale: "*::*::*::*"
-    path: config/default.yaml
+    path: "config/default.yaml"
 grpc:
   - name: greeter
     port: 8080
     enabled: true
 ```
 
-### 2.Refer config path
-**main.go**
+### 4.Create main.go
+```go
+package main
+
+import (
+  "context"
+  "fmt"
+  "github.com/rookie-ninja/rk-boot/v2"
+  "github.com/rookie-ninja/rk-entry/v2/entry"
+  _ "github.com/rookie-ninja/rk-grpc/v2/boot"
+)
+
+func main() {
+  // Create a new boot instance.
+  boot := rkboot.NewBoot()
+
+  // Read config
+  fmt.Println(rkentry.GlobalAppCtx.GetConfigEntry("my-config").GetString("value"))
+
+  // Bootstrap
+  boot.Bootstrap(context.TODO())
+
+  boot.WaitForShutdownSig(context.TODO())
+}
+```
+
+### 5.Validate
+```shell
+$ go run main.go
+default
+...
+```
+
+### _**Cheers**_
+![](/rk-boot/user-guide/cheers.png)
+
+## Set config values in boot.yaml
+### 1.Create boot.yaml
+```yaml
+config:
+  - name: my-config
+    content:
+      value: embed-value
+grpc:
+  - name: greeter
+    port: 8080
+    enabled: true
+```
+
+### 2.Validate
+```shell
+$ go run main.go
+embed-value
+...
+```
+
+### _**Cheers**_
+![](/rk-boot/user-guide/cheers.png)
+
+## Override with environment variable
+### 1.Create boot.yaml
+```yaml
+config:
+  - name: my-config
+    envPrefix: "demo"
+    path: "config/default.yaml"
+grpc:
+  - name: greeter
+    port: 8080
+    enabled: true
+```
+
+### 2.Override
 ```go
 package main
 
 import (
 	"context"
 	"fmt"
-	"github.com/rookie-ninja/rk-boot"
-	"github.com/rookie-ninja/rk-entry/entry"
-	_ "github.com/rookie-ninja/rk-grpc/boot"
+	"github.com/rookie-ninja/rk-boot/v2"
+	"github.com/rookie-ninja/rk-entry/v2/entry"
+	_ "github.com/rookie-ninja/rk-grpc/v2/boot"
+	"os"
 )
 
-// Application entrance.
 func main() {
+	// Use upper case env prefix
+	os.Setenv("DEMO_VALUE", "override-value")
+
 	// Create a new boot instance.
 	boot := rkboot.NewBoot()
 
-	// Get ConfigEntry and get viper instance
-	fmt.Println(rkentry.GlobalAppCtx.GetConfigEntry("my-config").GetViper().GetString("region"))
+	fmt.Println(rkentry.GlobalAppCtx.GetConfigEntry("my-config").GetString("value"))
 
 	// Bootstrap
-	boot.Bootstrap(context.Background())
+	boot.Bootstrap(context.TODO())
 
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
+	boot.WaitForShutdownSig(context.TODO())
 }
 ```
 
-### 3.Access ConfigEntry
-User can access ConfigEntry by calling **rkentry.GlobalAppCtx.GetConfigEntry()**.
+### 3.Validate
+```shell
+$ go run main.go
+override-value
+...
+```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)

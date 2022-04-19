@@ -13,7 +13,7 @@ rk-boot will load element of CertEntry into memory and start server with TLS/SSL
 CertEntry use environment variable of DOMAIN to distinguish different environments.
 
 ## Generate Self-Signed Certificate
-> 我们推荐使用 [cfssl](https://github.com/cloudflare/cfssl) 来生成自定义证书。
+> We suggest use [cfssl](https://github.com/cloudflare/cfssl) to generate certificates
 
 ### 1.Download cfssl & cfssljson
 ```shell script

@@ -3,113 +3,121 @@ title: "AppInfo"
 linkTitle: "AppInfo"
 weight: 6
 description: >
-  How to specify application info in boot.yaml?
+Specify AppInfo in boot.yaml
 ---
 
-## Overview
-Application info consist of bellow fields.
-
-```yaml
-app:
-  description: "this is description"  # Optional, default: ""
-  keywords: ["rk", "golang"]          # Optional, default: []
-  homeUrl: "http://example.com"       # Optional, default: ""
-  iconUrl: "http://example.com"       # Optional, default: ""
-  docsUrl: ["http://example.com"]     # Optional, default: []
-  maintainers: ["rk-dev"]             # Optional, default: []
-```
-
 ## Quick start
-- Install
+### 1.Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-grpc
+$ go get github.com/rookie-ninja/rk-boot/v2
+$ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
+### 2.Create boot.yaml
 ```yaml
 app:
-  description: "this is description"  # Optional, default: ""
-  keywords: ["rk", "golang"]          # Optional, default: []
-  homeUrl: "http://example.com"       # Optional, default: ""
-  iconUrl: "http://example.com"       # Optional, default: ""
-  docsUrl: ["http://example.com"]     # Optional, default: []
-  maintainers: ["rk-dev"]             # Optional, default: []
+  name: my-app                                            # Optional, default: "rk"
+  version: "v1.0.0"                                       # Optional, default: "local"
+  description: "this is description"                      # Optional, default: ""
+  keywords: ["rk", "golang"]                              # Optional, default: []
+  homeUrl: "http://example.com"                           # Optional, default: ""
+  docsUrl: ["http://example.com"]                         # Optional, default: []
+  maintainers: ["rk-dev"]                                 # Optional, default: []
 grpc:
   - name: greeter
     port: 8080
     enabled: true
-    commonService:
-      enabled: true                   # Enable for validation
-    tv: 
-      enabled: true                   # Enable for validation
 ```
 
-### 1.Access from RK TV
-> [http://localhost:8080/rk/v1/tv/info](http://localhost:8080/rk/v1/tv/info)
+### 3.Create main.go
+```go
+package main
 
-![](/bootstrapper/user-guide/grpc-golang/advanced/app-info.png)
+import (
+	"context"
+	"github.com/rookie-ninja/rk-boot/v2"
+	_ "github.com/rookie-ninja/rk-grpc/v2/boot"
+)
+
+func main() {
+	// Create a new boot instance.
+	boot := rkboot.NewBoot()
+
+	// Bootstrap
+	boot.Bootstrap(context.TODO())
+
+	boot.WaitForShutdownSig(context.TODO())
+}
+```
+
+### 4.Validate
+```shell
+$ go run main.go
+2022-04-16T23:38:06.074+0800    INFO    boot/grpc_entry.go:656   Bootstrap GinEntry      {"eventId": "0fc01d4a-1faa-4c43-9055-1917ea6b9134", "entryName": "greeter", "entryType": "GinEntry"}
+------------------------------------------------------------------------
+endTime=2022-04-16T23:38:06.074485+08:00
+startTime=2022-04-16T23:38:06.074359+08:00
+elapsedNano=126065
+timezone=CST
+ids={"eventId":"0fc01d4a-1faa-4c43-9055-1917ea6b9134"}
+app={"appName":"my-app","appVersion":"v1.0.0","entryName":"greeter","entryType":"gRPCEntry"}
+env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
+payloads={"ginPort":8080}
+counters={}
+pairs={}
+timing={}
+remoteAddr=localhost
+operation=Bootstrap
+resCode=OK
+eventStatus=Ended
+EOE
+```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)
 
-### 2.Access from common service
-```shell script
+## Get from CommonService
+### 1.Create boot.yaml
+```yaml
+app:
+  name: my-app                                            # Optional, default: "rk"
+  version: "v1.0.0"                                       # Optional, default: "local"
+  description: "this is description"                      # Optional, default: ""
+  keywords: ["rk", "golang"]                              # Optional, default: []
+  homeUrl: "http://example.com"                           # Optional, default: ""
+  docsUrl: ["http://example.com"]                         # Optional, default: []
+  maintainers: ["rk-dev"]                                 # Optional, default: []
+grpc:
+  - name: greeter
+    port: 8080
+    enabled: true
+    enableRkGwOption: true
+    commonService:
+      enabled: true
+```
+
+### 2.Send /rk/v1/info request
+```shell
 $ curl localhost:8080/rk/v1/info
 {
-    "appName":"rk-demo",
-    "version":"master-f414049",
-    "description":"this is description",
-    "keywords":[
-        "rk",
-        "golang"
-    ],
-    "homeUrl":"http://example.com",
-    "iconUrl":"http://example.com",
-    "docsUrl":[
-        "http://example.com"
-    ],
-    "maintainers":[
-        "rk-dev"
-    ],
-    "uid":"501",
-    "gid":"20",
-    "username":"XXX",
-    "startTime":"2021-07-08T00:38:51+08:00",
-    "upTimeSec":13,
-    "upTimeStr":"13 seconds",
-    "region":"",
-    "az":"",
-    "realm":"",
-    "domain":""
+  "appName": "my-app",
+  "version": "v1.0.0",
+  "description": "this is description",
+  "keywords": [
+    "rk",
+    "golang"
+  ],
+  "homeUrl": "http://example.com",
+  "docsUrl": [
+    "http://example.com"
+  ],
+  "maintainers": [
+    "rk-dev"
+  ],
+  ...
 }
 ```
 
 ### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
-
-### 3.Access from AppInfoEntry
-> rkentry.GlobalAppCtx.GetAppInfoEntry()
-
-```go
-type AppInfoEntry struct {
-	EntryName        string   `json:"entryName" yaml:"entryName"`
-	EntryType        string   `json:"entryType" yaml:"entryType"`
-	EntryDescription string   `json:"description" yaml:"description"`
-	AppName          string   `json:"appName" yaml:"appName"`
-	Version          string   `json:"version" yaml:"version"`
-	Lang             string   `json:"lang" yaml:"lang"`
-	Keywords         []string `json:"keywords" yaml:"keywords"`
-	HomeUrl          string   `json:"homeUrl" yaml:"homeUrl"`
-	IconUrl          string   `json:"iconUrl" yaml:"iconUrl"`
-	DocsUrl          []string `json:"docsUrl" yaml:"docsUrl"`
-	Maintainers      []string `json:"maintainers" yaml:"maintainers"`
-	License          string   `json:"-" yaml:"-"`
-	Readme           string   `json:"-" yaml:"-"`
-	GoMod            string   `json:"-" yaml:"-"`
-	UtHtml           string   `json:"-" yaml:"-"`
-}
-```
-
-### _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)

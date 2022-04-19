@@ -3,56 +3,59 @@ title: "Shutdown hook"
 linkTitle: "Shutdown hook"
 weight: 8
 description: >
-  How to add shutdown hook function while receiving shutdown signal?
+Graceful shutdown.
 ---
 
-## Overview
-We need to understand how bootstrapper stop process.
-
-1. Add shutdown hook functions by user
-1. Call functions as soon as receive signal from outside
-
-![](/bootstrapper/user-guide/grpc-golang/advanced/shutdown-hook.png)
-
-## Getting started
-- Install
+## Quick start
+### 1.Install
 
 ```shell script
-$ go get github.com/rookie-ninja/rk-boot
-$ go get github.com/rookie-ninja/rk-grpc
+$ go get github.com/rookie-ninja/rk-boot/v2
+$ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
+### 2.Create boot.yaml
+```yaml
+grpc:
+  - name: greeter
+    port: 8080
+    enabled: true
+```
+
+### 3.Create main.go
 ```go
 package main
 
 import (
-	"context"
-	"github.com/rookie-ninja/rk-boot"
-	_ "github.com/rookie-ninja/rk-grpc/boot"
+  "context"
+  "fmt"
+  "github.com/gin-gonic/gin"
+  "github.com/rookie-ninja/rk-boot/v2"
+  _ "github.com/rookie-ninja/rk-grpc/v2/boot"
 )
 
-// Application entrance.
 func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
-    
-    // Add shutdown hook function
-	boot.AddShutdownHookFunc("shutdown-hook", func() {
-		fmt.Println("shutting down")
-	})
+  // Create a new boot instance.
+  boot := rkboot.NewBoot()
 
-	// Bootstrap
-	boot.Bootstrap(context.Background())
+  // Add shutdown hook function
+  boot.AddShutdownHookFunc("shutdown-hook", func() {
+    fmt.Println("shutting down")
+  })
 
-	// Wait for shutdown sig
-	boot.WaitForShutdownSig(context.Background())
+  // Bootstrap
+  boot.Bootstrap(context.TODO())
+
+  boot.WaitForShutdownSig(context.TODO())
 }
 ```
-```shell script
+
+### 4.Start and ctrl-c
+```shell
 ...
 shutting down
 ...
 ```
 
 ## _**Cheers**_
-![](/bootstrapper/user-guide/cheers.png)
+![](/rk-boot/user-guide/cheers.png)
