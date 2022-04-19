@@ -34,7 +34,7 @@ rk-boot 使用 [zap](https://github.com/uber-go/zap) 为默认日志，[lumberja
 > 例子
 >
 > ```shell script
-2022-04-17T21:34:06.029+0800    INFO    boot/grpc_entry.go:960  Bootstrap grpcEntry     {"eventId": "a84186c3-0e05-4714-9276-80b3b68d2733", "entryName": "greeter", "entryType": "gRPCEntry"}
+> 2022-04-17T21:34:06.029+0800    INFO    boot/grpc_entry.go:960  Bootstrap grpcEntry     {"eventId": "a84186c3-0e05-4714-9276-80b3b68d2733", "entryName": "greeter", "entryType": "gRPCEntry"}
 > ```
 
 ### Event

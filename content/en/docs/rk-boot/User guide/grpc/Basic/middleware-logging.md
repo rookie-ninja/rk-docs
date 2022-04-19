@@ -13,7 +13,7 @@ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
 ## Options
-| options                                   | description                        | type     | default                |
+| options                                   | description                 | type     | default |
 |-------------------------------------------|-----------------------------|----------|---------|
 | grpc.middleware.logging.enabled           | Enable logging middleware   | boolean  | false   |
 | grpc.middleware.logging.ignore            | Ignore by path              | []string | []      |
