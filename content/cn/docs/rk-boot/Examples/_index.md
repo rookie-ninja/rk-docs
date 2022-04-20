@@ -4,7 +4,7 @@ linkTitle: "例子"
 weight: 4
 ---
 {{% pageinfo %}} 
-完整例子: https://github.com/rookie-ninja/rk-boot/example/web/gin
+完整例子: https://github.com/rookie-ninja/rk-boot/tree/main/example/web/gin
 {{% /pageinfo %}}
 
 ## 概述

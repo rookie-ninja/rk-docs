@@ -4,7 +4,7 @@ linkTitle: "Examples"
 weight: 4
 ---
 {{% pageinfo %}} 
-Please visit: https://github.com/rookie-ninja/rk-boot/example/web/gin for full demo
+Please visit: https://github.com/rookie-ninja/rk-boot/tree/main/example/web/gin for full demo
 {{% /pageinfo %}}
 
 ## Overview
