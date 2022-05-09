@@ -114,7 +114,7 @@ gin:
 gin:
   - name: greeter
     ...
-    interceptors:
+    middleware:
       auth:
         enabled: true
         basic: ["user:pass"]

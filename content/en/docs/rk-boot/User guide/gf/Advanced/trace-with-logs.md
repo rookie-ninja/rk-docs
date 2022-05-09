@@ -161,7 +161,7 @@ Generated while logging middleware was enabled.
 
 ```yaml
 ---
-gin:
+gf:
   - name: greeter
     port: 8080
     enabled: true
@@ -182,7 +182,7 @@ Generated while logging and meta middleware enabled. RequestId and eventId will 
 
 ```yaml
 ---
-gin:
+gf:
   - name: greeter
     port: 8080
     enabled: true
@@ -201,7 +201,7 @@ ids={"eventId":"8226ba9b-424e-4e19-ba63-d37ca69028b3","requestId":"8226ba9b-424e
 ```
 
 ```go
-  rkginctx.SetHeaderToClient(ctx, rkmid.HeaderRequestId, "overridden-request-id")
+  rkgfctx.SetHeaderToClient(ctx, rkmid.HeaderRequestId, "overridden-request-id")
 ```
 
 ```shell script
@@ -216,7 +216,7 @@ Generate while trace middleware was enabled.
 
 ```yaml
 ---
-gin:
+gf:
   - name: greeter
     port: 8080
     enabled: true

@@ -208,12 +208,12 @@ echo:
 ### 6. 获取日志实例
 当每一次 RPC 请求进来的时候，中间件会把 RequestId（当启动了原数据中间件）注入到日志实例中。换句话说，每一个 RPC 请求，都会有一个新的 Logger 实例。
 ```go
-func Greeter(ctx *gin.Context) {
+func Greeter(ctx echo.Context) {
     rkechoctx.GetLogger(ctx).Info("Received request")
 
-	ctx.JSON(http.StatusOK, &GreeterResponse{
-		Message: fmt.Sprintf("Hello %s!", ctx.Query("name")),
-	})
+    ctx.JSON(http.StatusOK, &GreeterResponse{
+        Message: fmt.Sprintf("Hello %s!", ctx.Query("name")),
+    })
 }
 ```
 

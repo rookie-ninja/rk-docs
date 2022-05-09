@@ -114,7 +114,7 @@ $ curl "localhost:8080/v1/greeter?name=rk-dev" -H "Authorization: Bearer eyJhbGc
 
 - Invalid JWT Token
 ```shell script
-$ curl localhost:8080/rk/v1/healthy -H "Authorization: Bearer invalid-jwt-token"
+$ curl localhost:8080/v1/greeter -H "Authorization: Bearer invalid-jwt-token"
 {
     "error":{
         "code":401,

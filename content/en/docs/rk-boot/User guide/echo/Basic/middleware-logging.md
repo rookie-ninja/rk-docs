@@ -207,7 +207,7 @@ echo:
 rk-boot will add RequestId into logger instance for every RPC calls.
 
 ```go
-func Greeter(ctx *gin.Context) {
+func Greeter(ctx echo.Context) {
     rkechoctx.GetLogger(ctx).Info("Received request")
 
 	ctx.JSON(http.StatusOK, &GreeterResponse{

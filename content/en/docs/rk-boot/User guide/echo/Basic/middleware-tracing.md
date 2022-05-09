@@ -98,7 +98,7 @@ type GreeterResponse struct {
 > Send request
 
 ```shell script
-$ curl -X GET "localhost:8080/v1/healthy?name=rk-dev"
+$ curl -X GET "localhost:8080/v1/greeter?name=rk-dev"
 {"Message":"Hello rk-dev!"}
 ```
 

@@ -29,7 +29,6 @@ package main
 import (
   "context"
   "fmt"
-  "github.com/gin-gonic/gin"
   "github.com/rookie-ninja/rk-boot/v2"
   _ "github.com/rookie-ninja/rk-echo/boot"
 )

@@ -114,7 +114,7 @@ echo:
 echo:
   - name: greeter
     ...
-    interceptors:
+    middleware:
       auth:
         enabled: true
         basic: ["user:pass"]
