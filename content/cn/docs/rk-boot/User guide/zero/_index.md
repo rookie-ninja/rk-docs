@@ -1,6 +1,6 @@
 ---
-title: "Echo 框架"
-linkTitle: "Echo 框架"
+title: "Zero 框架"
+linkTitle: "Zero 框架"
 weight: 3
 description: >
   通过 rk-boot，配合 rk-zero 插件，创建 [zeromicro/go-zero](https://github.com/zeromicro/go-zero) 后台服务。

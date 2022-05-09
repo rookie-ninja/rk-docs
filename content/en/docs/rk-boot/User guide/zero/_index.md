@@ -1,6 +1,6 @@
 ---
-title: "Echo"
-linkTitle: "Echo"
+title: "Zero"
+linkTitle: "Zero"
 weight: 5
 description: >
   Create [zeromicro/go-zero](https://github.com/zeromicro/go-zero) microservice with rk-boot and plugin of rk-echo
