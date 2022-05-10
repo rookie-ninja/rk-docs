@@ -11,7 +11,7 @@ description: >
 
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot/v2
-$ go get github.com/rookie-ninja/rk-echo
+$ go get github.com/rookie-ninja/rk-mux
 ```
 
 ### 2.Create boot.yaml
@@ -24,7 +24,7 @@ app:
   homeUrl: "http://example.com"                           # Optional, default: ""
   docsUrl: ["http://example.com"]                         # Optional, default: []
   maintainers: ["rk-dev"]                                 # Optional, default: []
-echo:
+mux:
   - name: greeter
     port: 8080
     enabled: true
@@ -37,7 +37,7 @@ package main
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot/v2"
-	_ "github.com/rookie-ninja/rk-echo/boot"
+	_ "github.com/rookie-ninja/rk-mux/boot"
 )
 
 func main() {
@@ -54,14 +54,14 @@ func main() {
 ### 4.Validate
 ```shell
 $ go run main.go
-2022-04-16T23:38:06.074+0800    INFO    boot/echo_entry.go:656   Bootstrap EchoEntry      {"eventId": "0fc01d4a-1faa-4c43-9055-1917ea6b9134", "entryName": "greeter", "entryType": "GinEntry"}
+2022-04-16T23:38:06.074+0800    INFO    boot/mux_entry.go:656   Bootstrap MuxEntry      {"eventId": "0fc01d4a-1faa-4c43-9055-1917ea6b9134", "entryName": "greeter", "entryType": "GinEntry"}
 ------------------------------------------------------------------------
 endTime=2022-04-16T23:38:06.074485+08:00
 startTime=2022-04-16T23:38:06.074359+08:00
 elapsedNano=126065
 timezone=CST
 ids={"eventId":"0fc01d4a-1faa-4c43-9055-1917ea6b9134"}
-app={"appName":"my-app","appVersion":"v1.0.0","entryName":"greeter","entryType":"EchoEntry"}
+app={"appName":"my-app","appVersion":"v1.0.0","entryName":"greeter","entryType":"MuxEntry"}
 env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
 payloads={"ginPort":8080}
 counters={}
@@ -88,7 +88,7 @@ app:
   homeUrl: "http://example.com"                           # Optional, default: ""
   docsUrl: ["http://example.com"]                         # Optional, default: []
   maintainers: ["rk-dev"]                                 # Optional, default: []
-echo:
+mux:
   - name: greeter
     port: 8080
     enabled: true

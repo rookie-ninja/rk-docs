@@ -25,7 +25,7 @@ Environment variable of DOMAIN can be used to distinguish environment.
 
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot/v2
-$ go get github.com/rookie-ninja/rk-echo
+$ go get github.com/rookie-ninja/rk-mux
 ```
 
 ### 2.Create config/default.yaml
@@ -40,7 +40,7 @@ value: default
 config:
   - name: my-config
     path: "config/default.yaml"
-echo:
+mux:
   - name: greeter
     port: 8080
     enabled: true
@@ -55,7 +55,7 @@ import (
   "fmt"
   "github.com/rookie-ninja/rk-boot/v2"
   "github.com/rookie-ninja/rk-entry/v2/entry"
-  _ "github.com/rookie-ninja/rk-echo/boot"
+  _ "github.com/rookie-ninja/rk-mux/boot"
 )
 
 func main() {
@@ -89,7 +89,7 @@ config:
   - name: my-config
     content:
       value: embed-value
-echo:
+mux:
   - name: greeter
     port: 8080
     enabled: true
@@ -112,7 +112,7 @@ config:
   - name: my-config
     envPrefix: "demo"
     path: "config/default.yaml"
-echo:
+mux:
   - name: greeter
     port: 8080
     enabled: true
@@ -127,7 +127,7 @@ import (
 	"fmt"
 	"github.com/rookie-ninja/rk-boot/v2"
 	"github.com/rookie-ninja/rk-entry/v2/entry"
-	_ "github.com/rookie-ninja/rk-echo/boot"
+	_ "github.com/rookie-ninja/rk-mux/boot"
 	"os"
 )
 

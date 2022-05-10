@@ -1,20 +1,20 @@
 ---
-title: "AppInfo"
-linkTitle: "AppInfo"
+title: "应用信息"
+linkTitle: "应用信息"
 weight: 6
 description: >
-  Specify AppInfo in boot.yaml
+  如何自定义应用信息？
 ---
 
-## Quick start
-### 1.Install
+## 快速开始
+### 1.安装
 
 ```shell script
 $ go get github.com/rookie-ninja/rk-boot/v2
-$ go get github.com/rookie-ninja/rk-echo
+$ go get github.com/rookie-ninja/rk-mux
 ```
 
-### 2.Create boot.yaml
+### 2.创建 boot.yaml
 ```yaml
 app:
   name: my-app                                            # Optional, default: "rk"
@@ -24,44 +24,44 @@ app:
   homeUrl: "http://example.com"                           # Optional, default: ""
   docsUrl: ["http://example.com"]                         # Optional, default: []
   maintainers: ["rk-dev"]                                 # Optional, default: []
-echo:
+mux:
   - name: greeter
     port: 8080
     enabled: true
 ```
 
-### 3.Create main.go
+### 3.创建 main.go
 ```go
 package main
 
 import (
-	"context"
-	"github.com/rookie-ninja/rk-boot/v2"
-	_ "github.com/rookie-ninja/rk-echo/boot"
+  "context"
+  "github.com/rookie-ninja/rk-boot/v2"
+  _ "github.com/rookie-ninja/rk-mux/boot"
 )
 
 func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
+  // Create a new boot instance.
+  boot := rkboot.NewBoot()
 
-	// Bootstrap
-	boot.Bootstrap(context.TODO())
+  // Bootstrap
+  boot.Bootstrap(context.TODO())
 
-	boot.WaitForShutdownSig(context.TODO())
+  boot.WaitForShutdownSig(context.TODO())
 }
 ```
 
-### 4.Validate
+### 4.验证
 ```shell
 $ go run main.go
-2022-04-16T23:38:06.074+0800    INFO    boot/echo_entry.go:656   Bootstrap EchoEntry      {"eventId": "0fc01d4a-1faa-4c43-9055-1917ea6b9134", "entryName": "greeter", "entryType": "GinEntry"}
+2022-04-16T23:38:06.074+0800    INFO    boot/mux_entry.go:656   Bootstrap MuxEntry      {"eventId": "0fc01d4a-1faa-4c43-9055-1917ea6b9134", "entryName": "greeter", "entryType": "GinEntry"}
 ------------------------------------------------------------------------
 endTime=2022-04-16T23:38:06.074485+08:00
 startTime=2022-04-16T23:38:06.074359+08:00
 elapsedNano=126065
 timezone=CST
 ids={"eventId":"0fc01d4a-1faa-4c43-9055-1917ea6b9134"}
-app={"appName":"my-app","appVersion":"v1.0.0","entryName":"greeter","entryType":"EchoEntry"}
+app={"appName":"my-app","appVersion":"v1.0.0","entryName":"greeter","entryType":"MuxEntry"}
 env={"arch":"amd64","domain":"*","hostname":"lark.local","localIP":"192.168.101.5","os":"darwin"}
 payloads={"ginPort":8080}
 counters={}
@@ -77,8 +77,8 @@ EOE
 ### _**Cheers**_
 ![](/rk-boot/user-guide/cheers.png)
 
-## Get from CommonService
-### 1.Create boot.yaml
+## 从 CommonService 中获取
+### 1.创建 boot.yaml
 ```yaml
 app:
   name: my-app                                            # Optional, default: "rk"
@@ -88,7 +88,7 @@ app:
   homeUrl: "http://example.com"                           # Optional, default: ""
   docsUrl: ["http://example.com"]                         # Optional, default: []
   maintainers: ["rk-dev"]                                 # Optional, default: []
-echo:
+mux:
   - name: greeter
     port: 8080
     enabled: true
@@ -96,7 +96,7 @@ echo:
       enabled: true
 ```
 
-### 2.Send /rk/v1/info request
+### 2.发送 /rk/v1/info 请求
 ```shell
 $ curl localhost:8080/rk/v1/info
 {

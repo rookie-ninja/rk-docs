@@ -24,7 +24,7 @@ app:
   homeUrl: "http://example.com"                           # Optional, default: ""
   docsUrl: ["http://example.com"]                         # Optional, default: []
   maintainers: ["rk-dev"]                                 # Optional, default: []
-gin:
+echo:
   - name: greeter
     port: 8080
     enabled: true
