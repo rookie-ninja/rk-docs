@@ -1,9 +1,9 @@
 ---
-title: "Echo 框架"
-linkTitle: "Echo 框架"
+title: "Mux 框架"
+linkTitle: "Mux 框架"
 weight: 3
 description: >
-  通过 rk-boot，配合 rk-echo 插件，创建 [labstack/echo](https://github.com/labstack/echo) 后台服务。
+  通过 rk-boot，配合 rk-mux 插件，创建 [gorilla/mux](https://github.com/gorilla/mux) 后台服务。
 ---
 
 ## 所有选项
@@ -102,7 +102,7 @@ description: >
 #    envPrefix: ""                                         # Optional, default: ""
 #    content:                                              # Optional, defualt: empty map
 #      key: value
-echo:
+mux:
   - name: greeter                                          # Required
     port: 8080                                             # Required
     enabled: true                                          # Required
@@ -192,13 +192,6 @@ echo:
 #        paths:
 #          - path: "/rk/v1/healthy"                        # Optional, default: ""
 #            reqPerSec: 0                                  # Optional, default: 1000000
-#      timeout:
-#        enabled: false                                    # Optional, default: false
-#        ignore: [""]                                      # Optional, default: []
-#        timeoutMs: 5000                                   # Optional, default: 5000
-#        paths:
-#          - path: "/rk/v1/healthy"                        # Optional, default: ""
-#            timeoutMs: 1000                               # Optional, default: 5000
 #      jwt:
 #        enabled: true                                     # Optional, default: false
 #        ignore: [ "" ]                                    # Optional, default: []
@@ -238,10 +231,6 @@ echo:
 #        cookieMaxAge: 86400                               # Optional, default: 86400
 #        cookieHttpOnly: false                             # Optional, default: false
 #        cookieSameSite: "default"                         # Optional, default: "default", options: lax, strict, none, default
-#      gzip:
-#        enabled: true                                     # Optional, default: false
-#        ignore: [""]                                      # Optional, default: []
-#        level: bestSpeed                                  # Optional, options: [noCompression, bestSpeed， bestCompression, defaultCompression, huffmanOnly]
 #      cors:
 #        enabled: true                                     # Optional, default: false
 #        ignore: [""]                                      # Optional, default: []
