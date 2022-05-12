@@ -1,12 +1,12 @@
 ---
-title: "Echo 框架"
-linkTitle: "Echo 框架"
-weight: 3
+title: "Fiber"
+linkTitle: "Fiber"
+weight: 7
 description: >
-  通过 rk-boot，配合 rk-mux 插件，创建 [gorilla/mux](https://github.com/gorilla/mux) 后台服务。
+  Create [gofiber/fiber](https://github.com/gofiber/fiber)  microservice with rk-boot and plugin of rk-fiber
 ---
 
-## 所有选项
+## Full YAML options
 
 ```yaml
 ---
@@ -102,7 +102,7 @@ description: >
 #    envPrefix: ""                                         # Optional, default: ""
 #    content:                                              # Optional, defualt: empty map
 #      key: value
-mux:
+fiber:
   - name: greeter                                          # Required
     port: 8080                                             # Required
     enabled: true                                          # Required
