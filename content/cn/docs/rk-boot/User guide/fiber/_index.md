@@ -1,9 +1,9 @@
 ---
-title: "Mux 框架"
-linkTitle: "Mux 框架"
-weight: 3
+title: "Fiber 框架"
+linkTitle: "Fiber 框架"
+weight: 7
 description: >
-  通过 rk-boot，配合 rk-mux 插件，创建 [gorilla/mux](https://github.com/gorilla/mux) 后台服务。
+  通过 rk-boot，配合 rk-mux 插件，创建 [gofiber/fiber](https://github.com/gofiber/fiber) 后台服务。
 ---
 
 ## 所有选项
@@ -102,7 +102,7 @@ description: >
 #    envPrefix: ""                                         # Optional, default: ""
 #    content:                                              # Optional, defualt: empty map
 #      key: value
-mux:
+fiber:
   - name: greeter                                          # Required
     port: 8080                                             # Required
     enabled: true                                          # Required
