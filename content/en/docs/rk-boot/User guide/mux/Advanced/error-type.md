@@ -11,18 +11,47 @@ It is always not easy to define a user-friendly API. However, errors could happe
 
 In order to return standard error type to user, it is **important** to define an error type.
 
-By default, panic middleware/interceptor will be attached which will catch panic and return internal server error as bellow:
+By default, panic middleware will handle unexpected panic and respond with google style error format:
+
+- Google style
 
 ```json
 {
   "error":{
     "code":500,
     "status":"Internal Server Error",
-    "message":"Panic manually!",
-    "details":[]
+    "message":"Panic occurs",
+    "details":[
+      "panic manually"
+    ]
   }
 }
 ```
+
+- Amazon style
+
+```json
+{
+    "response":{
+        "errors":[
+            {
+                "error":{
+                    "code":500,
+                    "status":"Internal Server Error",
+                    "message":"Panic occurs",
+                    "details":[
+                        "panic manually"
+                    ]
+                }
+            }
+        ]
+    }
+}
+```
+
+- Custom style
+
+User can also define your own style which will be introduced bellow.
 
 ## Quick start
 ### 1.Install
@@ -77,7 +106,7 @@ func main() {
 }
 
 func Greeter(writer http.ResponseWriter, req *http.Request) {
-  err := rkerror.New(http.StatusAlreadyReported, "Trigger manually!",
+  err := rkmid.GetErrorBuilder().New(http.StatusAlreadyReported, "Trigger manually!",
     "This is detail.",
     false, -1,
     0.1)
@@ -104,6 +133,162 @@ $ curl "localhost:8080/v1/greeter?name=rk-dev"
             0.1
         ]
     }
+}
+```
+
+## Amazon style error code
+- boot.yaml
+
+```yaml
+mux:
+  - name: greeter
+    port: 8080
+    enabled: true
+    middleware:
+      errorModel: amazon
+```
+
+```json
+{
+    "response":{
+        "errors":[
+            {
+                "error":{
+                    "code":208,
+                    "status":"Already Reported",
+                    "message":"Trigger manually!",
+                    "details":[
+                        "This is detail.",
+                        false,
+                        -1,
+                        0.1
+                    ]
+                }
+            }
+        ]
+    }
+}
+```
+
+## Custom style
+User can register custom error builder and register it into Entry.
+
+Please implement bellow interface.
+
+```go
+type ErrorInterface interface {
+	Error() string
+
+	Code() int
+
+	Message() string
+
+	Details() []interface{}
+}
+
+type ErrorBuilder interface {
+	New(code int, msg string, details ...interface{}) ErrorInterface
+
+	NewCustom() ErrorInterface
+}
+```
+
+### 1.main.go
+
+```go
+package main
+
+import (
+	"context"
+	_ "embed"
+	"fmt"
+	"github.com/rookie-ninja/rk-boot/v2"
+	"github.com/rookie-ninja/rk-entry/v2/error"
+	"github.com/rookie-ninja/rk-entry/v2/middleware"
+	"github.com/rookie-ninja/rk-mux/boot"
+	"github.com/rookie-ninja/rk-mux/middleware"
+	"net/http"
+)
+
+func main() {
+	// Create a new boot instance.
+	boot := rkboot.NewBoot()
+
+	// Get MuxEntry
+	muxEntry := rkmux.GetMuxEntry("greeter")
+	// Use *mux.Router adding handler.
+	muxEntry.Router.NewRoute().Path("/v1/greeter").HandlerFunc(Greeter)
+
+	// Bootstrap
+	boot.Bootstrap(context.TODO())
+
+	// Set default error builder after bootstrap
+	rkmid.SetErrorBuilder(&MyErrorBuilder{})
+	
+	boot.WaitForShutdownSig(context.TODO())
+}
+
+func Greeter(writer http.ResponseWriter, req *http.Request) {
+	rkmuxmid.WriteJson(writer, http.StatusAlreadyReported, rkmid.GetErrorBuilder().New(http.StatusAlreadyReported, "Trigger manually!",
+		"This is detail.",
+		false, -1,
+		0.1))
+}
+
+type MyError struct {
+	ErrCode    int
+	ErrMsg     string
+	ErrDetails []interface{}
+}
+
+func (m MyError) Error() string {
+	return fmt.Sprintf("%d-%s", m.ErrCode, m.ErrMsg)
+}
+
+func (m MyError) Code() int {
+	return m.ErrCode
+}
+
+func (m MyError) Message() string {
+	return m.ErrMsg
+}
+
+func (m MyError) Details() []interface{} {
+	return m.ErrDetails
+}
+
+type MyErrorBuilder struct{}
+
+func (m *MyErrorBuilder) New(code int, msg string, details ...interface{}) rkerror.ErrorInterface {
+	return &MyError{
+		ErrCode:    code,
+		ErrMsg:     msg,
+		ErrDetails: details,
+	}
+}
+
+func (m *MyErrorBuilder) NewCustom() rkerror.ErrorInterface {
+	return &MyError{
+		ErrCode:    http.StatusInternalServerError,
+		ErrMsg:     "Internal Error",
+		ErrDetails: []interface{}{},
+	}
+}
+```
+
+### 2.Validate
+
+```shell
+$ curl "localhost:8080/v1/greeter?name=rk-dev"
+{
+    "ErrCode":208,
+    "ErrMsg":"Trigger manually!",
+    "ErrDetails":[
+        "This is detail.",
+        false,
+        -1,
+        0.1
+    ]
 }
 ```
 

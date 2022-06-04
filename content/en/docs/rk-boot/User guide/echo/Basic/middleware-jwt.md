@@ -13,17 +13,18 @@ go get github.com/rookie-ninja/rk-echo
 ```
 
 ## Options
-| options                     | description                        | type     | default                |
-|----------------------------------------|--------------------------------| ------ |------------------------|
-| echo.middleware.jwt.enabled             | Enable JWT middleware                     | boolean | false                  |
-| echo.middleware.jwt.ignore  | Ignore by path                                                                       | []string | []                     |
-| echo.middleware.jwt.signerEntry         | SignerEntry name                 | string | ""                     |
-| echo.middleware.jwt.symmetric.algorithm | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
-| echo.middleware.jwt.symmetric.token     | Symmetric token                         | string | ""                     |
-| echo.middleware.jwt.symmetric.tokenPath | Symmetric token path                     | string | ""                     |
-| echo.middleware.jwt.asymmetric.algorithm| Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512                        | string | ""                     |
-| echo.middleware.jwt.tokenLookup         | JWT Token format，see example bellow | string | "header:Authorization" |
-| echo.middleware.jwt.authScheme          | Auth Scheme                 | string | Bearer                 |
+| options                                  | description                                                             | type     | default                |
+|------------------------------------------|-------------------------------------------------------------------------|----------|------------------------|
+| echo.middleware.jwt.enabled              | Enable JWT middleware                                                   | boolean  | false                  |
+| echo.middleware.jwt.ignore               | Ignore by path                                                          | []string | []                     |
+| echo.middleware.jwt.skipVerify           | Skip verify JWT token                                                   | boolean  | false                  |
+| echo.middleware.jwt.signerEntry          | SignerEntry name                                                        | string   | ""                     |
+| echo.middleware.jwt.symmetric.algorithm  | Symmetric algorithm, options: HS256, HS384, HS512                       | string   | ""                     |
+| echo.middleware.jwt.symmetric.token      | Symmetric token                                                         | string   | ""                     |
+| echo.middleware.jwt.symmetric.tokenPath  | Symmetric token path                                                    | string   | ""                     |
+| echo.middleware.jwt.asymmetric.algorithm | Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512 | string   | ""                     |
+| echo.middleware.jwt.tokenLookup          | JWT Token format，see example bellow                                     | string   | "header:Authorization" |
+| echo.middleware.jwt.authScheme           | Auth Scheme                                                             | string   | Bearer                 |
 
 **tokenLookup**
 
@@ -51,6 +52,8 @@ echo:
           algorithm: HS256
           token: "my-secret"
 #          tokenPath: ""
+#        ignore: [ "" ]
+#        skipVerify: false
 #        signerEntry: ""
 #        asymmetric:
 #          algorithm: ""

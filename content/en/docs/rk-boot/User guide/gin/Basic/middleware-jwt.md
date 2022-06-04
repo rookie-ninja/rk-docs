@@ -17,6 +17,7 @@ go get github.com/rookie-ninja/rk-gin/v2
 |----------------------------------------|--------------------------------| ------ |------------------------|
 | gin.middleware.jwt.enabled             | Enable JWT middleware                     | boolean | false                  |
 | gin.middleware.jwt.ignore  | Ignore by path                                                                       | []string | []                     |
+| gin.middleware.jwt.skipVerify           | Skip verify JWT token                                                   | boolean  | false                  |
 | gin.middleware.jwt.signerEntry         | SignerEntry name                 | string | ""                     |
 | gin.middleware.jwt.symmetric.algorithm | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
 | gin.middleware.jwt.symmetric.token     | Symmetric token                         | string | ""                     |
@@ -52,6 +53,8 @@ gin:
           token: "my-secret"
 #          tokenPath: ""
 #        signerEntry: ""
+#        ignore: [ "" ]
+#        skipVerify: false
 #        asymmetric:
 #          algorithm: ""
 #          privateKey: ""

@@ -17,6 +17,7 @@ go get github.com/rookie-ninja/rk-gf
 |------------------------------------------|--------------------------------| ------ |------------------------|
 | gf.middleware.jwt.enabled                | Enable JWT middleware                     | boolean | false                  |
 | gf.middleware.jwt.ignore               | Ignore by path                                                                       | []string | []                     |
+| gf.middleware.jwt.skipVerify           | Skip verify JWT token                                                   | boolean  | false                  |
 | gf.middleware.jwt.signerEntry          | SignerEntry name                 | string | ""                     |
 | gf.middleware.jwt.symmetric.algorithm  | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
 | gf.middleware.jwt.symmetric.token      | Symmetric token                         | string | ""                     |
@@ -52,6 +53,8 @@ gf:
           token: "my-secret"
 #          tokenPath: ""
 #        signerEntry: ""
+#        ignore: [ "" ]
+#        skipVerify: false
 #        asymmetric:
 #          algorithm: ""
 #          privateKey: ""

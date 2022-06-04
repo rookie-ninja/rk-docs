@@ -18,6 +18,7 @@ go get github.com/rookie-ninja/rk-zero
 | zero.middleware.jwt.enabled              | Enable JWT middleware                                                   | boolean  | false                  |
 | zero.middleware.jwt.ignore               | Ignore by path                                                          | []string | []                     |
 | zero.middleware.jwt.signerEntry          | SignerEntry name                                                        | string   | ""                     |
+| zero.middleware.jwt.skipVerify           | Skip verify JWT token                                                   | boolean  | false                  |
 | zero.middleware.jwt.symmetric.algorithm  | Symmetric algorithm, options: HS256, HS384, HS512                       | string   | ""                     |
 | zero.middleware.jwt.symmetric.token      | Symmetric token                                                         | string   | ""                     |
 | zero.middleware.jwt.symmetric.tokenPath  | Symmetric token path                                                    | string   | ""                     |
@@ -52,6 +53,8 @@ zero:
           token: "my-secret"
 #          tokenPath: ""
 #        signerEntry: ""
+#        ignore: [ "" ]
+#        skipVerify: false
 #        asymmetric:
 #          algorithm: ""
 #          privateKey: ""

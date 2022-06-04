@@ -13,17 +13,18 @@ go get github.com/rookie-ninja/rk-echo
 ```
 
 ## 选项
-| 名字                                     | 描述                             | 类型 | 默认值 |
-|----------------------------------------|--------------------------------| ------ | --- |
-| echo.middleware.jwt.enabled             | 启动 JWT 中间件                     | boolean | false |
-| echo.middleware.jwt.ignore              | 局部选项，忽略 API 路径                 | []string | []             |
-| echo.middleware.jwt.signerEntry         | SignerEntry 名称                 | string | "" |
-| echo.middleware.jwt.symmetric.algorithm | 对称加密算法, 选项：HS256, HS384, HS512                         | string | "" |
-| echo.middleware.jwt.symmetric.token     | 对称加密密钥                         | string | "" |
-| echo.middleware.jwt.symmetric.tokenPath | 对称加密密钥本地路径                     | string | "" |
-| echo.middleware.jwt.asymmetric.algorithm| 非对称加密算法, 选项：RS256, RS384, RS512, ES256, ES384, ES512                        | string | "" |
-| echo.middleware.jwt.tokenLookup         | 寻找 JWT Token 的格式，参考下面的例子 | string | "header:Authorization" |
-| echo.middleware.jwt.authScheme          | 提供 Auth Scheme                 | string | Bearer |
+| 名字                                     | 描述                                                   | 类型 | 默认值 |
+|----------------------------------------|------------------------------------------------------| ------ | --- |
+| echo.middleware.jwt.enabled             | 启动 JWT 中间件                                           | boolean | false |
+| echo.middleware.jwt.ignore              | 局部选项，忽略 API 路径                                       | []string | []             |
+| echo.middleware.jwt.skipVerify           | 忽略 JWT 验证                                            | boolean  | false                  |
+| echo.middleware.jwt.signerEntry         | SignerEntry 名称                                       | string | "" |
+| echo.middleware.jwt.symmetric.algorithm | 对称加密算法, 选项：HS256, HS384, HS512                       | string | "" |
+| echo.middleware.jwt.symmetric.token     | 对称加密密钥                                               | string | "" |
+| echo.middleware.jwt.symmetric.tokenPath | 对称加密密钥本地路径                                           | string | "" |
+| echo.middleware.jwt.asymmetric.algorithm| 非对称加密算法, 选项：RS256, RS384, RS512, ES256, ES384, ES512 | string | "" |
+| echo.middleware.jwt.tokenLookup         | 寻找 JWT Token 的格式，参考下面的例子                             | string | "header:Authorization" |
+| echo.middleware.jwt.authScheme          | 提供 Auth Scheme                                       | string | Bearer |
 
 **tokenLookup** 格式
 
@@ -52,6 +53,8 @@ echo:
           token: "my-secret"
 #          tokenPath: ""
 #        signerEntry: ""
+#        ignore: [ "" ]
+#        skipVerify: false
 #        asymmetric:
 #          algorithm: ""
 #          privateKey: ""

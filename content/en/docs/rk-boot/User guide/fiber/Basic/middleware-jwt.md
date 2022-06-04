@@ -13,17 +13,18 @@ go get github.com/rookie-ninja/rk-fiber
 ```
 
 ## Options
-| options                                   | description                        | type     | default                |
-|-------------------------------------------|--------------------------------| ------ |------------------------|
-| fiber.middleware.jwt.enabled              | Enable JWT middleware                     | boolean | false                  |
-| fiber.middleware.jwt.ignore               | Ignore by path                                                                       | []string | []                     |
-| fiber.middleware.jwt.signerEntry          | SignerEntry name                 | string | ""                     |
-| fiber.middleware.jwt.symmetric.algorithm  | Symmetric algorithm, options: HS256, HS384, HS512                         | string | ""                     |
-| fiber.middleware.jwt.symmetric.token      | Symmetric token                         | string | ""                     |
-| fiber.middleware.jwt.symmetric.tokenPath  | Symmetric token path                     | string | ""                     |
-| fiber.middleware.jwt.asymmetric.algorithm | Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512                        | string | ""                     |
-| fiber.middleware.jwt.tokenLookup          | JWT Token format，see example bellow | string | "header:Authorization" |
-| fiber.middleware.jwt.authScheme               | Auth Scheme                 | string | Bearer                 |
+| options                                   | description                                                             | type     | default                |
+|-------------------------------------------|-------------------------------------------------------------------------|----------|------------------------|
+| fiber.middleware.jwt.enabled              | Enable JWT middleware                                                   | boolean  | false                  |
+| fiber.middleware.jwt.ignore               | Ignore by path                                                          | []string | []                     |
+| fiber.middleware.jwt.skipVerify           | Skip verify JWT token                                                   | boolean  | false                  |
+| fiber.middleware.jwt.signerEntry          | SignerEntry name                                                        | string   | ""                     |
+| fiber.middleware.jwt.symmetric.algorithm  | Symmetric algorithm, options: HS256, HS384, HS512                       | string   | ""                     |
+| fiber.middleware.jwt.symmetric.token      | Symmetric token                                                         | string   | ""                     |
+| fiber.middleware.jwt.symmetric.tokenPath  | Symmetric token path                                                    | string   | ""                     |
+| fiber.middleware.jwt.asymmetric.algorithm | Asymmetric algorithm, options: RS256, RS384, RS512, ES256, ES384, ES512 | string   | ""                     |
+| fiber.middleware.jwt.tokenLookup          | JWT Token format，see example bellow                                     | string   | "header:Authorization" |
+| fiber.middleware.jwt.authScheme           | Auth Scheme                                                             | string   | Bearer                 |
 
 **tokenLookup**
 
@@ -51,6 +52,8 @@ fiber:
           algorithm: HS256
           token: "my-secret"
 #          tokenPath: ""
+#        ignore: [ "" ]
+#        skipVerify: false
 #        signerEntry: ""
 #        asymmetric:
 #          algorithm: ""
