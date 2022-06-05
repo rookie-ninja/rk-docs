@@ -18,6 +18,7 @@ go get github.com/rookie-ninja/rk-fiber
 | fiber.middleware.jwt.enabled              | 启动 JWT 中间件                                           | boolean  | false                  |
 | fiber.middleware.jwt.ignore               | 局部选项，忽略 API 路径                                       | []string | []                     |
 | fiber.middleware.jwt.signerEntry          | SignerEntry 名称                                       | string   | ""                     |
+| fiber.middleware.jwt.skipVerify           | 忽略 JWT 验证                                            | boolean  | false                  |
 | fiber.middleware.jwt.symmetric.algorithm  | 对称加密算法, 选项：HS256, HS384, HS512                       | string   | ""                     |
 | fiber.middleware.jwt.symmetric.token      | 对称加密密钥                                               | string   | ""                     |
 | fiber.middleware.jwt.symmetric.tokenPath  | 对称加密密钥本地路径                                           | string   | ""                     |
@@ -52,6 +53,8 @@ fiber:
           token: "my-secret"
 #          tokenPath: ""
 #        signerEntry: ""
+#        ignore: [ "" ]
+#        skipVerify: false
 #        asymmetric:
 #          algorithm: ""
 #          privateKey: ""

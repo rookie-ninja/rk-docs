@@ -17,6 +17,7 @@ go get github.com/rookie-ninja/rk-grpc/v2
 |----------------------------------------|--------------------------------| ------ | --- |
 | grpc.middleware.jwt.enabled             | 启动 JWT 中间件                     | boolean | false |
 | grpc.middleware.jwt.ignore              | 局部选项，忽略 API 路径                 | []string | []             |
+| grpc.middleware.jwt.skipVerify           | 忽略 JWT 验证                                            | boolean  | false                  |
 | grpc.middleware.jwt.signerEntry         | SignerEntry 名称                 | string | "" |
 | grpc.middleware.jwt.symmetric.algorithm | 对称加密算法, 选项：HS256, HS384, HS512                         | string | "" |
 | grpc.middleware.jwt.symmetric.token     | 对称加密密钥                         | string | "" |
@@ -56,6 +57,8 @@ grpc:
           token: "my-secret"
 #          tokenPath: ""
 #        signerEntry: ""
+#        ignore: [ "" ]
+#        skipVerify: false
 #        asymmetric:
 #          algorithm: ""
 #          privateKey: ""

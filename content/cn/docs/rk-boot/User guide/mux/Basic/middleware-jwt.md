@@ -17,6 +17,7 @@ go get github.com/rookie-ninja/rk-mux
 |----------------------------------------|--------------------------------| ------ | --- |
 | mux.middleware.jwt.enabled             | 启动 JWT 中间件                     | boolean | false |
 | mux.middleware.jwt.ignore              | 局部选项，忽略 API 路径                 | []string | []             |
+| mux.middleware.jwt.skipVerify           | 忽略 JWT 验证                                            | boolean  | false                  |
 | mux.middleware.jwt.signerEntry         | SignerEntry 名称                 | string | "" |
 | mux.middleware.jwt.symmetric.algorithm | 对称加密算法, 选项：HS256, HS384, HS512                         | string | "" |
 | mux.middleware.jwt.symmetric.token     | 对称加密密钥                         | string | "" |
@@ -52,6 +53,8 @@ mux:
           token: "my-secret"
 #          tokenPath: ""
 #        signerEntry: ""
+#        ignore: [ "" ]
+#        skipVerify: false
 #        asymmetric:
 #          algorithm: ""
 #          privateKey: ""
