@@ -7,8 +7,8 @@ description: >
 ---
 
 ## 概述
-我们将会使用 rk-boot 与 [rk-db/mongodb](https://github.com/rookie-ninja/rk-db/mongodb) 插件连接 MongoDB 集群。
-[rk-db/mongodb](https://github.com/rookie-ninja/rk-db/mongodb) 插件默认使用了 [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver?utm_source=godoc) 
+我们将会使用 rk-boot 与 [rk-db/mongodb](https://github.com/rookie-ninja/rk-db) 插件连接 MongoDB 集群。
+[rk-db/mongodb](https://github.com/rookie-ninja/rk-db) 插件默认使用了 [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver?utm_source=godoc) 
 
 为了例子的完整性，使用 [rk-gin](https://github.com/rookie-ninja/rk-gin/) 启动一个后台进程，进行验证。
 
@@ -24,7 +24,7 @@ description: >
 
 - rk-boot: rk-boot 基础包
 - rk-gin: 用于启动 [gin-gonic/gin](https://github.com/gin-gonic/gin) 微服务
-- rk-db/mongodb: 用于初始化连接 MongoDB 的 [gorm](https://github.com/go-gorm/gorm) 实例
+- rk-db/mongodb: 用于初始化连接 MongoDB 的 [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver?utm_source=godoc) Client 实例
 
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
@@ -210,7 +210,7 @@ func DeleteUser(ctx *gin.Context) {
 ### 3.本地启动 MongoDB
 
 ```shell
-$ docker run --name my-mongo -d mongo
+$ docker run -it --rm --name my-mongo -p 27017:27017 mongo
 ```
 
 ### 4.文件夹结构

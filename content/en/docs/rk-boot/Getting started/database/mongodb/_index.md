@@ -3,11 +3,10 @@ title: "MongoDB"
 linkTitle: "MongoDB"
 weight: 1
 description: >
-  Connect to mongoDB，with rk-boot and rk-db/mongodb plugin.
+  Connect to mongoDB with rk-boot and rk-db/mongodb plugin.
 ---
 
 ## Overview
-
 We will use rk-boot & [rk-db/mongodb](https://github.com/rookie-ninja/rk-db/mongodb) to connect to MongoDB Cluster。
 [rk-db/mongodb](https://github.com/rookie-ninja/rk-db/mongodb) uses [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver?utm_source=godoc) as driver by default.
 
@@ -23,7 +22,7 @@ In order to demonstrate full example，we will use [rk-gin](https://github.com/r
 
 - rk-boot: Base package.
 - rk-gin: To start [gin-gonic/gin](https://github.com/gin-gonic/gin) microservice.
-- rk-db/mongodb: Plugin to connect to MongoDB with [gorm](https://github.com/go-gorm/gorm) 
+- rk-db/mongodb: Plugin to connect to MongoDB with [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver?utm_source=godoc) Client
 
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
@@ -209,7 +208,7 @@ func DeleteUser(ctx *gin.Context) {
 ### 3.Start MongoDB locally
 
 ```shell
-$ docker run --name my-mongo -d mongo
+$ docker run -it --rm --name my-mongo -p 27017:27017 mongo
 ```
 
 ### 4.Directory hierarchy
