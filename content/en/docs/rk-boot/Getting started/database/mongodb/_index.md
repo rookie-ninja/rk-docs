@@ -251,13 +251,13 @@ EOE
 ### 6.Validate
 #### 6.1 Create user
 ```shell
-$ curl -X PUT "localhost:8080/v1/user?name=rk-dev"
+$ curl -X POST "localhost:8080/v1/user?name=rk-dev"
 {"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev"}
 ```
 
 #### 6.2 Update user
 ```shell
-$ curl -X POST "localhost:8080/v1/user/cam2jnbd0cvr8b0hpmm0?name=rk-dev-updated"
+$ curl -X PUT "localhost:8080/v1/user/cam2jnbd0cvr8b0hpmm0?name=rk-dev-updated"
 {"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev-updated"}
 ```
 
