@@ -169,12 +169,12 @@ EOE
 ```
 
 ### 6.Validate
-### 6.1 Set KV
+#### 6.1 Set KV
 ```shell script
 $ curl -X POST "localhost:8080/v1/set" -d '{"key":"my-key","value":"my-value"}'
 ```
 
-### 6.2 Get KV
+#### 6.2 Get KV
 ```shell script
 $ curl -X GET "localhost:8080/v1/get?key=my-key"
 {"key":"my-key","value":"my-value"}

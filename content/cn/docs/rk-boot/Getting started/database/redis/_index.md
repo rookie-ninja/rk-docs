@@ -171,12 +171,12 @@ EOE
 ```
 
 ### 6.验证
-### 6.1 创建 KV
+#### 6.1 创建 KV
 ```shell script
 $ curl -X POST "localhost:8080/v1/set" -d '{"key":"my-key","value":"my-value"}'
 ```
 
-### 6.2 读取 KV
+#### 6.2 读取 KV
 ```shell script
 $ curl -X GET "localhost:8080/v1/get?key=my-key"
 {"key":"my-key","value":"my-value"}

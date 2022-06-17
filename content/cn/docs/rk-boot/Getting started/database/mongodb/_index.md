@@ -251,38 +251,36 @@ EOE
 ```
 
 ### 6.验证
-### 6.1 创建用户
+#### 6.1 创建用户
 ```shell
 $ curl -X PUT "localhost:8080/v1/user?name=rk-dev"
 {"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev"}
 ```
 
-### 6.2 更新用户
+#### 6.2 更新用户
 ```shell
 $ curl -X POST "localhost:8080/v1/user/cam2jnbd0cvr8b0hpmm0?name=rk-dev-updated"
 {"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev-updated"}
 ```
 
-### 6.3 列出所有用户
+#### 6.3 列出所有用户
 ```shell
 $ curl -X GET localhost:8080/v1/user
 [{"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev-updated"}]%
 ```
 
-### 6.4 获取用户
+#### 6.4 获取用户
 ```shell
 $ curl -X GET localhost:8080/v1/user/cam2jnbd0cvr8b0hpmm0
 {"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev-updated"}
 ```
 
-### 6.5 删除用户
+#### 6.5 删除用户
 
 ```shell
 $ curl -X DELETE localhost:8080/v1/user/cam2jnbd0cvr8b0hpmm0
 success
 ```
-
-
 
 ## 配置证书（TLS/SSL）
 这个例子中，我们通过 TLS 证书，访问 MongoDB。

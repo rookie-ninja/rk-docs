@@ -231,31 +231,31 @@ EOE
 ```
 
 ### 6.验证
-### 6.1 创建用户
+#### 6.1 创建用户
 ```shell script
 $ curl -X PUT "localhost:8080/v1/user?name=rk-dev"
 {"id":2,"name":"rk-dev"}
 ```
 
-### 6.2 更新用户
+#### 6.2 更新用户
 ```shell script
 $ curl -X POST "localhost:8080/v1/user/2?name=rk-dev-updated"
 {"id":2,"name":"rk-dev-updated"}
 ```
 
-### 6.3 列出所有用户
+#### 6.3 列出所有用户
 ```shell script
 $ curl -X GET localhost:8080/v1/user
 [{"id":2,"name":"rk-dev-updated"}]
 ```
 
-### 6.4 获取用户
+#### 6.4 获取用户
 ```shell script
 $ curl -X GET localhost:8080/v1/user/2
 {"id":2,"name":"rk-dev-updated"}
 ```
 
-### 6.5 删除用户
+#### 6.5 删除用户
 
 ```shell script
 $ curl -X DELETE localhost:8080/v1/user/2
