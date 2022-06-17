@@ -14,8 +14,8 @@ In order to demonstrate full example，we will use [rk-gin](https://github.com/r
 
 - GET /v1/user, List users
 - GET /v1/user/:id, Get user
-- PUT /v1/user, Create user
-- POST /v1/user/:id, Update user
+- POST /v1/user, Create user
+- PUT /v1/user/:id, Update user
 - DELETE /v1/user/:id, Delete user
 
 ## Install
@@ -93,8 +93,8 @@ func main() {
 	ginEntry := rkgin.GetGinEntry("user-service")
 	ginEntry.Router.GET("/v1/user", ListUsers)
 	ginEntry.Router.GET("/v1/user/:id", GetUser)
-	ginEntry.Router.PUT("/v1/user", CreateUser)
-	ginEntry.Router.POST("/v1/user/:id", UpdateUser)
+	ginEntry.Router.POST("/v1/user", CreateUser)
+	ginEntry.Router.PUT("/v1/user/:id", UpdateUser)
 	ginEntry.Router.DELETE("/v1/user/:id", DeleteUser)
 
 	boot.WaitForShutdownSig(context.TODO())
