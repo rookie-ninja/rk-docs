@@ -22,7 +22,7 @@ In order to demonstrate full example，we will use [rk-gin](https://github.com/r
 
 - rk-boot: Base package.
 - rk-gin: To start [gin-gonic/gin](https://github.com/gin-gonic/gin) microservice.
-- rk-db/postgres: Plugin to connect to MySQL with [gorm](https://github.com/go-gorm/gorm).
+- rk-db/postgres: Plugin to connect to PostgresSQL with [gorm](https://github.com/go-gorm/gorm).
 
 ```shell script
 go get github.com/rookie-ninja/rk-boot/v2
@@ -275,7 +275,7 @@ $ curl -X DELETE localhost:8080/v1/user/2
 success
 ```
 
-## 完整 YAML 配置
+## Full YAML Option
 
 | name                                   | Required | description                        | type     | default value                                |
 |----------------------------------------|----------|------------------------------------|----------|----------------------------------------------|
