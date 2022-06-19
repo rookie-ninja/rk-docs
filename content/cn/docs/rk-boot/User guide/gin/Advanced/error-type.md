@@ -133,7 +133,7 @@ $ curl "localhost:8080/v1/greeter?name=rk-dev"
 - boot.yaml
 
 ```yaml
-echo:
+gin:
   - name: greeter
     port: 8080
     enabled: true
