@@ -1,0 +1,135 @@
+site_name: rk-boot
+site_url: https://docs.rkdev.info
+repo_name: rookie-ninja/rk-docs
+repo_url: https://github.com/rookie-ninja/rk-docs
+
+theme:
+  name: material
+  language: en
+  features:
+#    - toc.integrate
+    - navigation.top
+#    - navigation.sections
+#    - navigation.expand
+
+plugins:
+  - glightbox
+  - i18n:
+      default_language: en
+      languages:
+        en:
+          name: English
+          build: true
+        zh:
+          name: 简体中文
+          build: true
+      nav_translations:
+        zh:
+          Overview: 概览
+          Example: 例子
+          Contribution: 贡献
+          Guide: 指引
+          Code of conduct: 贡献者公约
+          Getting started: 快速开始
+          Web Framework: Web 框架
+          Cache: 缓存
+          Local: 本地缓存
+          Database: 数据库
+          Plugins: 插件
+          User guide: 用户指南
+          Common API: 通用 API
+          Auth: 权限
+          API Docs: API 文档
+          Prometheus client: Prometheus 客户端
+          Middleware: 中间件
+          Logging: 日志中间件
+          Tracing: 调用链
+          Meta: 元信息
+          Ratelimit: 限速
+          Timeout: 超时
+          Gzip: 压缩
+          Config: 参数配置
+          Embed: 嵌入式参数
+          Environment variable: 环境变量
+          Error type: 错误码管理
+          App info: 应用信息
+          Log: 日志管理
+          Multiple entries: 启动多个服务
+          Override boot: 覆盖启动参数
+          Graceful shutdown: 优雅关闭
+          Static file handler: 静态文件管理
+          Trace with logs: 日志调用链
+markdown_extensions:
+  - attr_list
+  - toc:
+      permalink: "#"
+  - admonition
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+nav:
+  - 'Overview': 'index.md'
+  - 'Example': 'example/index.md'
+  - 'Getting started':
+      - 'Web Framework':
+        - 'gin-gonic/gin': 'getting-started/web/gin.md'
+        - 'gRPC': 'getting-started/web/grpc.md'
+        - 'labstack/echo': 'getting-started/web/echo.md'
+        - 'gogf/gf': 'getting-started/web/gf.md'
+        - 'gofiber/fiber': 'getting-started/web/fiber.md'
+        - 'gorilla/mux': 'getting-started/web/mux.md'
+        - 'zeromicro/go-zero': 'getting-started/web/zero.md'
+      - 'Cache':
+          - 'Local': 'getting-started/cache/local.md'
+          - 'Redis': 'getting-started/cache/redis.md'
+      - 'Database':
+          - 'MySQL': 'getting-started/database/mysql.md'
+          - 'PostgreSQL': 'getting-started/database/postgres.md'
+          - 'Redis': 'getting-started/database/redis.md'
+          - 'SQLite': 'getting-started/database/sqlite.md'
+          - 'SqlServer': 'getting-started/database/sqlserver.md'
+          - 'MongoDB': 'getting-started/database/mongodb.md'
+          - 'ClickHouse': 'getting-started/database/clickhouse.md'
+  - 'User guide':
+      - 'gin-gonic/gin':
+          - 'Swagger UI': 'user-guide/gin/sw.md'
+          - 'Common API': 'user-guide/gin/common.md'
+          - 'API Docs': 'user-guide/gin/doc.md'
+          - 'PPROF': 'user-guide/gin/pprof.md'
+          - 'Prometheus client': 'user-guide/gin/prom.md'
+          - 'Config': 'user-guide/gin/config.md'
+          - 'Embed': 'user-guide/gin/embed.md'
+          - 'Environment variable': 'user-guide/gin/env.md'
+          - 'Error type': 'user-guide/gin/error-type.md'
+          - 'App info': 'user-guide/gin/info.md'
+          - 'Log': 'user-guide/gin/logging.md'
+          - 'Multiple entries': 'user-guide/gin/multiple-entries.md'
+          - 'Override boot': 'user-guide/gin/override.md'
+          - 'Graceful shutdown': 'user-guide/gin/shutdown-hook.md'
+          - 'Static file handler': 'user-guide/gin/static-file-handler.md'
+          - 'TLS': 'user-guide/gin/tls.md'
+          - 'Trace with logs': 'user-guide/gin/trace-with-logs.md'
+          - 'Middleware':
+            - 'Auth': 'user-guide/gin/mid/auth.md'
+            - 'Logging': 'user-guide/gin/mid/logging.md'
+            - 'Prometheus': 'user-guide/gin/mid/prom.md'
+            - 'Tracing': 'user-guide/gin/mid/tracing.md'
+            - 'Meta': 'user-guide/gin/mid/meta.md'
+            - 'Ratelimit': 'user-guide/gin/mid/ratelimit.md'
+            - 'Timeout': 'user-guide/gin/mid/timeout.md'
+            - 'Gzip': 'user-guide/gin/mid/gzip.md'
+            - 'JWT': 'user-guide/gin/mid/jwt.md'
+            - 'CORS': 'user-guide/gin/mid/cors.md'
+            - 'Secure': 'user-guide/gin/mid/secure.md'
+            - 'CSRF': 'user-guide/gin/mid/csrf.md'
+  - 'Plugins': 'plugin.md'
+  - 'Contribution':
+      - 'Guide': 'contribution/guide.md'
+      - 'Code of conduct': 'contribution/code-of-conduct.md'
+
+extra_css:
+  - stylesheets/extra.css
