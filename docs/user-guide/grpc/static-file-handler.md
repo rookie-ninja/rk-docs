@@ -10,6 +10,7 @@ description: >
 rk-boot provide an easy way to start a web UI for downloading static files.
 
 rk-boot support download from bellow location. User can also implement http.FileSystem to extend it.
+
 - local file system
 - embed.FS
 

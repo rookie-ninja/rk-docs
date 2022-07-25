@@ -7,6 +7,7 @@ theme:
   name: material
   language: en
   features:
+    - content.tabs.link
 #    - toc.integrate
     - navigation.top
 #    - navigation.sections
@@ -70,6 +71,9 @@ markdown_extensions:
   - footnotes
   - pymdownx.details
   - pymdownx.superfences
+  - md_in_html
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
@@ -194,6 +198,35 @@ nav:
               - 'CORS': 'user-guide/echo/mid/cors.md'
               - 'Secure': 'user-guide/echo/mid/secure.md'
               - 'CSRF': 'user-guide/echo/mid/csrf.md'
+      - 'gofiber/fiber':
+          - 'Swagger UI': 'user-guide/fiber/sw.md'
+          - 'Common API': 'user-guide/fiber/common.md'
+          - 'API Docs': 'user-guide/fiber/doc.md'
+          - 'PPROF': 'user-guide/fiber/pprof.md'
+          - 'Prometheus client': 'user-guide/fiber/prom.md'
+          - 'Config': 'user-guide/fiber/config.md'
+          - 'Embed': 'user-guide/fiber/embed.md'
+          - 'Environment variable': 'user-guide/fiber/env.md'
+          - 'Error type': 'user-guide/fiber/error-type.md'
+          - 'App info': 'user-guide/fiber/info.md'
+          - 'Log': 'user-guide/fiber/logging.md'
+          - 'Multiple entries': 'user-guide/fiber/multiple-entries.md'
+          - 'Override boot': 'user-guide/fiber/override.md'
+          - 'Graceful shutdown': 'user-guide/fiber/shutdown-hook.md'
+          - 'Static file handler': 'user-guide/fiber/static-file-handler.md'
+          - 'TLS': 'user-guide/fiber/tls.md'
+          - 'Trace with logs': 'user-guide/fiber/trace-with-logs.md'
+          - 'Middleware':
+              - 'Auth': 'user-guide/fiber/mid/auth.md'
+              - 'Logging': 'user-guide/fiber/mid/logging.md'
+              - 'Prometheus': 'user-guide/fiber/mid/prom.md'
+              - 'Tracing': 'user-guide/fiber/mid/tracing.md'
+              - 'RequestId': 'user-guide/fiber/mid/meta.md'
+              - 'Ratelimit': 'user-guide/fiber/mid/ratelimit.md'
+              - 'JWT': 'user-guide/fiber/mid/jwt.md'
+              - 'CORS': 'user-guide/fiber/mid/cors.md'
+              - 'Secure': 'user-guide/fiber/mid/secure.md'
+              - 'CSRF': 'user-guide/fiber/mid/csrf.md'
   - 'Developer guide': 'developer-guide/index.md'
   - 'Plugins': 'plugin.md'
   - 'Contribution':

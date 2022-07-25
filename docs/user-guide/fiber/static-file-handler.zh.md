@@ -13,13 +13,13 @@ rk-boot 提供了一个方便的方法，让用户快速实现通过网页浏览
 
 ```bash
 $ go get github.com/rookie-ninja/rk-boot/v2
-$ go get github.com/rookie-ninja/rk-grpc/v2
+$ go get github.com/rookie-ninja/rk-fiber
 ```
 
 ### 2.创建 boot.yaml
 ```yaml
 ---
-grpc:
+fiber:
   - name: greeter
     port: 8080
     enabled: true
@@ -35,19 +35,19 @@ grpc:
 package main
 
 import (
-	"context"
-	"github.com/rookie-ninja/rk-boot/v2"
-	_ "github.com/rookie-ninja/rk-grpc/v2/boot"
+  "context"
+  "github.com/rookie-ninja/rk-boot/v2"
+  _ "github.com/rookie-ninja/rk-fiber/boot"
 )
 
 func main() {
-	// Create a new boot instance.
-	boot := rkboot.NewBoot()
+  // Create a new boot instance.
+  boot := rkboot.NewBoot()
 
-	// Bootstrap
-	boot.Bootstrap(context.TODO())
+  // Bootstrap
+  boot.Bootstrap(context.TODO())
 
-	boot.WaitForShutdownSig(context.TODO())
+  boot.WaitForShutdownSig(context.TODO())
 }
 ```
 

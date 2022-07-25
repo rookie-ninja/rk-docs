@@ -1,25 +1,25 @@
-如何通过网页浏览和下载静态文件?
+Enable a web UI for static file downloading
 
-## 概述
-rk-boot 提供了一个方便的方法，让用户快速实现通过网页浏览和下载静态文件的功能。
+## Overview
+rk-boot provide an easy way to start a web UI for downloading static files.
 
-目前，rk-boot 支持如下文件源。如果用户希望支持更多的文件源，可以通过实现 http.FileSystem 接口来实现。
+rk-boot support download from bellow location. User can also implement http.FileSystem to extend it.
 
-- 本地文件系统
+- local file system
 - embed.FS
 
-## 快速开始
-### 1.安装
+## Quick start
+### 1.Install
 
 ```bash
 $ go get github.com/rookie-ninja/rk-boot/v2
-$ go get github.com/rookie-ninja/rk-grpc/v2
+$ go get github.com/rookie-ninja/rk-fiber
 ```
 
-### 2.创建 boot.yaml
+### 2.Create boot.yaml
 ```yaml
 ---
-grpc:
+fiber:
   - name: greeter
     port: 8080
     enabled: true
@@ -30,14 +30,14 @@ grpc:
       sourcePath: "."
 ```
 
-### 3.创建 main.go
+### 3.Create main.go
 ```go
 package main
 
 import (
 	"context"
 	"github.com/rookie-ninja/rk-boot/v2"
-	_ "github.com/rookie-ninja/rk-grpc/v2/boot"
+	_ "github.com/rookie-ninja/rk-fiber/boot"
 )
 
 func main() {
@@ -51,7 +51,7 @@ func main() {
 }
 ```
 
-### 4.访问自定义 Path
+### 4.Validate
 > [http://localhost:8080/static](http://localhost:8080/static)
 
 ![](../../img/user-guide/gin/advanced/static-file-handler.png)
