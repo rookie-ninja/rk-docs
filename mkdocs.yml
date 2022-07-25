@@ -42,9 +42,8 @@ plugins:
           API Docs: API 文档
           Prometheus client: Prometheus 客户端
           Middleware: 中间件
-          Logging: 日志中间件
+          Logging: 日志
           Tracing: 调用链
-          Meta: 元信息
           Ratelimit: 限速
           Timeout: 超时
           Gzip: 压缩
@@ -59,6 +58,10 @@ plugins:
           Graceful shutdown: 优雅关闭
           Static file handler: 静态文件管理
           Trace with logs: 日志调用链
+          File upload: 文件上传
+          Compile proto: 编译 proto
+          Custom route: 自定义路径
+          Developer guide: 开发者指南
 markdown_extensions:
   - attr_list
   - toc:
@@ -118,7 +121,7 @@ nav:
             - 'Logging': 'user-guide/gin/mid/logging.md'
             - 'Prometheus': 'user-guide/gin/mid/prom.md'
             - 'Tracing': 'user-guide/gin/mid/tracing.md'
-            - 'Meta': 'user-guide/gin/mid/meta.md'
+            - 'RequestId': 'user-guide/gin/mid/meta.md'
             - 'Ratelimit': 'user-guide/gin/mid/ratelimit.md'
             - 'Timeout': 'user-guide/gin/mid/timeout.md'
             - 'Gzip': 'user-guide/gin/mid/gzip.md'
@@ -126,6 +129,41 @@ nav:
             - 'CORS': 'user-guide/gin/mid/cors.md'
             - 'Secure': 'user-guide/gin/mid/secure.md'
             - 'CSRF': 'user-guide/gin/mid/csrf.md'
+      - 'gRPC':
+          - 'Swagger UI': 'user-guide/grpc/sw.md'
+          - 'Common API': 'user-guide/grpc/common.md'
+          - 'API Docs': 'user-guide/grpc/doc.md'
+          - 'gRPC gateway': 'user-guide/grpc/gateway.md'
+          - 'Compile proto': 'user-guide/grpc/buf.md'
+          - 'Custom route': 'user-guide/grpc/custom-route.md'
+          - 'PPROF': 'user-guide/grpc/pprof.md'
+          - 'Prometheus client': 'user-guide/grpc/prom.md'
+          - 'Config': 'user-guide/grpc/config.md'
+          - 'Embed': 'user-guide/grpc/embed.md'
+          - 'Environment variable': 'user-guide/grpc/env.md'
+          - 'Error type': 'user-guide/grpc/error-type.md'
+          - 'App info': 'user-guide/grpc/info.md'
+          - 'Log': 'user-guide/grpc/logging.md'
+          - 'Multiple entries': 'user-guide/grpc/multiple-entries.md'
+          - 'Override boot': 'user-guide/grpc/override.md'
+          - 'Graceful shutdown': 'user-guide/grpc/shutdown-hook.md'
+          - 'Static file handler': 'user-guide/grpc/static-file-handler.md'
+          - 'TLS': 'user-guide/grpc/tls.md'
+          - 'File upload': 'user-guide/grpc/file-upload.md'
+          - 'Trace with logs': 'user-guide/grpc/trace-with-logs.md'
+          - 'Middleware':
+              - 'Auth': 'user-guide/grpc/mid/auth.md'
+              - 'Logging': 'user-guide/grpc/mid/logging.md'
+              - 'Prometheus': 'user-guide/grpc/mid/prom.md'
+              - 'Tracing': 'user-guide/grpc/mid/tracing.md'
+              - 'RequestId': 'user-guide/grpc/mid/meta.md'
+              - 'Ratelimit': 'user-guide/grpc/mid/ratelimit.md'
+              - 'Timeout': 'user-guide/grpc/mid/timeout.md'
+              - 'JWT': 'user-guide/grpc/mid/jwt.md'
+              - 'CORS': 'user-guide/grpc/mid/cors.md'
+              - 'Secure': 'user-guide/grpc/mid/secure.md'
+              - 'CSRF': 'user-guide/grpc/mid/csrf.md'
+  - 'Developer guide': 'developer-guide/index.md'
   - 'Plugins': 'plugin.md'
   - 'Contribution':
       - 'Guide': 'contribution/guide.md'
