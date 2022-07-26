@@ -7,13 +7,14 @@ theme:
   name: material
   language: en
   features:
-#    - content.tabs.link
+    - content.tabs.link
     - toc.integrate
-    - navigation.sections
+#    - navigation.sections
 #    - navigation.expand
 
 plugins:
   - glightbox
+  - search
   - i18n:
       default_language: en
       languages:
@@ -62,6 +63,7 @@ plugins:
           Compile proto: 编译 proto
           Custom route: 自定义路径
           Developer guide: 开发者指南
+
 markdown_extensions:
   - attr_list
   - toc:
