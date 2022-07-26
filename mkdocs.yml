@@ -8,9 +8,8 @@ theme:
   language: en
   features:
     - content.tabs.link
-#    - toc.integrate
-    - navigation.top
-#    - navigation.sections
+    - toc.integrate
+    - navigation.sections
 #    - navigation.expand
 
 plugins:
@@ -256,6 +255,35 @@ nav:
               - 'CORS': 'user-guide/gf/mid/cors.md'
               - 'Secure': 'user-guide/gf/mid/secure.md'
               - 'CSRF': 'user-guide/gf/mid/csrf.md'
+      - 'gorilla/mux':
+          - 'Swagger UI': 'user-guide/mux/sw.md'
+          - 'Common API': 'user-guide/mux/common.md'
+          - 'API Docs': 'user-guide/mux/doc.md'
+          - 'PPROF': 'user-guide/mux/pprof.md'
+          - 'Prometheus client': 'user-guide/mux/prom.md'
+          - 'Config': 'user-guide/mux/config.md'
+          - 'Embed': 'user-guide/mux/embed.md'
+          - 'Environment variable': 'user-guide/mux/env.md'
+          - 'Error type': 'user-guide/mux/error-type.md'
+          - 'App info': 'user-guide/mux/info.md'
+          - 'Log': 'user-guide/mux/logging.md'
+          - 'Multiple entries': 'user-guide/mux/multiple-entries.md'
+          - 'Override boot': 'user-guide/mux/override.md'
+          - 'Graceful shutdown': 'user-guide/mux/shutdown-hook.md'
+          - 'Static file handler': 'user-guide/mux/static-file-handler.md'
+          - 'TLS': 'user-guide/mux/tls.md'
+          - 'Trace with logs': 'user-guide/mux/trace-with-logs.md'
+          - 'Middleware':
+              - 'Auth': 'user-guide/mux/mid/auth.md'
+              - 'Logging': 'user-guide/mux/mid/logging.md'
+              - 'Prometheus': 'user-guide/mux/mid/prom.md'
+              - 'Tracing': 'user-guide/mux/mid/tracing.md'
+              - 'RequestId': 'user-guide/mux/mid/meta.md'
+              - 'Ratelimit': 'user-guide/mux/mid/ratelimit.md'
+              - 'JWT': 'user-guide/mux/mid/jwt.md'
+              - 'CORS': 'user-guide/mux/mid/cors.md'
+              - 'Secure': 'user-guide/mux/mid/secure.md'
+              - 'CSRF': 'user-guide/mux/mid/csrf.md'
   - 'Developer guide': 'developer-guide/index.md'
   - 'Plugins': 'plugin.md'
   - 'Contribution':
