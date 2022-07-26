@@ -7,10 +7,9 @@ theme:
   name: material
   language: en
   features:
-    - content.tabs.link
-    - toc.integrate
-#    - navigation.sections
-#    - navigation.expand
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
 
 plugins:
   - glightbox
@@ -78,6 +77,7 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+
 
 nav:
   - 'Overview': 'index.md'
