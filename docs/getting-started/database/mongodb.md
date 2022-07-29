@@ -1,24 +1,22 @@
-通过 rk-boot，配合 rk-db/mongodb 插件，快速连接 MongoDB。
+Connect to mongoDB with rk-boot and rk-db/mongodb plugin.
 
-## 概述
-我们将会使用 rk-boot 与 [rk-db/mongodb](https://github.com/rookie-ninja/rk-db) 插件连接 MongoDB 集群。
-[rk-db/mongodb](https://github.com/rookie-ninja/rk-db) 插件默认使用了 [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver?utm_source=godoc)
+## Overview
+We will use rk-boot & [rk-db/mongodb](https://github.com/rookie-ninja/rk-db/mongodb) to connect to MongoDB Cluster。
+[rk-db/mongodb](https://github.com/rookie-ninja/rk-db/mongodb) uses [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver?utm_source=godoc) as driver by default.
 
-为了例子的完整性，使用 [rk-gin](https://github.com/rookie-ninja/rk-gin/) 启动一个后台进程，进行验证。
-
-本例子中，我们会创建如下几个 API 来验证与 MongoDB 的连通性.
+In order to demonstrate full example，we will use [rk-gin](https://github.com/rookie-ninja/rk-gin/) to start a back end service with APIs as bellow.
 
 - GET /v1/user, List users
 - GET /v1/user/:id, Get user
-- PUT /v1/user, Create user
-- POST /v1/user/:id, Update user
+- POST /v1/user, Create user
+- PUT /v1/user/:id, Update user
 - DELETE /v1/user/:id, Delete user
 
-## 安装
+## Install
 
-- rk-boot: rk-boot 基础包
-- rk-gin: 用于启动 [gin-gonic/gin](https://github.com/gin-gonic/gin) 微服务
-- rk-db/mongodb: 用于初始化连接 MongoDB 的 [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver?utm_source=godoc) Client 实例
+- rk-boot: Base package.
+- rk-gin: To start [gin-gonic/gin](https://github.com/gin-gonic/gin) microservice.
+- rk-db/mongodb: Plugin to connect to MongoDB with [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver?utm_source=godoc) Client
 
 ```bash
 go get github.com/rookie-ninja/rk-boot/v2
@@ -26,8 +24,8 @@ go get github.com/rookie-ninja/rk-gin/v2
 go get github.com/rookie-ninja/rk-db/mongodb
 ```
 
-## 快速开始
-### 1. 创建 boot.yaml
+## Quick start
+### 1. Create boot.yaml
 ```yaml
 ---
 gin:
@@ -42,7 +40,7 @@ mongo:
       - name: "users"                           # Required
 ```
 
-### 2. 创建 main.go
+### 2. Create main.go
 
 ```go
 package main
@@ -89,8 +87,8 @@ func main() {
 	ginEntry := rkgin.GetGinEntry("user-service")
 	ginEntry.Router.GET("/v1/user", ListUsers)
 	ginEntry.Router.GET("/v1/user/:id", GetUser)
-	ginEntry.Router.PUT("/v1/user", CreateUser)
-	ginEntry.Router.POST("/v1/user/:id", UpdateUser)
+	ginEntry.Router.POST("/v1/user", CreateUser)
+	ginEntry.Router.PUT("/v1/user/:id", UpdateUser)
 	ginEntry.Router.DELETE("/v1/user/:id", DeleteUser)
 
 	boot.WaitForShutdownSig(context.TODO())
@@ -201,12 +199,13 @@ func DeleteUser(ctx *gin.Context) {
 }
 ```
 
-### 3.本地启动 MongoDB
+### 3.Start MongoDB locally
+
 ```bash
 $ docker run -it --rm --name my-mongo -p 27017:27017 mongo
 ```
 
-### 4.文件夹结构
+### 4.Directory hierarchy
 ```bash
 $ tree
 .
@@ -216,7 +215,7 @@ $ tree
 └── main.go
 ```
 
-### 5.运行 main.go
+### 5.Start main.go
 ```bash
 $ go run main.go
 2022-06-17T15:13:33.494+0800    INFO    mongodb@v1.2.1/boot.go:330      Bootstrap mongoDbEntry  {"eventId": "7a5eacbc-5709-41b8-9b5a-ede98d2176a9", "entryName": "my-mongo", "entryType": "MongoEntry"}
@@ -243,54 +242,53 @@ eventStatus=Ended
 EOE
 ```
 
-### 6.验证
-#### 6.1 创建用户
+### 6.Validate
+#### 6.1 Create user
 ```bash
-$ curl -X PUT "localhost:8080/v1/user?name=rk-dev"
+$ curl -X POST "localhost:8080/v1/user?name=rk-dev"
 {"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev"}
 ```
 
-#### 6.2 更新用户
+#### 6.2 Update user
 ```bash
-$ curl -X POST "localhost:8080/v1/user/cam2jnbd0cvr8b0hpmm0?name=rk-dev-updated"
+$ curl -X PUT "localhost:8080/v1/user/cam2jnbd0cvr8b0hpmm0?name=rk-dev-updated"
 {"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev-updated"}
 ```
 
-#### 6.3 列出所有用户
+#### 6.3 List users
 ```bash
 $ curl -X GET localhost:8080/v1/user
 [{"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev-updated"}]%
 ```
 
-#### 6.4 获取用户
+#### 6.4 Get user
 ```bash
 $ curl -X GET localhost:8080/v1/user/cam2jnbd0cvr8b0hpmm0
 {"id":"cam2jnbd0cvr8b0hpmm0","name":"rk-dev-updated"}
 ```
 
-#### 6.5 删除用户
-
+#### 6.5 Delete user
 ```bash
 $ curl -X DELETE localhost:8080/v1/user/cam2jnbd0cvr8b0hpmm0
 success
 ```
 
-## 配置证书（TLS/SSL）
-这个例子中，我们通过 TLS 证书，访问 MongoDB。
+## With TLS/SSL
+In this example, we will connect to MongoDB with TLS/SSL enabled.
 
-### 1.创建 TLS/SSL 证书
+### 1.Create TLS/SSL certificates
 ```bash
 $ openssl req -newkey rsa:2048 -new -x509 -days 365 -nodes -out mongodb-cert.crt -keyout mongodb-cert.key -subj "/CN=localhost"
 $ cat mongodb-cert.key mongodb-cert.crt > mongodb.pem
 ```
 
-### 2.启动 MongoDB 并配置证书
+### 2.Start MongoDB with Certificate
 ```bash
 $ docker run -it --name mongo-tls --rm -v /your-path-contains-certs:/etc/ssl -p 27017:27017 mongo --tlsMode requireTLS --tlsCertificateKeyFile /etc/ssl/mongodb.pem
 ```
 
-### 3.修改 boot.yaml
-为了能让 MongoDB 客户端能够读取证书并配置，我们添加了一个 cert 入口。
+### 3.Modify boot.yaml
+We add a cert entry in boot.yaml.
 
 ```yaml
 ---
@@ -311,7 +309,7 @@ mongo:
       - name: "users"
 ```
 
-### 4.文件夹结构
+### 4.Directory hierarchy
 ```bash
 .
 ├── boot.yaml
@@ -323,7 +321,7 @@ mongo:
 └── mongodb.pem
 ```
 
-### 5.验证（代码不变）
+### 5.Validate
 ```bash
 $ go run main.go
 2022-06-17T17:00:54.008+0800    INFO    mongodb@v1.2.1/boot.go:330      Bootstrap mongoDbEntry  {"eventId": "31e0cc59-b5d8-4078-ac4f-793363f05fce", "entryName": "my-mongo", "entryType": "MongoEntry"}
@@ -350,7 +348,7 @@ eventStatus=Ended
 EOE
 ```
 
-## 完整 YAML 配置
+## Full YAML options
 ```yaml
 mongo:
   - name: "my-mongo"

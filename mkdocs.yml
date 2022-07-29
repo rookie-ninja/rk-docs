@@ -8,7 +8,6 @@ theme:
   language: en
   features:
     - navigation.tracking
-    - navigation.sections
     - navigation.top
     - navigation.tabs
 
