@@ -44,7 +44,13 @@ mysql:
         autoCreate: true              # Optional, default: false
 #        dryRun: false                # Optional, default: false
 #        params: []                   # Optional, default: ["charset=utf8mb4","parseTime=True","loc=Local"]
-#    loggerEntry: ""                  # Optional, default: default logger with STDOUT
+#    logger:
+#      entry: ""
+#      level: info
+#      encoding: json
+#      outputPaths: [ "stdout", "log/db.log" ]
+#      slowThresholdMs: 5000
+#      ignoreRecordNotFoundError: false
 ```
 
 ### 2. Create main.go
@@ -254,21 +260,26 @@ success
 
 ## Full YAML options
 
-| name                      | Required | description                        | type     | default value                                    |
-|---------------------------|----------|------------------------------------|----------|--------------------------------------------------|
-| mysql.name                | Required | The name of entry                  | string   | MySql                                            |
-| mysql.enabled             | Required | Enable entry or not                | bool     | false                                            |
-| mysql.domain              | Optional | See locale description bellow      | string   | "*"                                              |
-| mysql.description         | Optional | Description of echo entry.         | string   | ""                                               |
-| mysql.user                | Optional | MySQL username                     | string   | root                                             |
-| mysql.pass                | Optional | MySQL password                     | string   | pass                                             |
-| mysql.protocol            | Optional | Connection protocol to MySQL       | string   | tcp                                              |
-| mysql.addr                | Optional | MySQL remote address               | string   | localhost:3306                                   |
-| mysql.database.name       | Required | Name of database                   | string   | ""                                               |
-| mysql.database.autoCreate | Optional | Create DB if missing               | bool     | false                                            |
-| mysql.database.dryRun     | Optional | Run gorm.DB with dry run mode      | bool     | false                                            |
-| mysql.database.params     | Optional | Connection params                  | []string | ["charset=utf8mb4","parseTime=True","loc=Local"] |
-| mysql.loggerEntry         | Optional | Reference of zap logger entry name | string   | ""                                               |
+| name                                   | Required | description                                | type     | default value                                    |
+|----------------------------------------|----------|--------------------------------------------|----------|--------------------------------------------------|
+| mysql.name                             | Required | The name of entry                          | string   | MySql                                            |
+| mysql.enabled                          | Required | Enable entry or not                        | bool     | false                                            |
+| mysql.domain                           | Optional | See locale description bellow              | string   | "*"                                              |
+| mysql.description                      | Optional | Description of echo entry.                 | string   | ""                                               |
+| mysql.user                             | Optional | MySQL username                             | string   | root                                             |
+| mysql.pass                             | Optional | MySQL password                             | string   | pass                                             |
+| mysql.protocol                         | Optional | Connection protocol to MySQL               | string   | tcp                                              |
+| mysql.addr                             | Optional | MySQL remote address                       | string   | localhost:3306                                   |
+| mysql.database.name                    | Required | Name of database                           | string   | ""                                               |
+| mysql.database.autoCreate              | Optional | Create DB if missing                       | bool     | false                                            |
+| mysql.database.dryRun                  | Optional | Run gorm.DB with dry run mode              | bool     | false                                            |
+| mysql.database.params                  | Optional | Connection params                          | []string | ["charset=utf8mb4","parseTime=True","loc=Local"] |
+| mysql.logger.entry                     | Optional | Reference of zap logger entry name         | string   | ""                                               |
+| mysql.logger.level                     | Optional | Logging level, [info, warn, error, silent] | string   | warn                                             |
+| mysql.logger.encoding                  | Optional | log encoding, [console, json]              | string   | console                                          |
+| mysql.logger.outputPaths               | Optional | log output paths                           | []string | ["stdout"]                                       |
+| mysql.logger.slowThresholdMs           | Optional | Slow SQL threshold                         | int      | 5000                                             |
+| mysql.logger.ignoreRecordNotFoundError | Optional | As name described                          | bool     | false                                            |
 
 ```yaml
 mysql:
@@ -284,6 +295,12 @@ mysql:
         autoCreate: true              # Optional, default: false
 #        dryRun: false                # Optional, default: false
 #        params: []                   # Optional, default: ["charset=utf8mb4","parseTime=True","loc=Local"]
-#    loggerEntry: ""                  # Optional, default: default logger with STDOUT
+#    logger:
+#      entry: ""
+#      level: info
+#      encoding: json
+#      outputPaths: [ "stdout", "log/db.log" ]
+#      slowThresholdMs: 5000
+#      ignoreRecordNotFoundError: false
 ```
 

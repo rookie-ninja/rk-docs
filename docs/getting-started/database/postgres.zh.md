@@ -49,7 +49,12 @@ postgres:
 #        dryRun: true                 # Optional, default: false
 #        preferSimpleProtocol: false  # Optional, default: false
 #        params: []                   # Optional, default: ["sslmode=disable","TimeZone=Asia/Shanghai"]
-#    loggerEntry: ""                  # Optional, default: default logger with STDOUT
+#      entry: ""
+#      level: info
+#      encoding: json
+#      outputPaths: [ "stdout", "log/db.log" ]
+#      slowThresholdMs: 5000
+#      ignoreRecordNotFoundError: false
 ```
 
 ### 2. 创建 main.go
@@ -275,21 +280,26 @@ success
 
 ## 完整 YAML 配置
 
-| name                                   | Required | description                        | type     | default value                                |
-|----------------------------------------|----------|------------------------------------|----------|----------------------------------------------|
-| postgres.name                          | Required | The name of entry                  | string   | PostgreSQL                                   |
-| postgres.enabled                       | Required | Enable entry or not                | bool     | false                                        |
-| postgres.domain                        | Optional | See locale description bellow      | string   | "*"                                          |
-| postgres.description                   | Optional | Description of echo entry.         | string   | ""                                           |
-| postgres.user                          | Optional | PostgreSQL username                | string   | postgres                                     |
-| postgres.pass                          | Optional | PostgreSQL password                | string   | pass                                         |
-| postgres.addr                          | Optional | PostgreSQL remote address          | string   | localhost:5432                               |
-| postgres.database.name                 | Required | Name of database                   | string   | ""                                           |
-| postgres.database.autoCreate           | Optional | Create DB if missing               | bool     | false                                        |
-| postgres.database.dryRun               | Optional | Run gorm.DB with dry run mode      | bool     | false                                        |
-| postgres.database.preferSimpleProtocol | Optional | Disable prepared statement cache   | bool     | false                                        |
-| postgres.database.params               | Optional | Connection params                  | []string | ["sslmode=disable","TimeZone=Asia/Shanghai"] |
-| postgres.loggerEntry                   | Optional | Reference of zap logger entry name | string   | ""                                           |
+| name                                      | Required | description                                | type     | default value                                |
+|-------------------------------------------|----------|--------------------------------------------|----------|----------------------------------------------|
+| postgres.name                             | Required | The name of entry                          | string   | PostgreSQL                                   |
+| postgres.enabled                          | Required | Enable entry or not                        | bool     | false                                        |
+| postgres.domain                           | Optional | See locale description bellow              | string   | "*"                                          |
+| postgres.description                      | Optional | Description of echo entry.                 | string   | ""                                           |
+| postgres.user                             | Optional | PostgreSQL username                        | string   | postgres                                     |
+| postgres.pass                             | Optional | PostgreSQL password                        | string   | pass                                         |
+| postgres.addr                             | Optional | PostgreSQL remote address                  | string   | localhost:5432                               |
+| postgres.database.name                    | Required | Name of database                           | string   | ""                                           |
+| postgres.database.autoCreate              | Optional | Create DB if missing                       | bool     | false                                        |
+| postgres.database.dryRun                  | Optional | Run gorm.DB with dry run mode              | bool     | false                                        |
+| postgres.database.preferSimpleProtocol    | Optional | Disable prepared statement cache           | bool     | false                                        |
+| postgres.database.params                  | Optional | Connection params                          | []string | ["sslmode=disable","TimeZone=Asia/Shanghai"] |
+| postgres.logger.entry                     | Optional | Reference of zap logger entry name         | string   | ""                                           |
+| postgres.logger.level                     | Optional | Logging level, [info, warn, error, silent] | string   | warn                                         |
+| postgres.logger.encoding                  | Optional | log encoding, [console, json]              | string   | console                                      |
+| postgres.logger.outputPaths               | Optional | log output paths                           | []string | ["stdout"]                                   |
+| postgres.logger.slowThresholdMs           | Optional | Slow SQL threshold                         | int      | 5000                                         |
+| postgres.logger.ignoreRecordNotFoundError | Optional | As name described                          | bool     | false                                        |
 
 ```yaml
 postgres:
@@ -305,6 +315,11 @@ postgres:
 #        dryRun: true                 # Optional, default: false
 #        preferSimpleProtocol: false  # Optional, default: false
 #        params: []                   # Optional, default: ["sslmode=disable","TimeZone=Asia/Shanghai"]
-#    loggerEntry: ""                  # Optional, default: default logger with STDOUT
+#      entry: ""
+#      level: info
+#      encoding: json
+#      outputPaths: [ "stdout", "log/db.log" ]
+#      slowThresholdMs: 5000
+#      ignoreRecordNotFoundError: false
 ```
 
