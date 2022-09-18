@@ -18,7 +18,7 @@ In order to demonstrate full example，we will use [rk-gin](https://github.com/r
 - rk-gin: To start [gin-gonic/gin](https://github.com/gin-gonic/gin) microservice.
 - rk-db/mysql: Plugin to connect to MySQL with [gorm](https://github.com/go-gorm/gorm).
 
-```shell script
+```bash
 go get github.com/rookie-ninja/rk-boot/v2
 go get github.com/rookie-ninja/rk-gin/v2
 go get github.com/rookie-ninja/rk-db/mysql
