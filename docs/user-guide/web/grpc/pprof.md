@@ -23,6 +23,7 @@ go get github.com/rookie-ninja/rk-grpc/v2
 grpc:
   - name: greeter
     port: 8080
+#   gwPort: 8081                  # Optional, default: gateway port will be the same as grpc port if not provided
     enabled: true
     enableRkGwOption: true
     pprof:

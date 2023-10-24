@@ -194,7 +194,8 @@ $ tree
 ```yaml
 grpc:
   - name: greeter
-    port: 8080                    
+    port: 8080
+#   gwPort: 8081                  # Optional, default: gateway port will be the same as grpc port if not provided
     enabled: true  
     enableReflection: true        # Enable gRPC reflection mainly for grpcurl
     enableRkGwOption: true        # Enable RK style grpc-gateway options

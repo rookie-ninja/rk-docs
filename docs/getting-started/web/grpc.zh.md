@@ -196,6 +196,7 @@ $ tree
 grpc:
   - name: greeter
     port: 8080                    # 监听端口
+#   gwPort: 8081                  # 可选项，如果不指定，会使用与 port 一样的端口
     enabled: true                 # 开启 微服务
     enableReflection: true        # 开启 gRPC 反射，用于 grpcurl
     enableRkGwOption: true        # 开启 RK 默认 grpc-gateway 选项

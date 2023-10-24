@@ -20,6 +20,7 @@ We will introduce a way to trace logs in distributed system without tracing serv
 grpc:
   - name: greeter
     port: 1949
+#   gwPort: 8081                  # Optional, default: gateway port will be the same as grpc port if not provided
     enabled: true
     middleware:
       logging:

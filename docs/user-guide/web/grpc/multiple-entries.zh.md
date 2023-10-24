@@ -21,6 +21,7 @@ $ go get github.com/rookie-ninja/rk-grpc/v2
 grpc:
   - name: alice
     port: 8080
+#   gwPort: 8081                  # 可选项，如果不指定，会使用与 port 一样的端口
     enabled: true
   - name: bob
     port: 8081

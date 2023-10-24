@@ -93,7 +93,8 @@ $ curl localhost:8080/v1/hello
 grpc:
   - name: greeter              
     enabled: true              
-    port: 8080                        
+    port: 8080
+#   gwPort: 8081                  # 可选项，如果不指定，会使用与 port 一样的端口
     enableRkGwOption: true
     middleware:
       errorModel: amazon

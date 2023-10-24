@@ -110,7 +110,8 @@ $ curl localhost:8080/v1/hello
 grpc:
   - name: greeter              
     enabled: true              
-    port: 8080                        
+    port: 8080
+#   gwPort: 8081                  # Optional, default: gateway port will be the same as grpc port if not provided
     enableRkGwOption: true
     middleware:
       errorModel: amazon
