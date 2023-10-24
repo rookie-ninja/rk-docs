@@ -15,54 +15,53 @@ plugins:
   - glightbox
   - search
   - i18n:
-      default_language: en
       languages:
-        en:
+        - locale: en
           name: English
           build: true
-        zh:
+          default: true
+        - locale: zh
           name: 简体中文
           build: true
-      nav_translations:
-        zh:
-          Overview: 概览
-          Example: 例子
-          Contribution: 贡献
-          Guide: 指引
-          Code of conduct: 贡献者公约
-          Getting started: 快速开始
-          Web Framework: Web 框架
-          Cache: 缓存
-          Local: 本地缓存
-          Database: 数据库
-          Plugins: 插件
-          User guide: 用户指南
-          Common API: 通用 API
-          Auth: 权限
-          API Docs: API 文档
-          Prometheus client: Prometheus 客户端
-          Middleware: 中间件
-          Plugin: 插件
-          Logging: 日志
-          Tracing: 调用链
-          Ratelimit: 限速
-          Timeout: 超时
-          Gzip: 压缩
-          Config: 参数配置
-          Embed: 嵌入式参数
-          Environment variable: 环境变量
-          Error type: 错误码管理
-          App info: 应用信息
-          Log: 日志管理
-          Multiple entries: 启动多个服务
-          Override boot: 覆盖启动参数
-          Graceful shutdown: 优雅关闭
-          Static file handler: 静态文件管理
-          Trace with logs: 日志调用链
-          File upload: 文件上传
-          Compile proto: 编译 proto
-          Custom route: 自定义路径
-          Developer guide: 开发者指南
+          nav_translations:
+            Overview: 概览
+            Example: 例子
+            Contribution: 贡献
+            Guide: 指引
+            Code of conduct: 贡献者公约
+            Getting started: 快速开始
+            Web Framework: Web 框架
+            Cache: 缓存
+            Local: 本地缓存
+            Database: 数据库
+            Plugins: 插件
+            User guide: 用户指南
+            Common API: 通用 API
+            Auth: 权限
+            API Docs: API 文档
+            Prometheus client: Prometheus 客户端
+            Middleware: 中间件
+            Plugin: 插件
+            Logging: 日志
+            Tracing: 调用链
+            Ratelimit: 限速
+            Timeout: 超时
+            Gzip: 压缩
+            Config: 参数配置
+            Embed: 嵌入式参数
+            Environment variable: 环境变量
+            Error type: 错误码管理
+            App info: 应用信息
+            Log: 日志管理
+            Multiple entries: 启动多个服务
+            Override boot: 覆盖启动参数
+            Graceful shutdown: 优雅关闭
+            Static file handler: 静态文件管理
+            Trace with logs: 日志调用链
+            File upload: 文件上传
+            Compile proto: 编译 proto
+            Custom route: 自定义路径
+            Developer guide: 开发者指南
 
 markdown_extensions:
   - attr_list
