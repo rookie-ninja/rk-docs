@@ -1,7 +1,8 @@
 Enable grpc-gateway.
 
 ## Overview
-By default, gRPC and grpc-gateway wil use the same port if service was started by rk-boot.
+By default, gRPC and grpc-gateway wil use the same port if service was started by rk-boot. However, user can specify grpc.gwPort value in boot.yaml in order to use different ports. 
+In this case seperated listener will be used.
 
 ## Install
 ```bash
@@ -10,15 +11,16 @@ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
 ## Options
-| Name                    | Description                                                                 | Type    | Default |
-|-------------------------|-----------------------------------------------------------------------------|---------|---------|
-| grpc.name               | gRPC name                                                                   | string  | ""      |
-| grpc.port               | gRPC port                                                                   | integer | 0       |
-| grpc.enabled            | Enable gRPC                                                                 | bool    | false   |
-| grpc.description        | gRPC description                                                            | string  | ""      |
-| grpc.enableReflection   | Enable gRPC reflection                                                      | boolean | false   |
-| grpc.enableRkGwOption   | Enable RK sytle grpc-gateway option which pass all headers to gRPC metadata | boolean | false   |
-| grpc.noRecvMsgSizeLimit | gRPC server side message size limit                                         | int     | 4000000 |
+| Name                    | Description                                                                 | Type    | Default           |
+|-------------------------|-----------------------------------------------------------------------------|---------|-------------------|
+| grpc.name               | gRPC name                                                                   | string  | ""                |
+| grpc.port               | gRPC port                                                                   | integer | 0                 |
+| grpc.gwPort             | gRPC gateway port                                                           | integer | same as grpc.port |
+| grpc.enabled            | Enable gRPC                                                                 | bool    | false             |
+| grpc.description        | gRPC description                                                            | string  | ""                |
+| grpc.enableReflection   | Enable gRPC reflection                                                      | boolean | false             |
+| grpc.enableRkGwOption   | Enable RK sytle grpc-gateway option which pass all headers to gRPC metadata | boolean | false             |
+| grpc.noRecvMsgSizeLimit | gRPC server side message size limit                                         | int     | 4000000           |
 
 ## Quick start
 ### 1.Create and compile protocol buffer

@@ -1,7 +1,8 @@
 启动 grpc-gateway
 
 ## 概述
-rk-boot 将会默认把 gRPC 和 grpc-gateway 的端口绑定到一个端口中。
+rk-boot 将会默认把 gRPC 和 grpc-gateway 的端口绑定到一个端口中。用户可以通过 grpc.gwPort 设置不同的端口。
+这时候，gRPC 与 gRPC gateway 将会使用不同的 listener。
 
 ## 安装
 ```bash
@@ -10,15 +11,16 @@ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
 ## 通用选项
-| 名字                      | 描述                                               | 类型      | 默认值     |
-|-------------------------|--------------------------------------------------|---------|---------|
-| grpc.name               | gRPC 服务名称                                        | string  | ""      |
-| grpc.port               | gRPC 服务端口                                        | integer | 0       |
-| grpc.enabled            | gRPC 服务启动开关                                      | bool    | false   |
-| grpc.description        | gRPC 服务的描述                                       | string  | ""      |
-| grpc.enableReflection   | 启动 gRPC 反射功能                                     | boolean | false   |
-| grpc.enableRkGwOption   | 启动 RK 自定义 Gateway Option，此 option 会默认透传所有 Header | boolean | false   |
-| grpc.noRecvMsgSizeLimit | 从 gRPC 服务端取消 4MB 最大接收限制                          | int     | 4000000 |
+| 名字                      | 描述                                               | 类型      | 默认值          |
+|-------------------------|--------------------------------------------------|---------|--------------|
+| grpc.name               | gRPC 服务名称                                        | string  | ""           |
+| grpc.port               | gRPC 服务端口                                        | integer | 0            |
+| grpc.gwPort             | gRPC gateway 服务端口                                | integer | grpc.port 一致 |
+| grpc.enabled            | gRPC 服务启动开关                                      | bool    | false        |
+| grpc.description        | gRPC 服务的描述                                       | string  | ""           |
+| grpc.enableReflection   | 启动 gRPC 反射功能                                     | boolean | false        |
+| grpc.enableRkGwOption   | 启动 RK 自定义 Gateway Option，此 option 会默认透传所有 Header | boolean | false        |
+| grpc.noRecvMsgSizeLimit | 从 gRPC 服务端取消 4MB 最大接收限制                          | int     | 4000000      |
 
 ## 快速开始
 ### 1.创建并编译 protocol buffer
