@@ -19,7 +19,7 @@ go get github.com/rookie-ninja/rk-gin/v2
 |-----------------|------------------------------------------|----------|-------|
 | gin.sw.enabled  | 启动 Swagger                               | boolean  | false |
 | gin.sw.path     | Swagger Web 界面路径                         | string   | sw    |
-| gin.sw.jsonPath | 本地 Swagger 参数文件（swagger.json）路径          | string   | ""    |
+| gin.sw.jsonPath | 本地 Swagger 参数文件（swagger.json）路径          | []string | []    |
 | gin.sw.headers  | 每次 Swagger 界面请求，都会带着这些头部。格式： [key:value] | []string | []    |
 
 ## 快速开始
@@ -36,7 +36,7 @@ gin:
     enabled: true
     sw:
       enabled: true
-#      jsonPath: ""
+#      jsonPath: []
 #      path: "sw"
 #      headers: []
 ```

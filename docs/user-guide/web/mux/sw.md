@@ -19,7 +19,7 @@ go get github.com/rookie-ninja/rk-mux
 |------------------|-------------------------------------------------|----------|---------------|
 | mux.sw.enabled  | Enable Swagger UI                               | boolean  | false         |
 | mux.sw.path     | Path of Swagger Web UI                          | string   | sw            |
-| mux.sw.jsonPath | Path Swagger config（swagger.json）file           | string   | ""            |
+| mux.sw.jsonPath | Path Swagger config（swagger.json）file           | []string | []            |
 | mux.sw.headers  | Headers returned by server, format: [key:value] | []string | []            |
 
 ## Quick start
@@ -36,7 +36,7 @@ mux:
     enabled: true
     sw:
       enabled: true
-#      jsonPath: ""
+#      jsonPath: []
 #      path: "sw"
 #      headers: []
 ```

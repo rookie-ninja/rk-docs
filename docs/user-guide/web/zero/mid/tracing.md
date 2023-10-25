@@ -13,13 +13,8 @@ go get github.com/rookie-ninja/rk-zero
 | zero.middleware.trace.ignore                             | Ignore by path               | []string | []                               |
 | zero.middleware.trace.exporter.file.enabled              | Enable file exporter         | boolean  | false                            |
 | zero.middleware.trace.exporter.file.outputPath           | Path of file exporter        | string   | stdout                           |
-| zero.middleware.trace.exporter.jaeger.agent.enabled      | Enable jaeger agent exporter | boolean  | false                            |
-| zero.middleware.trace.exporter.jaeger.agent.host         | Hostname of jaeger agent     | string   | localhost                        |
-| zero.middleware.trace.exporter.jaeger.agent.port         | Port of jaeger agent         | int      | 6831                             |
-| zero.middleware.trace.exporter.jaeger.collector.enabled  | Enable jaeger collector      | boolean  | false                            |
-| zero.middleware.trace.exporter.jaeger.collector.endpoint | Hostname of jaeger collector | string   | http://localhost:16368/api/trace |
-| zero.middleware.trace.exporter.jaeger.collector.username | Username of jaeger collector | string   | ""                               |
-| zero.middleware.trace.exporter.jaeger.collector.password | Password of jaeger collector | string   | ""                               |
+| zero.middleware.trace.exporter.otlp.enabled              | Enable otlp exporter   | boolean  | false                            |
+| zero.middleware.trace.exporter.otlp.endpoint             | Hostname of OTLP            | string   | localhost                        |
 
 ## Quick start
 ### 1.Create boot.yaml
@@ -37,16 +32,9 @@ zero:
             enabled: true
             outputPath: "stdout"
 #        ignore: [""]
-#          jaeger:
-#            agent:
-#              enabled: false
-#              host: ""
-#              port: 0
-#            collector:
-#              enabled: true
-#              endpoint: ""
-#              username: ""
-#              password: ""
+#          otlp:
+#            enabled: true
+#            endpoint: ""
 ```
 
 ### 2.Create main.go
@@ -207,19 +195,21 @@ zero:
 
 ### 5.Export to jaeger
 
-> Start [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.23/getting-started/) locally
+> Start [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.50/getting-started/) locally
 > ```bash
-> $ docker run -d --name jaeger \
+> $ docker run --rm --name jaeger \
 >     -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
->     -p 5775:5775/udp \
 >     -p 6831:6831/udp \
 >     -p 6832:6832/udp \
 >     -p 5778:5778 \
 >     -p 16686:16686 \
->     -p 14268:14268 \
+>     -p 4317:4317 \
+>     -p 4318:4318 \
 >     -p 14250:14250 \
+>     -p 14268:14268 \
+>     -p 14269:14269 \
 >     -p 9411:9411 \
->     jaegertracing/all-in-one:1.23
+>     jaegertracing/all-in-one:1.50
 > ```
 
 ```yaml
@@ -232,16 +222,9 @@ zero:
       trace:
         enabled: true
         exporter:
-          jaeger:
-            agent:
-              enabled: true
-#              host: ""                                        # Optional, default: localhost
-#              port: 0                                         # Optional, default: 6831
-#            collector:
-#              enabled: true                                   # Optional, default: false
-#              endpoint: ""                                    # Optional, default: http://localhost:14268/api/traces
-#              username: ""                                    # Optional, default: ""
-#              password: ""                                    # Optional, default: ""
+          otpl:
+            enabled: true
+            endpoint: "localhost:4317"
 ```
 
 > Jaeger:

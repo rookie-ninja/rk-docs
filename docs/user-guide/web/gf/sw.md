@@ -19,7 +19,7 @@ go get github.com/rookie-ninja/rk-gf
 |------------------|-------------------------------------------------|----------|---------------|
 | gf.sw.enabled    | Enable Swagger UI                               | boolean  | false         |
 | gf.sw.path     | Path of Swagger Web UI                          | string   | sw            |
-| gf.sw.jsonPath | Path Swagger config（swagger.json）file           | string   | ""            |
+| gf.sw.jsonPath | Path Swagger config（swagger.json）file           | []string | []            |
 | gf.sw.headers  | Headers returned by server, format: [key:value] | []string | []            |
 
 ## Quick start
@@ -36,7 +36,7 @@ gf:
     enabled: true
     sw:
       enabled: true
-#      jsonPath: ""
+#      jsonPath: []
 #      path: "sw"
 #      headers: []
 ```

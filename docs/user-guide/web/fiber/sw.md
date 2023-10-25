@@ -16,11 +16,11 @@ go get github.com/rookie-ninja/rk-fiber
 
 ## Swagger options
 | name             | description                                     | type     | default value |
-|------------------|-------------------------------------------------|----------|---------------|
-| fiber.sw.enabled  | Enable Swagger UI                               | boolean  | false         |
-| fiber.sw.path     | Path of Swagger Web UI                          | string   | sw            |
-| fiber.sw.jsonPath | Path Swagger config（swagger.json）file           | string   | ""            |
-| fiber.sw.headers  | Headers returned by server, format: [key:value] | []string | []            |
+|------------------|-------------------------------------------------|----------|--------------|
+| fiber.sw.enabled  | Enable Swagger UI                               | boolean  | false        |
+| fiber.sw.path     | Path of Swagger Web UI                          | string   | sw           |
+| fiber.sw.jsonPath | Path Swagger config（swagger.json）file           | []string | []           |
+| fiber.sw.headers  | Headers returned by server, format: [key:value] | []string | []           |
 
 ## Quick start
 ### 1.Create boot.yaml
@@ -36,7 +36,7 @@ fiber:
     enabled: true
     sw:
       enabled: true
-#      jsonPath: ""
+#      jsonPath: []
 #      path: "sw"
 #      headers: []
 ```

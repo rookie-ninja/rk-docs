@@ -7,11 +7,11 @@ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
 ## Swagger options
-| name | description                              | type | default value |
+| name | description                              | type     | default value |
 |-----------------|------------------------------------------|----------|-------|
 | grpc.sw.enabled  | Enable Swagger UI                        | boolean  | false |
 | grpc.sw.path     | Path of Swagger Web UI                   | string   | sw    |
-| grpc.sw.jsonPath | Path Swagger config（swagger.json）file    | string   | ""    |
+| grpc.sw.jsonPath | Path Swagger config（swagger.json）file    | []string | []    |
 | grpc.sw.headers     | Headers returned by server, format: [key:value] | []string | []    |
 
 ## Quick start
@@ -32,7 +32,7 @@ grpc:
     enabled: true
     sw:
       enabled: true
-#      jsonPath: ""
+#      jsonPath: []
 #      path: "sw"
 #      headers: []
 ```

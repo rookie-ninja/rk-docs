@@ -15,11 +15,11 @@ go get github.com/rookie-ninja/rk-gin/v2
 ```
 
 ## Swagger options
-| name | description                              | type | default value |
+| name | description                              | type     | default value |
 |-----------------|------------------------------------------|----------|-------|
 | gin.sw.enabled  | Enable Swagger UI                        | boolean  | false |
 | gin.sw.path     | Path of Swagger Web UI                   | string   | sw    |
-| gin.sw.jsonPath | Path Swagger config（swagger.json）file    | string   | ""    |
+| gin.sw.jsonPath | Path Swagger config（swagger.json）file    | []string | []    |
 | gin.sw.headers     | Headers returned by server, format: [key:value] | []string | []    |
 
 ## Quick start
@@ -36,7 +36,7 @@ gin:
     enabled: true
     sw:
       enabled: true
-#      jsonPath: ""
+#      jsonPath: []
 #      path: "sw"
 #      headers: []
 ```

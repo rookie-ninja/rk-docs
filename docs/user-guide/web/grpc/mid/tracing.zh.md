@@ -19,13 +19,9 @@ go get github.com/rookie-ninja/rk-grpc/v2
 | grpc.middleware.trace.ignore                             | 局部选项，忽略 API 路径          | []string | []                               |
 | grpc.middleware.trace.exporter.file.enabled              | 启动文件输出                  | boolean  | false                            |
 | grpc.middleware.trace.exporter.file.outputPath           | 输出文件路径                  | string   | stdout                           |
-| grpc.middleware.trace.exporter.jaeger.agent.enabled      | jaeger agent 作为数据输出     | boolean  | false                            |
-| grpc.middleware.trace.exporter.jaeger.agent.host         | jaeger agent 地址         | string   | localhost                        |
-| grpc.middleware.trace.exporter.jaeger.agent.port         | jaeger agent 端口         | int      | 6831                             |
-| grpc.middleware.trace.exporter.jaeger.collector.enabled  | jaeger collector 作为数据输出 | boolean  | false                            |
-| grpc.middleware.trace.exporter.jaeger.collector.endpoint | jaeger collector 地址     | string   | http://localhost:16368/api/trace |
-| grpc.middleware.trace.exporter.jaeger.collector.username | jaeger collector 用户名    | string   | ""                               |
-| grpc.middleware.trace.exporter.jaeger.collector.password | jaeger collector 密码     | string   | ""                               |
+| grpc.middleware.trace.exporter.otlp.enabled              | otlp exporter  | boolean  | false                            |
+| grpc.middleware.trace.exporter.otlp.endpoint             | OTLP 地址        | string   | localhost                        |
+
 
 ## 快速开始
 ### 1.创建并编译 protocol buffer
@@ -47,16 +43,9 @@ grpc:
             enabled: true
             outputPath: "stdout"
 #        ignore: [""]
-#          jaeger:
-#            agent:
-#              enabled: false
-#              host: ""
-#              port: 0
-#            collector:
-#              enabled: true
-#              endpoint: ""
-#              username: ""
-#              password: ""
+#          otlp:
+#            enabled: true
+#            endpoint: ""
 ```
 
 ### 3.创建 main.go
@@ -189,19 +178,21 @@ grpc:
 
 ### 6.输出到 jaeger
 
-> 本地启动 [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.23/getting-started/)
+> 本地启动 [jaeger-all-in-one](https://www.jaegertracing.io/docs/1.50/getting-started/)
 > ```bash
-> $ docker run -d --name jaeger \
+> $ docker run --rm --name jaeger \
 >     -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
->     -p 5775:5775/udp \
 >     -p 6831:6831/udp \
 >     -p 6832:6832/udp \
 >     -p 5778:5778 \
 >     -p 16686:16686 \
->     -p 14268:14268 \
+>     -p 4317:4317 \
+>     -p 4318:4318 \
 >     -p 14250:14250 \
+>     -p 14268:14268 \
+>     -p 14269:14269 \
 >     -p 9411:9411 \
->     jaegertracing/all-in-one:1.23
+>     jaegertracing/all-in-one:1.50
 > ```
 
 ```yaml
@@ -215,16 +206,9 @@ grpc:
       trace:
         enabled: true
         exporter:
-          jaeger:
-            agent:
-              enabled: true
-#              host: ""                                        # Optional, default: localhost
-#              port: 0                                         # Optional, default: 6831
-#            collector:
-#              enabled: true                                   # Optional, default: false
-#              endpoint: ""                                    # Optional, default: http://localhost:14268/api/traces
-#              username: ""                                    # Optional, default: ""
-#              password: ""                                    # Optional, default: ""
+          otpl:
+            enabled: true
+            endpoint: "localhost:4317"
 ```
 
 > Jaeger:

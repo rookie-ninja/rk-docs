@@ -16,11 +16,11 @@ go get github.com/rookie-ninja/rk-zero
 
 ## Swagger options
 | name             | description                                     | type     | default value |
-|------------------|-------------------------------------------------|----------|---------------|
-| zero.sw.enabled  | Enable Swagger UI                               | boolean  | false         |
-| zero.sw.path     | Path of Swagger Web UI                          | string   | sw            |
-| zero.sw.jsonPath | Path Swagger config（swagger.json）file           | string   | ""            |
-| zero.sw.headers  | Headers returned by server, format: [key:value] | []string | []            |
+|------------------|-------------------------------------------------|----------|--------------|
+| zero.sw.enabled  | Enable Swagger UI                               | boolean  | false        |
+| zero.sw.path     | Path of Swagger Web UI                          | string   | sw           |
+| zero.sw.jsonPath | Path Swagger config（swagger.json）file           | []string | []           |
+| zero.sw.headers  | Headers returned by server, format: [key:value] | []string | []           |
 
 ## Quick start
 ### 1.Create boot.yaml
@@ -36,7 +36,7 @@ zero:
     enabled: true
     sw:
       enabled: true
-#      jsonPath: ""
+#      jsonPath: []
 #      path: "sw"
 #      headers: []
 ```

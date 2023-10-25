@@ -16,11 +16,11 @@ go get github.com/rookie-ninja/rk-echo
 
 ## Swagger options
 | name             | description                                     | type     | default value |
-|------------------|-------------------------------------------------|----------|---------------|
-| echo.sw.enabled  | Enable Swagger UI                               | boolean  | false         |
-| echo.sw.path     | Path of Swagger Web UI                          | string   | sw            |
-| echo.sw.jsonPath | Path Swagger config（swagger.json）file           | string   | ""            |
-| echo.sw.headers  | Headers returned by server, format: [key:value] | []string | []            |
+|------------------|-------------------------------------------------|----------|-------------|
+| echo.sw.enabled  | Enable Swagger UI                               | boolean  | false       |
+| echo.sw.path     | Path of Swagger Web UI                          | string   | sw          |
+| echo.sw.jsonPath | Paths of Swagger config（swagger.json）files      | []string | []          |
+| echo.sw.headers  | Headers returned by server, format: [key:value] | []string | []          |
 
 ## Quick start
 ### 1.Create boot.yaml
@@ -36,7 +36,7 @@ echo:
     enabled: true
     sw:
       enabled: true
-#      jsonPath: ""
+#      jsonPath: []
 #      path: "sw"
 #      headers: []
 ```

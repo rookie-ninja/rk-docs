@@ -7,12 +7,12 @@ go get github.com/rookie-ninja/rk-grpc/v2
 ```
 
 ## Swagger 选项
-| 名字              | 描述                                       | 类型       | 默认值   |
-|-----------------|------------------------------------------|----------|-------|
+| 名字              | 描述                                       | 类型       | 默认值  |
+|-----------------|------------------------------------------|----------|------|
 | grpc.sw.enabled  | 启动 Swagger                               | boolean  | false |
-| grpc.sw.path     | Swagger Web 界面路径                         | string   | sw    |
-| grpc.sw.jsonPath | 本地 Swagger 参数文件（swagger.json）路径          | string   | ""    |
-| grpc.sw.headers  | 每次 Swagger 界面请求，都会带着这些头部。格式： [key:value] | []string | []    |
+| grpc.sw.path     | Swagger Web 界面路径                         | string   | sw   |
+| grpc.sw.jsonPath | 本地 Swagger 参数文件（swagger.json）路径          | []string | []   |
+| grpc.sw.headers  | 每次 Swagger 界面请求，都会带着这些头部。格式： [key:value] | []string | []   |
 
 ## 快速开始
 ### 1.创建并编译 protocol buffer
@@ -32,7 +32,7 @@ grpc:
     enabled: true
     sw:
       enabled: true
-#      jsonPath: ""
+#      jsonPath: []
 #      path: "sw"
 #      headers: []
 ```
