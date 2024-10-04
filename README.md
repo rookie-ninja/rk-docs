@@ -1,5 +1,5 @@
 # rk-docs
-This is the repository which holds the site of https://docs.rkdev.info
+This is the repository which holds the site of https://rkdocs.mofcloud.com
 
 ## How to run?
 This site uses mkdocs as framework. User needs to install mkdocs on local development environment.
